@@ -298,7 +298,7 @@ function bBlock(kind,layers,Y,s,ice,inline){
  const iy=[];layers.forEach((l,i)=>{let y=ty+s*v.mids[i];if(i&&y>iy[i-1]-30)y=iy[i-1]-30;iy.push(y)});
  layers.forEach(([nm,oz],i)=>{
   const my=ty+s*v.mids[i],mx=tx+s*v.rx,ly=inline?iy[i]:lt+(n-1-i)*BGAP;
-  const lead=inline?`<path d="M${mx} ${my} L${BNX-20} ${my} L${BNX-8} ${ly}" fill="none" stroke="#c9b48a" stroke-width=".9"/>`:`<path d="M${mx} ${my} L${BNX-18} ${my} L${BNX-6} ${ly}" fill="none" stroke="#c9b48a" stroke-width=".9"/>`;
+  const lead=`<line x1="${mx}" y1="${my}" x2="${BNX-8}" y2="${ly}" stroke="#c9b48a" stroke-width=".9"/>`;
   out+=`<circle cx="${mx}" cy="${my}" r="2" fill="#8a6a32"/>${lead}<text x="${BNX}" y="${ly}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${nm}</text>${bFingers(oz,ly)}`;
  });
  return {out,end:Y+span};
