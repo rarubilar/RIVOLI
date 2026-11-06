@@ -143,6 +143,7 @@ main{touch-action:pan-y}
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
   <symbol id="glass" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M10 6h20l-3 26H13z"/><path d="M12 14h16"/></g></symbol>
+  <symbol id="kero" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 7h22l-3 23H12z"/><path d="M12 30h16l-.3 5H12.3z"/></g></symbol>
   <symbol id="coupe" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 10c1 9 7 13 14 13s13-4 14-13zM20 23v11M13 35h14"/></g></symbol>
   <symbol id="balloon" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M10 5c-2 14 4 20 10 20s12-6 10-20M20 25v9M13 35h14"/></g></symbol>
   <symbol id="ice" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 14l10-5 10 5v12l-10 5-10-5z"/><path d="M8 14l10 5 10-5M18 19v12"/></g></symbol>
@@ -217,9 +218,9 @@ const D=[
   pic:`<img class="pic" src="${PHOTO_SABINA}" alt="Sabina, sour de maracuyá en copa coupé con espuma blanca y hoja de menta">`,
   facts:[['Sabor','Ácido, tropical, sedoso'],['Familia','Sour'],['Estilo','Corto, de autor']],
   why:[['star','Nace del pisco sour, el más vendido de la casa'],['sun','Maracuyá y jengibre: más fresco para el verano'],['amphora','Sin ingredientes nuevos']],
-  serv:[['coupe','Copa coupé fría'],['noice','Sin hielo en copa'],['blender','Juguera'],['sprig','Hoja de menta']],
+  serv:[['kero','Vaso pisco sour'],['noice','Sin hielo'],['blender','Juguera'],['sprig','Hoja de menta']],
   ing:[['Pisco','',2],['Maracuyá líquida','',1],['Jugo de limón','',.75],['Goma','',.5],['Jengibre líquido','',.25],['Clara de huevo','≈ 1 clara',.75]],
-  steps:['Enfría la copa.','En la juguera: todos los ingredientes y 4 cubos de hielo.','Licúa a velocidad alta 15 segundos, hasta que espume.','Cuela sobre la copa fría y deja subir la espuma.','Una hoja de menta sobre la espuma.']},
+  steps:['Enfría el vaso.','En la juguera: todos los ingredientes, bien fríos.','Licúa a velocidad alta 15 segundos, hasta que espume.','Sirve frío, llenando el vaso hasta arriba con la espuma.','Una hoja de menta sobre la espuma.']},
  {id:'daiquiri',ro:'III',name:'Daiquiri',alias:'Cuba, c. 1898',style:'Clásico',
   intro:'Un clásico cubano de tres ingredientes que faltaba en la carta. Es seco, cítrico y muy fresco, ideal antes de una pasta. En versión mango o frutilla se vuelve más frutal sin cambiar la técnica, y el limón de pica le da un acento local.',
   pic:`<img class="pic" src="${PHOTO_DAIQ}" alt="Daiquiri tradicional al centro, de mango a la izquierda y de frutilla a la derecha, en copas coupé">`,
@@ -245,9 +246,9 @@ const BUILD={
  ianus:()=>({tool:'shaker',g:'balloon',ice:6,vIce:5,how:['Agitar y colar','sobre hielo'],
   v:[['Gin',1.5,BC.gin],['Maracuyá',1,BC.mara],['Limón de pica',.5,BC.limon],['Jengibre',.25,BC.jeng]],
   glass:[['Mezcla',3.25,'#ecb94a'],['Espumante',2,BC.esp],['Aperol',.75,BC.ape]]}),
- sabina:()=>({tool:'jug',g:'coupe',ice:0,vIce:4,how:['Licuar con hielo','y colar'],
-  v:[['Pisco',2,BC.pisco],['Maracuyá',1,BC.mara],['Jugo de limón',.75,BC.limon],['Goma',.5,BC.goma],['Jengibre',.25,BC.jeng],['Clara',.75,BC.clara]],
-  glass:[['Sour',4.5,'#efc04f'],['Espuma',.75,'#e2d1a8']]}),
+ sabina:()=>({tool:'jug',g:'kero',ice:0,noIce:1,vIce:0,how:['Servir frío',''],
+  v:[['Preparado\nPisco Sour',2,BC.pisco],['Maracuyá',1,BC.mara],['Jugo de limón',.75,BC.limon],['Goma',.5,BC.goma],['Jengibre',.25,BC.jeng],['Clara',.75,BC.clara]],
+  glass:[['Sour',4.5,'#efc04f',7.25],['Espuma',.75,'#e2d1a8']]}),
  daiquiri:(k)=>{const fr=k===0?['Mango',BC.mango,'#f2b450']:k===2?['Frutilla',BC.frut,'#e87584']:null;
   const v=[['Ron blanco',2,BC.ron]];if(fr)v.push([fr[0],1,fr[1]]);v.push(['Limón de pica',.75,BC.limon],['Goma',fr?.5:.75,BC.goma]);
   const tot=v.reduce((a,x)=>a+x[1],0);
@@ -263,8 +264,8 @@ function bFingers(oz,yc){
 }
 let bid=0;
 function bVessel(kind,layers,ice){
- const id='bv'+(bid++),tot=layers.reduce((a,l)=>a+l[1],0),H=tot*BPX+26,bot=H;
- let shape,outline,extra='',foot,top,rx;
+ const id='bv'+(bid++),tot=layers.reduce((a,l)=>a+(l[3]||l[1]),0),H=tot*BPX+(kind==='kero'?0:26),bot=H;
+ let shape,outline,extra='',foot,top,rx,rxAt=null;
  if(kind==='jug'){
   shape=`M22 0 L106 0 L98 ${bot} L30 ${bot} Z`;outline=shape;foot=34;top=20;rx=102;
   extra=`<rect x="14" y="-12" width="100" height="12" rx="3" fill="#1f262d"/><rect x="57" y="-20" width="14" height="8" rx="2" fill="#1f262d"/>
@@ -277,17 +278,20 @@ function bVessel(kind,layers,ice){
   shape=`M20 0 C14 ${H*.75} 40 ${bot} 64 ${bot+2} C88 ${bot} 114 ${H*.75} 108 0 Z`;
   outline=`M14 -8 C6 ${H*.8} 38 ${bot+10} 64 ${bot+12} C90 ${bot+10} 122 ${H*.8} 114 -8`;foot=50;top=8;rx=116;
   extra=`<path d="M64 ${bot+12} V${bot+44} M42 ${bot+48} H86" stroke="#1f262d" stroke-width="2"/>`;
+ }else if(kind==='kero'){
+  shape=`M12 0 L116 0 L102 ${bot} L26 ${bot} Z`;outline=`M10 -4 L26 ${bot} M118 -4 L102 ${bot}`;foot=20;top=6;rx=110;rxAt=y=>116-14*(y/bot);
+  extra=`<path d="M26 ${bot} L102 ${bot} L101 ${bot+18} L27 ${bot+18} Z" fill="#e8edef" stroke="#1f262d" stroke-width="2"/>`;
  }else{
   shape=`M8 0 C10 ${H*.8} 38 ${bot} 64 ${bot} C90 ${bot} 118 ${H*.8} 120 0 Z`;
   outline=`M3 -6 C4 ${H*.9} 36 ${bot+8} 64 ${bot+8} C92 ${bot+8} 124 ${H*.9} 125 -6`;foot=50;top=6;rx=116;
   extra=`<path d="M64 ${bot+8} V${bot+44} M42 ${bot+48} H86" stroke="#1f262d" stroke-width="2"/>`;
  }
  let y=bot,fills='',lines='',mids=[];
- layers.forEach(([nm,oz,col],i)=>{const h=oz*BPX;y-=h;fills+=`<rect x="0" y="${y}" width="130" height="${h}" fill="${col}"/>`;
+ layers.forEach(([nm,oz,col,vz],i)=>{const h=(vz||oz)*BPX;y-=h;fills+=`<rect x="0" y="${y}" width="130" height="${h}" fill="${col}"/>`;
   if(i<layers.length-1)lines+=`<line x1="0" x2="130" y1="${y}" y2="${y}" stroke="#1f262d" stroke-width="1" stroke-dasharray="3 2"/>`;mids.push(y+h/2)});
  const IP=[[30,26,12],[64,30,-10],[44,52,18],[74,56,0],[24,58,0],[54,80,-14],[84,84,8]];
  const iceSvg=ice?`<g fill="#fff" fill-opacity=".5" stroke="#b9c6cc" stroke-width="1">${IP.slice(0,ice).map(([x,d,r])=>`<rect x="${x}" y="${bot-d-22}" width="22" height="22" rx="3" transform="rotate(${r} ${x+11} ${bot-d-11})"/>`).join('')}</g>`:'';
- return {svg:`<defs><clipPath id="${id}"><path d="${shape}"/></clipPath></defs><g clip-path="url(#${id})">${fills}${lines}${iceSvg}</g><path d="${outline}" fill="none" stroke="#1f262d" stroke-width="2"/>${extra}`,H,foot,top,mids,fillTop:bot-tot*BPX,bot,rx};
+ return {svg:`<defs><clipPath id="${id}"><path d="${shape}"/></clipPath></defs><g clip-path="url(#${id})">${fills}${lines}${iceSvg}</g><path d="${outline}" fill="none" stroke="#1f262d" stroke-width="2"/>${extra}`,H,foot,top,mids,fillTop:bot-tot*BPX,bot,rx,rxAt};
 }
 function bBlock(kind,layers,Y,s,ice,inline){
  const v=bVessel(kind,layers,ice),n=layers.length,LH=(n-1)*BGAP;
@@ -298,12 +302,12 @@ function bBlock(kind,layers,Y,s,ice,inline){
  let out=`<g transform="translate(${tx} ${ty}) scale(${s})">${v.svg}</g>`;
  let maxLy=0;const iy=[];layers.forEach((l,i)=>{let y=ty+s*v.mids[i];if(i&&y>iy[i-1]-30)y=iy[i-1]-30;iy.push(y)});
  layers.forEach(([nm,oz],i)=>{
-  const my=ty+s*v.mids[i],mx=tx+s*v.rx,ly=inline?iy[i]:lt+(n-1-i)*BGAP;
+  const my=ty+s*v.mids[i],mx=tx+s*(v.rxAt?v.rxAt(v.mids[i]):v.rx),ly=inline?iy[i]:lt+(n-1-i)*BGAP;
   const lead=`<line x1="${mx}" y1="${my}" x2="${BNX-8}" y2="${ly}" stroke="#c9b48a" stroke-width=".9"/>`;
-  maxLy=Math.max(maxLy,ly);
-  out+=`<circle cx="${mx}" cy="${my}" r="2" fill="#8a6a32"/>${lead}<text x="${BNX}" y="${ly}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${nm}</text>${bFingers(oz,ly)}`;
+  const nl=nm.split('\n');maxLy=Math.max(maxLy,ly+(nl.length-1)*21);
+  out+=`<circle cx="${mx}" cy="${my}" r="2" fill="#8a6a32"/>${lead}<text dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${nl.map((t,k)=>`<tspan x="${BNX}" y="${ly+k*21}">${t}</tspan>`).join('')}</text>${bFingers(oz,ly)}`;
  });
- return {out,end:Y+span,maxLy};
+ return {out,end:Math.max(Y+span,maxLy+16),maxLy};
 }
 function iceRow(y,n){
  let s=`<g transform="translate(${BNX-28} ${y-9}) scale(.45)"><path d="M8 14l10-5 10 5v12l-10 5-10-5z M8 14l10 5 10-5M18 19v12" fill="none" stroke="#8aa3ad" stroke-width="2.4"/></g>
@@ -317,14 +321,14 @@ function buildSVG(id,k){
  const b=BUILD[id](k),tool=b.tool==='jug'?'JUGUERA':'COCTELERA';
  let out=`<text x="0" y="14" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">I · EN LA ${tool}</text><text x="${BW}" y="14" text-anchor="end" font-family="Cinzel,serif" font-size="10" letter-spacing="1.5" fill="#a39a8a">DEDOS</text>`;
  const a=bBlock(b.tool,b.v,30,.65,b.vIce,false);out+=a.out;
- {const iy=Math.max(a.maxLy+34,a.end-6);out+=iceRow(iy,b.vIce);a.end=iy+16;}
+ if(b.vIce){const iy=Math.max(a.maxLy+34,a.end-6);out+=iceRow(iy,b.vIce);a.end=iy+16;}
  let y=a.end+22;out+=`<line x1="${BNX-80}" y1="${y}" x2="${BW}" y2="${y}" stroke="#eee9e0"/>`;y+=18;
  out+=`<line x1="64" y1="${y}" x2="64" y2="${y+34}" stroke="#8a6a32" stroke-width="1.4"/><path d="M58 ${y+28} L64 ${y+36} L70 ${y+28}" fill="none" stroke="#8a6a32" stroke-width="1.4"/>
   <text font-family="'Instrument Serif',serif" font-style="italic" font-size="16" fill="#6b737a"><tspan x="${BNX}" y="${y+13}">${b.how[0]}</tspan><tspan x="${BNX}" dy="19">${b.how[1]}</tspan></text>`;
  y+=56;out+=`<line x1="${BNX-80}" y1="${y}" x2="${BW}" y2="${y}" stroke="#eee9e0"/>`;y+=28;
  out+=`<text x="0" y="${y}" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">II · EN LA COPA</text>`;
  const c=bBlock(b.g,b.glass,y+16,.8,b.ice,true);out+=c.out;
- {const iy=c.maxLy+36;out+=iceRow(iy,b.ice);c.end=Math.max(c.end,iy+16);}
+ if(!b.noIce){const iy=c.maxLy+36;out+=iceRow(iy,b.ice);c.end=Math.max(c.end,iy+16);}
  return `<section class="build" aria-label="Cómo se arma"><span class="cap">Cómo se arma · 1 trago</span><svg viewBox="0 0 ${BW} ${c.end+6}" role="img" aria-label="Diagrama: ingredientes en la ${tool.toLowerCase()} y capas en la copa, en dedos">${out}</svg></section>`;
 }
 
