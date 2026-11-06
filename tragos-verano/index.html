@@ -92,6 +92,7 @@ main{touch-action:pan-y}
 .blk{margin-top:2rem;display:grid;gap:.8rem}
 .blk>.cap{display:flex;align-items:center;gap:.7rem}
 .blk>.cap::before,.blk>.cap::after{content:"";flex:1;height:1px;background:var(--line)}
+.intro{margin:0 0 .3rem;font-size:1.18rem;line-height:1.45}
 .why{list-style:none;margin:0;padding:0;display:grid;gap:.7rem}
 .why li{display:grid;grid-template-columns:30px minmax(0,1fr);gap:.7rem;align-items:center;font-size:1.08rem;line-height:1.3}
 .why svg{width:28px;height:28px;color:var(--gold)}
@@ -199,6 +200,7 @@ function illus(kind){
 
 const D=[
  {id:'ianus',ro:'I',name:'Ianus',alias:'Jano Bifronte – Spritz de Maracuyá',style:'De autor',
+  intro:'Un spritz de autor para abrir la tarde. El maracuyá y el limón de pica le dan un sorbo tropical y fresco, y el Aperol flotado lo cierra amargo y burbujeante. Lleva el nombre del dios que preside el salón principal de Rivoli, y sus dos colores en la copa cuentan la historia por sí solos.',
   pic:`<img class="pic" src="${PHOTO_IANUS}" alt="IANUS en copa balón: dorado de maracuyá abajo, Aperol rojo-naranja arriba, con limón de pica y menta">`,
   facts:[['Sabor','Frutal, amargo, burbujeante'],['Familia','Spritz'],['Estilo','Largo, de autor']],
   why:[['star','Spritz: 7º clásico más vendido del mundo'],['amphora','Solo ingredientes de barra'],['clock','Listo en menos de un minuto']],
@@ -206,6 +208,7 @@ const D=[
   ing:[['Gin','',1.5],['Maracuyá líquida','',1],['Limón de pica','jugo',.5],['Jengibre líquido','',.25],['Espumante','para completar',2],['Aperol','flotado al final',.75]],
   steps:['Copa balón llena de hielo.','Agita gin, maracuyá, limón de pica y jengibre, 10 segundos.','Cuela y completa con espumante.','Flota el Aperol sobre una cuchara: dos capas.','Limón de pica y menta. No revolver.']},
  {id:'sabina',ro:'II',name:'Sabina',alias:'Sour de Maracuyá',style:'De autor',
+  intro:'La versión de verano del pisco sour, el trago que más vende la casa. Es ácido, tropical y sedoso, con el maracuyá al frente y un toque de jengibre al final. Lleva el nombre del salón Rapto de las Sabinas y une el pisco chileno con el alma romana de Rivoli.',
   pic:`<img class="pic" src="${PHOTO_SABINA}" alt="Sabina, sour de maracuyá en copa coupé con espuma blanca y hoja de menta">`,
   facts:[['Sabor','Ácido, tropical, sedoso'],['Familia','Sour'],['Estilo','Corto, de autor']],
   why:[['star','Nace del pisco sour, el más vendido de la casa'],['sun','Maracuyá y jengibre: más fresco para el verano'],['amphora','Sin ingredientes nuevos']],
@@ -213,6 +216,7 @@ const D=[
   ing:[['Pisco','',2],['Maracuyá líquida','',1],['Jugo de limón','',.75],['Goma','',.5],['Jengibre líquido','',.25],['Clara de huevo','≈ 1 clara',.75]],
   steps:['Enfría la copa.','Agita todo sin hielo, 10 segundos.','Agrega hielo y agita 12 segundos más.','Cuela doble sobre la copa fría.','Una hoja de menta sobre la espuma.']},
  {id:'daiquiri',ro:'III',name:'Daiquiri',alias:'Cuba, c. 1898',style:'Clásico',
+  intro:'Un clásico cubano de tres ingredientes que faltaba en la carta. Es seco, cítrico y muy fresco, ideal antes de una pasta. En versión mango o frutilla se vuelve más frutal sin cambiar la técnica, y el limón de pica le da un acento local.',
   pic:`<img class="pic" src="${PHOTO_DAIQ}" alt="Daiquiri tradicional al centro, de mango a la izquierda y de frutilla a la derecha, en copas coupé">`,
   facts:[['Sabor','Cítrico, seco, fresco'],['Familia','Sour'],['Estilo','Corto, clásico']],
   why:[['star','6º clásico más vendido del mundo'],['house','No está en carta: completa la oferta de ron'],['amphora','Tres ingredientes, con versiones de fruta']],
@@ -265,6 +269,7 @@ function renderDrink(i){
     <div class="title"><span class="ro">${d.style}</span><h1 id="dn">${d.name}</h1><span class="alias">${d.alias}</span></div>
     <div class="facts">${d.facts.map(f=>`<div><span class="cap">${f[0]}</span><b>${f[1]}</b></div>`).join('')}</div>
     <section class="blk"><span class="cap">Por qué</span>
+      <p class="intro">${d.intro}</p>
       <ul class="why">${d.why.map(w=>`<li>${ico(w[0])}<span>${w[1]}</span></li>`).join('')}</ul></section>
     ${d0.variants?`<div class="vsel" role="group" aria-label="Versión">${d0.variants.map((x,k)=>`<button data-v="${k}" aria-pressed="${k===vsel}">${x.k}</button>`).join('')}</div>`:''}
     <section class="rblk" aria-labelledby="rh"><h2 class="rhead" id="rh">Receta</h2>
