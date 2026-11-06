@@ -211,7 +211,7 @@ const D=[
   why:[['star','Spritz: 7º clásico más vendido del mundo'],['amphora','Solo ingredientes de barra'],['clock','Listo en menos de un minuto']],
   serv:[['balloon','Copa balón'],['ice','Con hielo'],['shake','Agitado + flotado'],['sprig','Limón de pica y menta']],
   ing:[['Gin','',1.5],['Maracuyá líquida','',1],['Limón de pica','jugo',.5],['Jengibre líquido','',.25],['Espumante','para completar',2],['Aperol','flotado al final',.75]],
-  steps:['Copa balón llena de hielo.','Agita gin, maracuyá, limón de pica y jengibre, 10 segundos.','Cuela y completa con espumante.','Flota el Aperol sobre una cuchara: dos capas.','Limón de pica y menta. No revolver.']},
+  steps:['Copa balón llena de hielo: 6 cubos.','Agita gin, maracuyá, limón de pica y jengibre con 5 cubos, 10 segundos.','Cuela y completa con espumante.','Flota el Aperol sobre una cuchara: dos capas.','Limón de pica y menta. No revolver.']},
  {id:'sabina',ro:'II',name:'Sabina',alias:'Sour de Maracuyá',style:'De autor',
   intro:'La versión de verano del pisco sour, el trago que más vende la casa. Es ácido, tropical y sedoso, con el maracuyá al frente y un toque de jengibre al final. Lleva el nombre del salón Rapto de las Sabinas y une el pisco chileno con el alma romana de Rivoli.',
   pic:`<img class="pic" src="${PHOTO_SABINA}" alt="Sabina, sour de maracuyá en copa coupé con espuma blanca y hoja de menta">`,
@@ -227,31 +227,31 @@ const D=[
   why:[['star','6º clásico más vendido del mundo'],['house','No está en carta: completa la oferta de ron'],['amphora','Tres ingredientes, con versiones de fruta']],
   serv:[['coupe','Copa coupé fría'],['noice','Sin hielo'],['shake','Agitado'],['wheel','Rodaja de limón de pica']],
   ing:[['Ron blanco','',2],['Limón de pica','jugo',.75],['Goma','',.75]],
-  steps:['Enfría la copa.','Agita todo con hielo, fuerte, 12 segundos.','Cuela doble sobre la copa.','Rodaja de limón de pica en el borde.'],
+  steps:['Enfría la copa.','Agita todo con 5 cubos de hielo, fuerte, 12 segundos.','Cuela doble sobre la copa.','Rodaja de limón de pica en el borde.'],
   variants:[
    {k:'Mango',ing:[['Ron blanco','',2],['Pulpa de mango','',1],['Limón de pica','jugo',.75],['Goma','',.5]],
     serv:[['coupe','Copa coupé fría'],['noice','Sin hielo'],['shake','Agitado'],['wheel','Rodaja de limón de pica']],
-    steps:['Enfría la copa.','Agita todo con hielo, fuerte, 15 segundos.','Cuela simple: la pulpa le da cuerpo.','Rodaja de limón de pica en el borde.']},
+    steps:['Enfría la copa.','Agita todo con 5 cubos de hielo, fuerte, 15 segundos.','Cuela simple: la pulpa le da cuerpo.','Rodaja de limón de pica en el borde.']},
    {k:'Tradicional'},
    {k:'Frutilla',ing:[['Ron blanco','',2],['Pulpa de frutilla','',1],['Limón de pica','jugo',.75],['Goma','',.5]],
     serv:[['coupe','Copa coupé fría'],['noice','Sin hielo'],['shake','Agitado'],['wheel','Limón de pica y frutilla']],
-    steps:['Enfría la copa.','Agita todo con hielo, fuerte, 15 segundos.','Cuela simple sobre la copa.','Rodaja de limón de pica y media frutilla en el borde.']}]}
+    steps:['Enfría la copa.','Agita todo con 5 cubos de hielo, fuerte, 15 segundos.','Cuela simple sobre la copa.','Rodaja de limón de pica y media frutilla en el borde.']}]}
 ];
 
 const DEDO=.75;
 /* ---------- cómo se arma: diagrama de capas ---------- */
 const BC={gin:'#e3e9ec',mara:'#e9b13c',limon:'#e6e98f',jeng:'#d8b47e',esp:'#f2e09a',ape:'#d9542b',pisco:'#efe7d2',goma:'#f1ece2',clara:'#ddd3bd',ron:'#ece6d4',mango:'#f0a43a',frut:'#e0566b'};
 const BUILD={
- ianus:()=>({tool:'shaker',g:'balloon',ice:1,how:['Agitar y colar','sobre hielo'],
+ ianus:()=>({tool:'shaker',g:'balloon',ice:6,vIce:5,how:['Agitar y colar','sobre hielo'],
   v:[['Gin',1.5,BC.gin],['Maracuyá',1,BC.mara],['Limón de pica',.5,BC.limon],['Jengibre',.25,BC.jeng]],
   glass:[['Mezcla',3.25,'#ecb94a'],['Espumante',2,BC.esp],['Aperol',.75,BC.ape]]}),
- sabina:()=>({tool:'jug',g:'coupe',how:['Licuar con hielo','y colar'],
+ sabina:()=>({tool:'jug',g:'coupe',ice:0,vIce:4,how:['Licuar con hielo','y colar'],
   v:[['Pisco',2,BC.pisco],['Maracuyá',1,BC.mara],['Jugo de limón',.75,BC.limon],['Goma',.5,BC.goma],['Jengibre',.25,BC.jeng],['Clara',.75,BC.clara]],
   glass:[['Sour',4.5,'#efc04f'],['Espuma',.75,'#e2d1a8']]}),
  daiquiri:(k)=>{const fr=k===0?['Mango',BC.mango,'#f2b450']:k===2?['Frutilla',BC.frut,'#e87584']:null;
   const v=[['Ron blanco',2,BC.ron]];if(fr)v.push([fr[0],1,fr[1]]);v.push(['Limón de pica',.75,BC.limon],['Goma',fr?.5:.75,BC.goma]);
   const tot=v.reduce((a,x)=>a+x[1],0);
-  return {tool:'shaker',g:'coupe',how:['Agitar con hielo','y colar'],v,glass:[['Daiquiri',tot,fr?fr[2]:'#e8ebc4']]}}
+  return {tool:'shaker',g:'coupe',ice:0,vIce:5,how:['Agitar con hielo','y colar'],v,glass:[['Daiquiri',tot,fr?fr[2]:'#e8ebc4']]}}
 };
 const BPX=20,BGAP=32,BNX=136,BW=300;
 function bFingers(oz,yc){
@@ -285,7 +285,8 @@ function bVessel(kind,layers,ice){
  let y=bot,fills='',lines='',mids=[];
  layers.forEach(([nm,oz,col],i)=>{const h=oz*BPX;y-=h;fills+=`<rect x="0" y="${y}" width="130" height="${h}" fill="${col}"/>`;
   if(i<layers.length-1)lines+=`<line x1="0" x2="130" y1="${y}" y2="${y}" stroke="#1f262d" stroke-width="1" stroke-dasharray="3 2"/>`;mids.push(y+h/2)});
- const iceSvg=ice?`<g fill="#fff" fill-opacity=".45" stroke="#c9d3d8" stroke-width=".8"><rect x="34" y="${bot-62}" width="22" height="22" rx="3" transform="rotate(12 45 ${bot-51})"/><rect x="66" y="${bot-70}" width="22" height="22" rx="3" transform="rotate(-10 77 ${bot-59})"/><rect x="48" y="${bot-100}" width="22" height="22" rx="3" transform="rotate(18 59 ${bot-89})"/><rect x="76" y="${bot-108}" width="20" height="20" rx="3"/><rect x="26" y="${bot-104}" width="20" height="20" rx="3"/></g>`:'';
+ const IP=[[30,26,12],[64,30,-10],[44,52,18],[74,56,0],[24,58,0],[54,80,-14],[84,84,8]];
+ const iceSvg=ice?`<g fill="#fff" fill-opacity=".5" stroke="#b9c6cc" stroke-width="1">${IP.slice(0,ice).map(([x,d,r])=>`<rect x="${x}" y="${bot-d-22}" width="22" height="22" rx="3" transform="rotate(${r} ${x+11} ${bot-d-11})"/>`).join('')}</g>`:'';
  return {svg:`<defs><clipPath id="${id}"><path d="${shape}"/></clipPath></defs><g clip-path="url(#${id})">${fills}${lines}${iceSvg}</g><path d="${outline}" fill="none" stroke="#1f262d" stroke-width="2"/>${extra}`,H,foot,top,mids,fillTop:bot-tot*BPX,bot,rx};
 }
 function bBlock(kind,layers,Y,s,ice,inline){
@@ -295,25 +296,35 @@ function bBlock(kind,layers,Y,s,ice,inline){
  const ty=Y+(span-vSpan)/2+vTop,tx=(120-120*s)/2+12,cy=ty+s*(v.fillTop+v.bot)/2;
  let lt=Math.max(Y+10,cy-LH/2);if(lt+LH>Y+span-10)lt=Y+span-10-LH;
  let out=`<g transform="translate(${tx} ${ty}) scale(${s})">${v.svg}</g>`;
- const iy=[];layers.forEach((l,i)=>{let y=ty+s*v.mids[i];if(i&&y>iy[i-1]-30)y=iy[i-1]-30;iy.push(y)});
+ let maxLy=0;const iy=[];layers.forEach((l,i)=>{let y=ty+s*v.mids[i];if(i&&y>iy[i-1]-30)y=iy[i-1]-30;iy.push(y)});
  layers.forEach(([nm,oz],i)=>{
   const my=ty+s*v.mids[i],mx=tx+s*v.rx,ly=inline?iy[i]:lt+(n-1-i)*BGAP;
   const lead=`<line x1="${mx}" y1="${my}" x2="${BNX-8}" y2="${ly}" stroke="#c9b48a" stroke-width=".9"/>`;
+  maxLy=Math.max(maxLy,ly);
   out+=`<circle cx="${mx}" cy="${my}" r="2" fill="#8a6a32"/>${lead}<text x="${BNX}" y="${ly}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${nm}</text>${bFingers(oz,ly)}`;
  });
- return {out,end:Y+span};
+ return {out,end:Y+span,maxLy};
+}
+function iceRow(y,n){
+ let s=`<g transform="translate(${BNX-28} ${y-9}) scale(.45)"><path d="M8 14l10-5 10 5v12l-10 5-10-5z M8 14l10 5 10-5M18 19v12" fill="none" stroke="#8aa3ad" stroke-width="2.4"/></g>
+  <text x="${BNX}" y="${y}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="${n?'#1f262d':'#8a8f94'}" ${n?'':'font-style="italic"'}>${n?'Hielo':'Sin hielo'}</text>`;
+ if(n){let x=BW-38-n*9;for(let i=0;i<n;i++){s+=`<rect x="${x}" y="${y-4}" width="7" height="7" rx="1.5" fill="#fff" stroke="#8aa3ad" stroke-width="1.2" transform="rotate(${i%2?8:-8} ${x+3.5} ${y-.5})"/>`;x+=9}
+  s+=`<text x="${BW}" y="${y}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="13" fill="#5f7a85">${n}</text>`;}
+ return s;
 }
 function buildSVG(id,k){
  if(!BUILD[id])return '';
  const b=BUILD[id](k),tool=b.tool==='jug'?'JUGUERA':'COCTELERA';
  let out=`<text x="0" y="14" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">I · EN LA ${tool}</text><text x="${BW}" y="14" text-anchor="end" font-family="Cinzel,serif" font-size="10" letter-spacing="1.5" fill="#a39a8a">DEDOS</text>`;
- const a=bBlock(b.tool,b.v,30,.65,0,false);out+=a.out;
+ const a=bBlock(b.tool,b.v,30,.65,b.vIce,false);out+=a.out;
+ {const iy=Math.max(a.maxLy+34,a.end-6);out+=iceRow(iy,b.vIce);a.end=iy+16;}
  let y=a.end+22;out+=`<line x1="${BNX-80}" y1="${y}" x2="${BW}" y2="${y}" stroke="#eee9e0"/>`;y+=18;
  out+=`<line x1="64" y1="${y}" x2="64" y2="${y+34}" stroke="#8a6a32" stroke-width="1.4"/><path d="M58 ${y+28} L64 ${y+36} L70 ${y+28}" fill="none" stroke="#8a6a32" stroke-width="1.4"/>
   <text font-family="'Instrument Serif',serif" font-style="italic" font-size="16" fill="#6b737a"><tspan x="${BNX}" y="${y+13}">${b.how[0]}</tspan><tspan x="${BNX}" dy="19">${b.how[1]}</tspan></text>`;
  y+=56;out+=`<line x1="${BNX-80}" y1="${y}" x2="${BW}" y2="${y}" stroke="#eee9e0"/>`;y+=28;
  out+=`<text x="0" y="${y}" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">II · EN LA COPA</text>`;
  const c=bBlock(b.g,b.glass,y+16,.8,b.ice,true);out+=c.out;
+ {const iy=c.maxLy+36;out+=iceRow(iy,b.ice);c.end=Math.max(c.end,iy+16);}
  return `<section class="build" aria-label="Cómo se arma"><span class="cap">Cómo se arma · 1 trago</span><svg viewBox="0 0 ${BW} ${c.end+6}" role="img" aria-label="Diagrama: ingredientes en la ${tool.toLowerCase()} y capas en la copa, en dedos">${out}</svg></section>`;
 }
 
