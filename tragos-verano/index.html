@@ -264,7 +264,7 @@ function bFingers(oz,yc){
 }
 let bid=0;
 function bVessel(kind,layers,ice){
- const id='bv'+(bid++),tot=layers.reduce((a,l)=>a+(l[3]||l[1]),0),H=tot*BPX+(kind==='kero'?0:26),bot=H;
+ const id='bv'+(bid++),tot=layers.reduce((a,l)=>a+(l[3]||l[1]),0),H=tot*BPX+(kind==='kero'||kind==='balloon'?0:26),bot=H;
  let shape,outline,extra='',foot,top,rx,rxAt=null;
  if(kind==='jug'){
   shape=`M22 0 L106 0 L98 ${bot} L30 ${bot} Z`;outline=shape;foot=34;top=20;rx=102;
@@ -275,9 +275,9 @@ function bVessel(kind,layers,ice){
   shape=`M28 0 L100 0 L92 ${bot} L36 ${bot} Z`;outline=shape;foot=6;top=44;rx=96;
   extra=`<path d="M30 -3 L98 -3 L84 -30 L44 -30 Z" fill="none" stroke="#1f262d" stroke-width="2"/><rect x="54" y="-42" width="20" height="12" rx="4" fill="none" stroke="#1f262d" stroke-width="2"/>`;
  }else if(kind==='balloon'){
-  shape=`M20 0 C14 ${H*.75} 40 ${bot} 64 ${bot+2} C88 ${bot} 114 ${H*.75} 108 0 Z`;
-  outline=`M14 -8 C6 ${H*.8} 38 ${bot+10} 64 ${bot+12} C90 ${bot+10} 122 ${H*.8} 114 -8`;foot=50;top=8;rx=116;
-  extra=`<path d="M64 ${bot+12} V${bot+44} M42 ${bot+48} H86" stroke="#1f262d" stroke-width="2"/>`;
+  shape=`M17 0 C10 ${H*.75} 40 ${bot} 64 ${bot+2} C88 ${bot} 118 ${H*.75} 111 0 Z`;
+  outline=`M17 -2 C8 ${H*.8} 38 ${bot+4} 64 ${bot+5} C90 ${bot+4} 120 ${H*.8} 111 -2`;foot=46;top=8;rx=116;
+  extra=`<path d="M64 ${bot+5} V${bot+40} M42 ${bot+44} H86" stroke="#1f262d" stroke-width="2"/>`;
  }else if(kind==='kero'){
   shape=`M12 0 L116 0 L100 ${bot} L28 ${bot} Z`;outline=`M10 -4 L28 ${bot} M118 -4 L100 ${bot}`;foot=16;top=6;rx=110;rxAt=y=>116-16*(y/bot);
   extra=`<path d="M28 ${bot} L100 ${bot} L99 ${bot+14} L29 ${bot+14} Z" fill="#e8edef" stroke="#1f262d" stroke-width="2"/>`;
