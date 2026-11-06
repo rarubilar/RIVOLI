@@ -131,6 +131,10 @@ main{touch-action:pan-y}
 .var .vn{font-family:var(--f-name);font-size:1.5rem;line-height:1}
 .var .dotc{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:.4rem;vertical-align:1px}
 .var p{margin:0;font-size:.98rem;line-height:1.3}
+.build{margin-top:2.2rem;display:grid;gap:.6rem}
+.build>.cap{display:flex;align-items:center;gap:.7rem}
+.build>.cap::before,.build>.cap::after{content:"";flex:1;height:1px;background:var(--line)}
+.build svg{width:100%;height:auto;display:block}
 .note{font-size:.88rem;color:var(--muted);font-style:italic;text-align:center;margin:0}
 .next{display:flex;justify-content:space-between;margin-top:2.4rem;border-top:1px solid var(--line);padding-top:1rem}
 .next a{font-family:var(--f-name);font-size:1.3rem;color:var(--ink);text-decoration:none;display:flex;gap:.4rem;align-items:center;min-height:44px}
@@ -143,6 +147,7 @@ main{touch-action:pan-y}
   <symbol id="balloon" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M10 5c-2 14 4 20 10 20s12-6 10-20M20 25v9M13 35h14"/></g></symbol>
   <symbol id="ice" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 14l10-5 10 5v12l-10 5-10-5z"/><path d="M8 14l10 5 10-5M18 19v12"/></g></symbol>
   <symbol id="noice" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 14l10-5 10 5v12l-10 5-10-5z"/><path d="M6 34L32 6"/></g></symbol>
+  <symbol id="blender" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M11 6h18l-3 20H14z"/><path d="M9 4h22M13 28h14v7H13z"/><circle cx="20" cy="31.5" r="1.4"/></g></symbol>
   <symbol id="shake" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M13 14h14l-2 22H15z"/><path d="M15 14l1-5h8l1 5M18 9l1-5h2l1 5"/></g></symbol>
   <symbol id="sprig" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 38V8"/><path d="M20 14q-9-2-10-9 8 0 10 9M20 22q9-2 10-9-8 0-10 9M20 30q-9-2-10-9 8 0 10 9"/></g></symbol>
   <symbol id="wheel" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="20" cy="20" r="12"/><circle cx="20" cy="20" r="9"/><path d="M20 11v18M11 20h18M14 14l12 12M26 14L14 26"/></g></symbol>
@@ -212,9 +217,9 @@ const D=[
   pic:`<img class="pic" src="${PHOTO_SABINA}" alt="Sabina, sour de maracuyá en copa coupé con espuma blanca y hoja de menta">`,
   facts:[['Sabor','Ácido, tropical, sedoso'],['Familia','Sour'],['Estilo','Corto, de autor']],
   why:[['star','Nace del pisco sour, el más vendido de la casa'],['sun','Maracuyá y jengibre: más fresco para el verano'],['amphora','Sin ingredientes nuevos']],
-  serv:[['coupe','Copa coupé fría'],['noice','Sin hielo'],['shake','Doble agitado'],['sprig','Hoja de menta']],
+  serv:[['coupe','Copa coupé fría'],['noice','Sin hielo en copa'],['blender','Juguera'],['sprig','Hoja de menta']],
   ing:[['Pisco','',2],['Maracuyá líquida','',1],['Jugo de limón','',.75],['Goma','',.5],['Jengibre líquido','',.25],['Clara de huevo','≈ 1 clara',.75]],
-  steps:['Enfría la copa.','Agita todo sin hielo, 10 segundos.','Agrega hielo y agita 12 segundos más.','Cuela doble sobre la copa fría.','Una hoja de menta sobre la espuma.']},
+  steps:['Enfría la copa.','En la juguera: todos los ingredientes y 4 cubos de hielo.','Licúa a velocidad alta 15 segundos, hasta que espume.','Cuela sobre la copa fría y deja subir la espuma.','Una hoja de menta sobre la espuma.']},
  {id:'daiquiri',ro:'III',name:'Daiquiri',alias:'Cuba, c. 1898',style:'Clásico',
   intro:'Un clásico cubano de tres ingredientes que faltaba en la carta. Es seco, cítrico y muy fresco, ideal antes de una pasta. En versión mango o frutilla se vuelve más frutal sin cambiar la técnica, y el limón de pica le da un acento local.',
   pic:`<img class="pic" src="${PHOTO_DAIQ}" alt="Daiquiri tradicional al centro, de mango a la izquierda y de frutilla a la derecha, en copas coupé">`,
@@ -234,6 +239,84 @@ const D=[
 ];
 
 const DEDO=.75;
+/* ---------- cómo se arma: diagrama de capas ---------- */
+const BC={gin:'#e3e9ec',mara:'#e9b13c',limon:'#e6e98f',jeng:'#d8b47e',esp:'#f2e09a',ape:'#d9542b',pisco:'#efe7d2',goma:'#f1ece2',clara:'#fbfbf8',ron:'#ece6d4',mango:'#f0a43a',frut:'#e0566b'};
+const BUILD={
+ ianus:()=>({tool:'shaker',g:'balloon',ice:1,how:['Agitar y colar','sobre hielo'],
+  v:[['Gin',1.5,BC.gin],['Maracuyá',1,BC.mara],['Limón de pica',.5,BC.limon],['Jengibre',.25,BC.jeng]],
+  glass:[['Mezcla',3.25,'#ecb94a'],['Espumante',2,BC.esp],['Aperol',.75,BC.ape]]}),
+ sabina:()=>({tool:'jug',g:'coupe',how:['Licuar con hielo','y colar'],
+  v:[['Pisco',2,BC.pisco],['Maracuyá',1,BC.mara],['Jugo de limón',.75,BC.limon],['Goma',.5,BC.goma],['Jengibre',.25,BC.jeng],['Clara',.75,BC.clara]],
+  glass:[['Sour',4.5,'#efc04f'],['Espuma',.75,'#fbfaf6']]}),
+ daiquiri:(k)=>{const fr=k===0?['Mango',BC.mango,'#f2b450']:k===2?['Frutilla',BC.frut,'#e87584']:null;
+  const v=[['Ron blanco',2,BC.ron]];if(fr)v.push([fr[0],1,fr[1]]);v.push(['Limón de pica',.75,BC.limon],['Goma',fr?.5:.75,BC.goma]);
+  const tot=v.reduce((a,x)=>a+x[1],0);
+  return {tool:'shaker',g:'coupe',how:['Agitar con hielo','y colar'],v,glass:[['Daiquiri',tot,fr?fr[2]:'#e8ebc4']]}}
+};
+const BPX=20,BGAP=32,BNX=136,BW=300;
+function bFingers(oz,yc){
+ const n=oz/DEDO,full=Math.floor(n+1e-6),part=n-full,cnt=Math.min(full+(part>.05?1:0),8);
+ let s='',x=BW-38-cnt*9;
+ for(let i=0;i<cnt;i++){const f=i<full?1:part,h=16;
+  s+=`<rect x="${x}" y="${yc-h/2}" width="6" height="${h}" rx="3" fill="none" stroke="#8a6a32" stroke-width="1"/><rect x="${x}" y="${yc+h/2-h*f}" width="6" height="${h*f}" rx="${f>.9?3:1}" fill="#8a6a32"/>`;x+=9}
+ return s+`<text x="${BW}" y="${yc}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="13" fill="#8a6a32">${frac(Math.round(n*3)/3)}</text>`;
+}
+let bid=0;
+function bVessel(kind,layers,ice){
+ const id='bv'+(bid++),tot=layers.reduce((a,l)=>a+l[1],0),H=tot*BPX+26,bot=H;
+ let shape,outline,extra='',foot,top,rx;
+ if(kind==='jug'){
+  shape=`M22 0 L106 0 L98 ${bot} L30 ${bot} Z`;outline=shape;foot=34;top=20;rx=102;
+  extra=`<rect x="14" y="-12" width="100" height="12" rx="3" fill="#1f262d"/><rect x="57" y="-20" width="14" height="8" rx="2" fill="#1f262d"/>
+   <path d="M22 18 h-8 a7 7 0 0 0 -7 7 v${H*0.45} a7 7 0 0 0 7 7 h11" fill="none" stroke="#1f262d" stroke-width="2"/>
+   <rect x="22" y="${bot+2}" width="84" height="30" rx="6" fill="#1f262d"/><circle cx="64" cy="${bot+17}" r="6" fill="none" stroke="#c9b48a" stroke-width="1.5"/>`;
+ }else if(kind==='shaker'){
+  shape=`M28 0 L100 0 L92 ${bot} L36 ${bot} Z`;outline=shape;foot=6;top=44;rx=96;
+  extra=`<path d="M30 -3 L98 -3 L84 -30 L44 -30 Z" fill="none" stroke="#1f262d" stroke-width="2"/><rect x="54" y="-42" width="20" height="12" rx="4" fill="none" stroke="#1f262d" stroke-width="2"/>`;
+ }else if(kind==='balloon'){
+  shape=`M20 0 C14 ${H*.75} 40 ${bot} 64 ${bot+2} C88 ${bot} 114 ${H*.75} 108 0 Z`;
+  outline=`M14 -8 C6 ${H*.8} 38 ${bot+10} 64 ${bot+12} C90 ${bot+10} 122 ${H*.8} 114 -8`;foot=50;top=8;rx=116;
+  extra=`<path d="M64 ${bot+12} V${bot+44} M42 ${bot+48} H86" stroke="#1f262d" stroke-width="2"/>`;
+ }else{
+  shape=`M8 0 C10 ${H*.8} 38 ${bot} 64 ${bot} C90 ${bot} 118 ${H*.8} 120 0 Z`;
+  outline=`M3 -6 C4 ${H*.9} 36 ${bot+8} 64 ${bot+8} C92 ${bot+8} 124 ${H*.9} 125 -6`;foot=50;top=6;rx=116;
+  extra=`<path d="M64 ${bot+8} V${bot+44} M42 ${bot+48} H86" stroke="#1f262d" stroke-width="2"/>`;
+ }
+ let y=bot,fills='',lines='',mids=[];
+ layers.forEach(([nm,oz,col],i)=>{const h=oz*BPX;y-=h;fills+=`<rect x="0" y="${y}" width="130" height="${h}" fill="${col}"/>`;
+  if(i<layers.length-1)lines+=`<line x1="0" x2="130" y1="${y}" y2="${y}" stroke="#1f262d" stroke-width="1" stroke-dasharray="3 2"/>`;mids.push(y+h/2)});
+ const iceSvg=ice?`<g fill="#fff" fill-opacity=".45" stroke="#c9d3d8" stroke-width=".8"><rect x="34" y="${bot-62}" width="22" height="22" rx="3" transform="rotate(12 45 ${bot-51})"/><rect x="66" y="${bot-70}" width="22" height="22" rx="3" transform="rotate(-10 77 ${bot-59})"/><rect x="48" y="${bot-100}" width="22" height="22" rx="3" transform="rotate(18 59 ${bot-89})"/><rect x="76" y="${bot-108}" width="20" height="20" rx="3"/><rect x="26" y="${bot-104}" width="20" height="20" rx="3"/></g>`:'';
+ return {svg:`<defs><clipPath id="${id}"><path d="${shape}"/></clipPath></defs><g clip-path="url(#${id})">${fills}${lines}${iceSvg}</g><path d="${outline}" fill="none" stroke="#1f262d" stroke-width="2"/>${extra}`,H,foot,top,mids,fillTop:bot-tot*BPX,bot,rx};
+}
+function bBlock(kind,layers,Y,s,ice,inline){
+ const v=bVessel(kind,layers,ice),n=layers.length,LH=(n-1)*BGAP;
+ const vTop=s*v.top,vSpan=vTop+s*(v.H+v.foot);
+ const span=inline?vSpan:Math.max(vSpan,LH+20);
+ const ty=Y+(span-vSpan)/2+vTop,tx=(120-120*s)/2+12,cy=ty+s*(v.fillTop+v.bot)/2;
+ let lt=Math.max(Y+10,cy-LH/2);if(lt+LH>Y+span-10)lt=Y+span-10-LH;
+ let out=`<g transform="translate(${tx} ${ty}) scale(${s})">${v.svg}</g>`;
+ const iy=[];layers.forEach((l,i)=>{let y=ty+s*v.mids[i];if(i&&y>iy[i-1]-30)y=iy[i-1]-30;iy.push(y)});
+ layers.forEach(([nm,oz],i)=>{
+  const my=ty+s*v.mids[i],mx=tx+s*v.rx,ly=inline?iy[i]:lt+(n-1-i)*BGAP;
+  const lead=inline?`<path d="M${mx} ${my} L${BNX-20} ${my} L${BNX-8} ${ly}" fill="none" stroke="#c9b48a" stroke-width=".9"/>`:`<path d="M${mx} ${my} L${BNX-18} ${my} L${BNX-6} ${ly}" fill="none" stroke="#c9b48a" stroke-width=".9"/>`;
+  out+=`<circle cx="${mx}" cy="${my}" r="2" fill="#8a6a32"/>${lead}<text x="${BNX}" y="${ly}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${nm}</text>${bFingers(oz,ly)}`;
+ });
+ return {out,end:Y+span};
+}
+function buildSVG(id,k){
+ if(!BUILD[id])return '';
+ const b=BUILD[id](k),tool=b.tool==='jug'?'JUGUERA':'COCTELERA';
+ let out=`<text x="0" y="14" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">I · EN LA ${tool}</text><text x="${BW}" y="14" text-anchor="end" font-family="Cinzel,serif" font-size="10" letter-spacing="1.5" fill="#a39a8a">DEDOS</text>`;
+ const a=bBlock(b.tool,b.v,30,.65,0,false);out+=a.out;
+ let y=a.end+22;out+=`<line x1="${BNX-80}" y1="${y}" x2="${BW}" y2="${y}" stroke="#eee9e0"/>`;y+=18;
+ out+=`<line x1="64" y1="${y}" x2="64" y2="${y+34}" stroke="#8a6a32" stroke-width="1.4"/><path d="M58 ${y+28} L64 ${y+36} L70 ${y+28}" fill="none" stroke="#8a6a32" stroke-width="1.4"/>
+  <text font-family="'Instrument Serif',serif" font-style="italic" font-size="16" fill="#6b737a"><tspan x="${BNX}" y="${y+13}">${b.how[0]}</tspan><tspan x="${BNX}" dy="19">${b.how[1]}</tspan></text>`;
+ y+=56;out+=`<line x1="${BNX-80}" y1="${y}" x2="${BW}" y2="${y}" stroke="#eee9e0"/>`;y+=28;
+ out+=`<text x="0" y="${y}" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">II · EN LA COPA</text>`;
+ const c=bBlock(b.g,b.glass,y+16,.8,b.ice,true);out+=c.out;
+ return `<section class="build" aria-label="Cómo se arma"><span class="cap">Cómo se arma · 1 trago</span><svg viewBox="0 0 ${BW} ${c.end+6}" role="img" aria-label="Diagrama: ingredientes en la ${tool.toLowerCase()} y capas en la copa, en dedos">${out}</svg></section>`;
+}
+
 const ozTxt=x=>{const w=Math.floor(x+1e-6),f=+(x-w).toFixed(3);const m={0.25:'¼',0.5:'½',0.75:'¾'};return ((w?w:'')+(m[f]||''))||'0'};
 const frac=x=>{const w=Math.floor(x+1e-6),f=x-w;let s='';if(Math.abs(f-1/3)<.05)s='⅓';else if(Math.abs(f-2/3)<.05)s='⅔';return (w?w:'')+(s||(w?'':'0'))};
 function fingers(oz){
@@ -281,6 +364,7 @@ function renderDrink(i){
         <ol class="steps">${d.steps.map(s=>`<li><span>${s}</span></li>`).join('')}</ol>
         <p class="note">1 dedo ≈ ¾ oz</p>
       </div></section>
+    ${buildSVG(d0.id,vsel)}
   </article>`;
   document.title=`Rivoli · ${d.name}`;
   document.getElementById('hPrev').innerHTML=`<a href="#${prev.id}" aria-label="Anterior: ${prev.name}"><span>‹</span></a>`;
