@@ -14,7 +14,7 @@ Espacio de trabajo para Rivoli Ristorante (Nueva de Lyon 79, Providencia, Santia
 
 El sitio se publica con GitHub Pages desde la rama `main`.
 
-- Tragos de verano: `https://rarubilar.github.io/rivoli/tragos-verano/`
+- Tragos de verano: `https://rarubilar.github.io/RIVOLI/tragos-verano/`
 - Un trago específico: agregar `#ianus`, `#sabina` o `#daiquiri` al final.
 
 ## Convenciones
