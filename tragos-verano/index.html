@@ -264,7 +264,7 @@ function bFingers(oz,yc){
 }
 let bid=0;
 function bVessel(kind,layers,ice){
- const id='bv'+(bid++),tot=layers.reduce((a,l)=>a+(l[3]||l[1]),0),H=tot*BPX+(kind==='kero'||kind==='balloon'?0:26),bot=H;
+ const id='bv'+(bid++),tot=layers.reduce((a,l)=>a+(l[3]||l[1]),0),H=tot*BPX+(kind==='kero'||kind==='balloon'||kind==='coupe'?0:26),bot=H;
  let shape,outline,extra='',foot,top,rx,rxAt=null;
  if(kind==='jug'){
   shape=`M22 0 L106 0 L98 ${bot} L30 ${bot} Z`;outline=shape;foot=34;top=20;rx=102;
@@ -282,9 +282,9 @@ function bVessel(kind,layers,ice){
   shape=`M12 0 L116 0 L100 ${bot} L28 ${bot} Z`;outline=`M10 -4 L28 ${bot} M118 -4 L100 ${bot}`;foot=16;top=6;rx=110;rxAt=y=>116-16*(y/bot);
   extra=`<path d="M28 ${bot} L100 ${bot} L99 ${bot+14} L29 ${bot+14} Z" fill="#e8edef" stroke="#1f262d" stroke-width="2"/>`;
  }else{
-  shape=`M8 0 C10 ${H*.8} 38 ${bot} 64 ${bot} C90 ${bot} 118 ${H*.8} 120 0 Z`;
-  outline=`M3 -6 C4 ${H*.9} 36 ${bot+8} 64 ${bot+8} C92 ${bot+8} 124 ${H*.9} 125 -6`;foot=50;top=6;rx=116;
-  extra=`<path d="M64 ${bot+8} V${bot+44} M42 ${bot+48} H86" stroke="#1f262d" stroke-width="2"/>`;
+  shape=`M5 0 C8 ${H*.8} 38 ${bot} 64 ${bot} C90 ${bot} 120 ${H*.8} 123 0 Z`;
+  outline=`M4 -2 C6 ${H*.85} 36 ${bot+4} 64 ${bot+4} C92 ${bot+4} 122 ${H*.85} 124 -2`;foot=46;top=6;rx=118;
+  extra=`<path d="M64 ${bot+4} V${bot+40} M42 ${bot+44} H86" stroke="#1f262d" stroke-width="2"/>`;
  }
  let y=bot,fills='',lines='',mids=[];
  layers.forEach(([nm,oz,col,vz],i)=>{const h=(vz||oz)*BPX;y-=h;fills+=`<rect x="0" y="${y}" width="130" height="${h}" fill="${col}"/>`;
