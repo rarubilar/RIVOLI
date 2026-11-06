@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>[hidden]{display:none!important}img{max-width:100%}body{margin:0}</style>
+</head>
+<body>
+<title>Rivoli Pocula V02</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap">
+<style>
+/* Layout: templum — un eje central de mármol; Jano abre (dos caras: Domus / Pocula), las secciones se leen como frisos separados por meandros. */
+:root{
+  --bg:#eceeeb;          /* mármol de Carrara, gris frío */
+  --surface:#f6f7f5;
+  --vein:#d5d9d5;
+  --fg:#1f262d;          /* pizarra Rivoli */
+  --muted:#58616a;
+  --gold:#8a6a32;        /* oro de laurel (contraste AA sobre mármol) */
+  --gold-soft:#b89a62;
+  --rubrum:#8a2d22;      /* rojo pompeyano del tondo de Jano */
+  --scrim:rgba(20,24,28,.55);
+  --f-display:"Cinzel","Trajan Pro","Times New Roman",serif;
+  --f-body:"Cormorant Garamond","Garamond","Georgia",serif;
+  --r:.5rem;             /* fillet 0.5 */
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#21282f;--surface:#29313a;--vein:#3a444e;--fg:#ece7dc;--muted:#a3abb2;
+  --gold:#c9a96e;--gold-soft:#9c8457;--rubrum:#c76452;--scrim:rgba(8,10,12,.7);color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#21282f;--surface:#29313a;--vein:#3a444e;--fg:#ece7dc;--muted:#a3abb2;
+  --gold:#c9a96e;--gold-soft:#9c8457;--rubrum:#c76452;--scrim:rgba(8,10,12,.7);color-scheme:dark}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:1.15rem;line-height:1.55;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--bg)}
+.wrap{max-width:1120px;margin-inline:auto}
+h1,h2,h3,.cap{font-family:var(--f-display);font-weight:500;letter-spacing:.14em;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.5rem,3.2vw,2.2rem);letter-spacing:.22em}
+h3{font-size:1.05rem;letter-spacing:.16em}
+p{margin:0;max-width:62ch}
+.cap{font-size:.72rem;letter-spacing:.28em;color:var(--muted);text-transform:uppercase}
+.gold{color:var(--gold)}
+a{color:var(--gold)}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:2px}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+svg{display:block}
+
+/* meandro griego */
+.meander{height:12px;background:var(--gold-soft);opacity:.75;
+  -webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cpath d='M0 11.25H24M2 11.25V.75H20V8.25H8V4.25H14' fill='none' stroke='black' stroke-width='1.5'/%3E%3C/svg%3E") repeat-x left/24px 12px;
+          mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 12'%3E%3Cpath d='M0 11.25H24M2 11.25V.75H20V8.25H8V4.25H14' fill='none' stroke='black' stroke-width='1.5'/%3E%3C/svg%3E") repeat-x left/24px 12px}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);
+  backdrop-filter:blur(6px);border-bottom:1px solid var(--vein)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-block:.7rem}
+.nav .brand{font-family:var(--f-display);letter-spacing:.42em;font-size:.95rem}
+.nav ul{display:flex;gap:clamp(.8rem,3vw,2rem);list-style:none;margin:0;padding:0}
+.nav a{font-family:var(--f-display);font-size:.72rem;letter-spacing:.24em;text-decoration:none;color:var(--muted)}
+.nav a:hover,.nav a[aria-current="true"]{color:var(--gold)}
+.nav a b{font-weight:500;color:var(--gold);margin-right:.4em}
+.themebtn{width:34px;height:34px;border:1px solid var(--vein);border-radius:50%;display:grid;place-items:center;color:var(--muted)}
+
+/* hero */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(1.5rem,5vw,4rem);align-items:center;padding-block:clamp(2.5rem,7vw,5rem) clamp(2rem,5vw,3.5rem)}
+.hero .coin{width:min(100%,380px);justify-self:center;aspect-ratio:1;color:var(--gold)}
+.hero h1{font-size:clamp(3.2rem,9vw,6.5rem);letter-spacing:.32em;font-weight:400;line-height:1;margin-right:-.32em}
+.hero .sub{display:flex;gap:1rem;align-items:center;margin-top:1.1rem;flex-wrap:wrap}
+.hero .sub .dot{width:5px;height:5px;background:var(--gold);transform:rotate(45deg)}
+.hero p.lead{margin-top:1.6rem;font-size:1.3rem;font-style:italic;color:var(--muted)}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--vein);border:1px solid var(--vein);border-radius:var(--r);overflow:hidden;margin-top:2rem}
+.facts div{background:var(--bg);padding:1rem .9rem;display:grid;gap:.25rem}
+.facts strong{font-family:var(--f-display);font-weight:500;font-size:1.25rem;letter-spacing:.08em;color:var(--fg)}
+.facts span{font-size:.95rem;color:var(--muted);line-height:1.3}
+
+section{padding-block:clamp(2.5rem,6vw,4.5rem)}
+.sechead{display:grid;justify-items:center;text-align:center;gap:.7rem;margin-bottom:clamp(1.8rem,4vw,2.8rem)}
+.sechead .num{font-family:var(--f-display);color:var(--gold);font-size:.9rem;letter-spacing:.4em}
+.sechead p{color:var(--muted);font-style:italic}
+.part{text-align:center;padding-block:clamp(2rem,5vw,3.5rem) 0;display:grid;justify-items:center;gap:.6rem}
+.part .big{font-family:var(--f-display);font-size:clamp(2rem,6vw,3.6rem);letter-spacing:.3em;color:var(--gold);font-weight:400;margin-right:-.3em}
+
+/* timeline */
+.tl{position:relative;overflow-x:auto;scrollbar-width:thin;padding-bottom:.4rem}
+.tl ol{list-style:none;margin:0;padding:2.4rem .5rem 0;display:flex;min-width:860px;position:relative}
+.tl ol::before{content:"";position:absolute;left:0;right:0;top:3.15rem;height:1px;background:var(--gold-soft)}
+.tl li{flex:1;display:flex;justify-content:center}
+.tl button{display:grid;justify-items:center;gap:.55rem;padding:.2rem .3rem;color:var(--muted)}
+.tl .gem{width:13px;height:13px;transform:rotate(45deg);border:1px solid var(--gold);background:var(--bg);transition:transform .25s,background .25s}
+.tl .yr{font-family:var(--f-display);font-size:.78rem;letter-spacing:.12em}
+.tl .ro{font-family:var(--f-display);font-size:.62rem;letter-spacing:.18em;opacity:.7}
+.tl button[aria-selected="true"]{color:var(--fg)}
+.tl button[aria-selected="true"] .gem{background:var(--gold);transform:rotate(45deg) scale(1.35)}
+.tl button:hover .gem{background:var(--gold-soft)}
+.tlcard{margin:1.6rem auto 0;max-width:720px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:1.2rem 1.6rem;align-items:start;
+  border-top:1px solid var(--vein);padding-top:1.4rem}
+.tlcard .ico{width:64px;height:64px;color:var(--gold)}
+.tlcard h3{margin-bottom:.4rem}
+.tlcard .src{font-size:.85rem;color:var(--muted);margin-top:.6rem}
+
+/* dominus */
+.dominus{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(1.5rem,5vw,4rem);align-items:center}
+.bust{color:var(--gold);max-width:340px;justify-self:center;width:100%}
+.vita{display:grid;gap:1px;background:var(--vein);border-block:1px solid var(--vein);margin-top:1.4rem}
+.vita div{display:grid;grid-template-columns:4.5rem minmax(0,1fr);gap:1rem;background:var(--bg);padding:.75rem 0;align-items:baseline}
+.vita b{font-family:var(--f-display);font-weight:500;font-size:.8rem;letter-spacing:.14em;color:var(--gold)}
+.quote{margin-top:1.4rem;font-style:italic;font-size:1.3rem;border-left:2px solid var(--gold-soft);padding-left:1rem;max-width:52ch}
+.quote cite{display:block;font-style:normal;font-size:.85rem;color:var(--muted);margin-top:.3rem}
+
+/* honores */
+.laurels{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.4rem 1rem}
+.laurel{display:grid;justify-items:center;text-align:center;gap:.5rem}
+.laurel .wr{width:132px;height:132px;color:var(--gold);position:relative;display:grid;place-items:center}
+.laurel .wr svg{position:absolute;inset:0}
+.laurel .wr strong{font-family:var(--f-display);font-weight:500;font-size:1.05rem;letter-spacing:.06em;position:relative}
+.laurel h3{font-size:.82rem;letter-spacing:.14em;line-height:1.5}
+.laurel p{font-size:.95rem;color:var(--muted);line-height:1.35}
+
+/* salas */
+.tabs{display:flex;justify-content:center;gap:.4rem;flex-wrap:wrap;margin-bottom:1.6rem}
+.tabs button{font-family:var(--f-display);font-size:.72rem;letter-spacing:.2em;padding:.6rem 1rem;border:1px solid var(--vein);border-radius:var(--r);color:var(--muted)}
+.tabs button[aria-selected="true"]{border-color:var(--gold);color:var(--fg);background:var(--surface)}
+.sala{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(1.5rem,4vw,3rem);align-items:start}
+.sala figure{margin:0}
+.sala .ph{border-radius:var(--r);overflow:hidden;aspect-ratio:4/5;background:var(--surface);border:1px solid var(--vein)}
+.sala .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.sala .ph svg{width:100%;height:100%;color:var(--gold)}
+figcaption{font-size:.85rem;color:var(--muted);margin-top:.5rem;line-height:1.35}
+figcaption i{color:var(--fg)}
+.sala .body{display:grid;gap:1rem}
+.mythos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.8rem;margin-top:.4rem}
+.mythos div{border-top:1px solid var(--gold-soft);padding-top:.6rem;display:grid;gap:.25rem}
+.mythos .g{width:34px;height:34px;color:var(--gold)}
+.mythos span{font-size:.98rem;line-height:1.35}
+.opera{display:grid;gap:.5rem;margin-top:.4rem}
+.opus{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:.8rem;align-items:baseline;padding:.55rem 0;border-bottom:1px dotted var(--vein)}
+.opus .yr{font-family:var(--f-display);font-size:.8rem;color:var(--gold);letter-spacing:.1em;font-variant-numeric:tabular-nums}
+.opus .who{font-size:.9rem;color:var(--muted);text-align:right}
+
+/* pocula */
+.trio{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(.6rem,1.6vw,1.1rem)}
+.cup{position:relative;aspect-ratio:1;border-radius:var(--r);overflow:hidden;border:1px solid var(--vein);background:var(--surface);
+  transition:opacity .35s ease,transform .35s ease,border-color .35s;text-align:left;padding:0;width:100%}
+.cup svg.art{position:absolute;inset:0;width:100%;height:100%}
+.trio:hover .cup:not(:hover),.trio:focus-within .cup:not(:focus-visible):not(:hover){opacity:.32}
+.trio:hover .cup:hover{transform:translateY(-3px);border-color:var(--gold)}
+.cup .roman{position:absolute;top:.9rem;left:1rem;font-family:var(--f-display);letter-spacing:.3em;font-size:.8rem;color:var(--gold)}
+.cup .label{position:absolute;inset:auto 0 0 0;padding:1.1rem 1.1rem 1rem;display:flex;align-items:end;justify-content:space-between;gap:.5rem;
+  background:linear-gradient(to top,var(--surface) 30%,transparent);opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s}
+.cup .label strong{font-family:var(--f-display);font-weight:500;letter-spacing:.2em;font-size:clamp(.95rem,1.8vw,1.3rem)}
+.cup .label small{display:block;font-style:italic;color:var(--muted);font-size:.95rem;letter-spacing:0;font-family:var(--f-body)}
+.cup .label .go{font-family:var(--f-display);font-size:1.6rem;color:var(--gold);line-height:1}
+.cup:hover .label,.cup:focus-visible .label{opacity:1;transform:none}
+@media (hover:none){.cup .label{opacity:1;transform:none}}
+.hint{text-align:center;margin-top:1rem;color:var(--muted);font-size:.95rem;font-style:italic}
+
+/* drawer */
+.scrim{position:fixed;inset:0;background:var(--scrim);z-index:40;opacity:0;transition:opacity .3s}
+.scrim.on{opacity:1}
+.drawer{position:fixed;top:0;right:0;bottom:0;z-index:50;width:min(640px,100vw);background:var(--bg);border-left:1px solid var(--gold-soft);
+  transform:translateX(102%);transition:transform .42s cubic-bezier(.2,.7,.2,1);display:flex;flex-direction:column;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);padding-right:env(safe-area-inset-right,0px)}
+.drawer.on{transform:none}
+.dhead{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:1rem 1.4rem;border-bottom:1px solid var(--vein)}
+.dhead .cap b{color:var(--gold);font-weight:500}
+.x{width:40px;height:40px;border:1px solid var(--vein);border-radius:50%;display:grid;place-items:center;font-size:1.2rem}
+.dbody{overflow-y:auto;padding:1.4rem 1.4rem 3rem;display:grid;gap:2rem}
+.dtitle{display:grid;grid-template-columns:110px minmax(0,1fr);gap:1.2rem;align-items:center}
+.dtitle .mini{aspect-ratio:1;border-radius:var(--r);overflow:hidden;border:1px solid var(--vein)}
+.dtitle h2{font-size:clamp(1.6rem,4vw,2.2rem);letter-spacing:.2em}
+.dtitle .es{font-style:italic;color:var(--muted)}
+.jump{display:flex;gap:.4rem;flex-wrap:wrap;margin-top:.6rem}
+.jump a{font-family:var(--f-display);font-size:.64rem;letter-spacing:.2em;text-decoration:none;border:1px solid var(--vein);border-radius:var(--r);padding:.35rem .6rem;color:var(--muted)}
+.jump a:hover{border-color:var(--gold);color:var(--gold)}
+.blk{display:grid;gap:.7rem}
+.blk > .cap{display:flex;align-items:center;gap:.6rem}
+.blk > .cap::after{content:"";flex:1;height:1px;background:var(--vein)}
+.artref{display:grid;grid-template-columns:56px minmax(0,1fr);gap:.9rem;align-items:center;background:var(--surface);border-radius:var(--r);padding:.8rem;border:1px solid var(--vein)}
+.artref svg{width:56px;height:56px;color:var(--gold)}
+.artref div{font-size:.95rem;line-height:1.35}
+.why{display:grid;gap:.6rem;list-style:none;padding:0;margin:0}
+.why li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:.7rem;align-items:start;line-height:1.4}
+.why svg{width:24px;height:24px;color:var(--gold);margin-top:.15rem}
+
+.recipe{background:var(--surface);border:1px solid var(--gold-soft);border-radius:var(--r);padding:1.2rem 1.1rem 1.3rem;display:grid;gap:1.1rem}
+.rtop{display:flex;justify-content:space-between;align-items:center;gap:.8rem;flex-wrap:wrap}
+.mult{display:flex;border:1px solid var(--vein);border-radius:var(--r);overflow:hidden}
+.mult button{font-family:var(--f-display);font-size:.78rem;letter-spacing:.12em;padding:.45rem .8rem;color:var(--muted)}
+.mult button[aria-pressed="true"]{background:var(--gold);color:var(--bg)}
+.serv{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.5rem}
+.serv div{display:grid;gap:.15rem;justify-items:center;text-align:center;font-size:.92rem;line-height:1.2}
+.serv svg{width:30px;height:30px;color:var(--gold)}
+.ing{width:100%;border-collapse:collapse}
+.ing th{font-family:var(--f-display);font-weight:500;font-size:.62rem;letter-spacing:.22em;color:var(--muted);text-align:left;padding:.3rem .4rem;border-bottom:1px solid var(--vein)}
+.ing td{padding:.7rem .4rem;border-bottom:1px dotted var(--vein);vertical-align:middle}
+.ing td.n{font-size:1.3rem;font-weight:500;line-height:1.2}
+.ing td.n small{display:block;font-size:.88rem;color:var(--muted);font-weight:400;font-style:italic}
+.ing td.oz{font-family:var(--f-display);font-size:1.45rem;font-weight:500;white-space:nowrap;font-variant-numeric:tabular-nums;color:var(--fg)}
+.ing td.oz small{display:block;font-family:var(--f-body);font-size:.85rem;color:var(--muted);font-weight:400}
+.fing{display:flex;align-items:end;gap:3px;height:34px}
+.fing i{width:9px;height:30px;border:1px solid var(--gold);border-radius:5px 5px 2px 2px;position:relative;overflow:hidden;display:block}
+.fing i::after{content:"";position:absolute;inset:auto 0 0 0;height:var(--f,100%);background:var(--gold)}
+.fing em{font-style:normal;font-family:var(--f-display);font-size:.95rem;margin-left:.4rem;color:var(--gold);white-space:nowrap}
+.steps{list-style:none;margin:0;padding:0;display:grid;gap:.75rem;counter-reset:s}
+.steps li{display:grid;grid-template-columns:2.2rem minmax(0,1fr);gap:.6rem;font-size:1.2rem;line-height:1.4;counter-increment:s}
+.steps li::before{content:counter(s,upper-roman);font-family:var(--f-display);color:var(--gold);font-size:.95rem;padding-top:.2rem}
+.note{font-size:.95rem;color:var(--muted);font-style:italic}
+.variant{border-top:1px solid var(--vein);padding-top:.8rem;font-size:1.05rem}
+.variant b{font-family:var(--f-display);font-weight:500;letter-spacing:.14em;font-size:.8rem;color:var(--gold)}
+
+footer{padding-block:2.5rem 3rem;color:var(--muted);font-size:.9rem;border-top:1px solid var(--vein);margin-top:2rem}
+footer .wrap{display:grid;gap:.6rem}
+footer a{word-break:break-word}
+
+@media (max-width:820px){
+  .hero,.dominus,.sala{grid-template-columns:minmax(0,1fr)}
+  .hero .coin{width:min(70%,280px);order:-1}
+  .hero{text-align:center}.hero .sub{justify-content:center}.hero p.lead{margin-inline:auto}
+  .mythos{grid-template-columns:minmax(0,1fr)}
+  .sala .ph{aspect-ratio:4/3}
+}
+@media (max-width:640px){
+  .trio{grid-template-columns:minmax(0,1fr)}
+  .cup{aspect-ratio:16/10}
+  .trio:hover .cup:not(:hover){opacity:1}
+  .facts{grid-template-columns:minmax(0,1fr)}
+  .nav .brand{display:none}
+  .serv{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .ing td.oz{font-size:1.2rem}
+  .dtitle{grid-template-columns:76px minmax(0,1fr)}
+  .tlcard{grid-template-columns:minmax(0,1fr)}
+}
+</style>
+<style>
+/* V02 — solo tragos */
+.vtag{font-family:var(--f-display);font-size:.62rem;letter-spacing:.2em;border:1px solid var(--gold-soft);color:var(--gold);border-radius:var(--r);padding:.15rem .45rem}
+.top{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(1rem,4vw,2.5rem);align-items:center;padding-block:clamp(2rem,6vw,3.5rem) clamp(1.5rem,4vw,2.5rem)}
+.top .coin{width:clamp(88px,14vw,140px);aspect-ratio:1;color:var(--gold)}
+.top h1{font-size:clamp(2.4rem,7vw,4.6rem);letter-spacing:.3em;font-weight:400;line-height:1}
+.top p{color:var(--muted);font-style:italic;margin-top:.7rem}
+/* lineage */
+.lin{list-style:none;margin:0;padding:0 0 0 1.1rem;border-left:1px solid var(--gold-soft);display:grid;gap:.9rem}
+.lin li{position:relative;display:grid;gap:.1rem}
+.lin li::before{content:"";position:absolute;left:calc(-1.1rem - 5px);top:.45rem;width:9px;height:9px;transform:rotate(45deg);background:var(--bg);border:1px solid var(--gold)}
+.lin li.now::before{background:var(--gold)}
+.lin .when{font-family:var(--f-display);font-size:.72rem;letter-spacing:.14em;color:var(--gold)}
+.lin .when span{color:var(--muted);letter-spacing:.08em}
+.lin p{font-size:1.02rem;line-height:1.4}
+/* popularity */
+.pop{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.6rem}
+.rank{border:1px solid var(--vein);border-radius:var(--r);padding:.8rem .9rem;display:grid;gap:.2rem;background:var(--surface)}
+.rank strong{font-family:var(--f-display);font-weight:500;font-size:1.9rem;line-height:1;color:var(--fg);font-variant-numeric:tabular-nums}
+.rank strong sup{font-size:.9rem;color:var(--gold)}
+.rank span{font-size:.95rem;line-height:1.25}
+.rank small{font-size:.8rem;color:var(--muted)}
+.places{display:grid;gap:.5rem}
+.place{display:grid;grid-template-columns:7.5rem minmax(0,1fr);gap:.8rem;padding:.45rem 0;border-bottom:1px dotted var(--vein);align-items:baseline}
+.place b{font-family:var(--f-display);font-weight:500;font-size:.78rem;letter-spacing:.14em}
+.place span{font-size:1rem;line-height:1.35}
+/* criterio */
+.reasons{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.4rem 1.2rem}
+.reason{display:grid;gap:.45rem;align-content:start}
+.reason svg{width:40px;height:40px;color:var(--gold)}
+.reason .rn{font-family:var(--f-display);color:var(--gold);font-size:.75rem;letter-spacing:.24em}
+.reason h3{font-size:.9rem;letter-spacing:.14em;line-height:1.4}
+.reason p{font-size:1rem;color:var(--muted);line-height:1.4}
+.sub-h{display:flex;align-items:center;gap:.8rem;margin:3rem 0 1.2rem}
+.sub-h::after{content:"";flex:1;height:1px;background:var(--vein)}
+.matrix-wrap{overflow-x:auto}
+.matrix{width:100%;min-width:620px;border-collapse:collapse}
+.matrix th,.matrix td{padding:.75rem .7rem;border-bottom:1px solid var(--vein);text-align:left;vertical-align:top}
+.matrix thead th{font-family:var(--f-display);font-weight:500;letter-spacing:.2em;font-size:.85rem}
+.matrix thead th span{display:block;font-family:var(--f-body);font-style:italic;letter-spacing:0;color:var(--muted);font-size:.9rem;font-weight:400}
+.matrix tbody th{font-family:var(--f-display);font-weight:500;font-size:.68rem;letter-spacing:.2em;color:var(--muted);width:9.5rem}
+.matrix td{font-size:1.02rem;line-height:1.35}
+.grid-ing{overflow-x:auto}
+.grid-ing table{width:100%;min-width:520px;border-collapse:collapse}
+.grid-ing th,.grid-ing td{padding:.45rem .5rem;border-bottom:1px dotted var(--vein);text-align:center}
+.grid-ing th:first-child,.grid-ing td:first-child{text-align:left}
+.grid-ing thead th{font-family:var(--f-display);font-weight:500;font-size:.7rem;letter-spacing:.18em}
+.grid-ing td:first-child{font-size:1rem}
+.grid-ing td:first-child small{color:var(--muted);font-style:italic}
+.dot{display:inline-block;width:11px;height:11px;transform:rotate(45deg);background:var(--gold)}
+.nodot{display:inline-block;width:11px;height:1px;background:var(--vein);vertical-align:middle}
+.tot td{font-family:var(--f-display);font-size:.8rem;letter-spacing:.1em;color:var(--gold);border-bottom:0}
+/* bar chart */
+.chart{display:grid;gap:.55rem;max-width:720px}
+.bar{display:grid;grid-template-columns:7.5rem minmax(0,1fr) 2rem;gap:.8rem;align-items:center;font-size:1rem;position:relative}
+.bar .trk{height:16px;position:relative}
+.bar .fill{height:100%;border-radius:0 4px 4px 0;background:var(--vein);transition:background .2s}
+.bar.pick .fill{background:var(--gold)}
+.bar.pick .nm{color:var(--fg)}
+.bar .nm{color:var(--muted)}
+.bar .v{font-family:var(--f-display);font-variant-numeric:tabular-nums;font-size:.9rem}
+.bar .tip{position:absolute;left:8.3rem;bottom:calc(100% + 4px);background:var(--fg);color:var(--bg);font-size:.85rem;padding:.3rem .55rem;border-radius:4px;opacity:0;pointer-events:none;transition:opacity .15s;max-width:min(320px,70vw);z-index:2}
+.bar:hover .tip,.bar:focus-visible .tip{opacity:1}
+.bar:hover .fill{filter:brightness(1.08)}
+.legend{display:flex;gap:1.2rem;flex-wrap:wrap;font-size:.9rem;color:var(--muted);margin-top:.6rem}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:2px;margin-right:.4rem;vertical-align:-1px}
+.drop{display:grid;gap:.1rem}
+.drop .place b{color:var(--muted)}
+</style>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- Jano bifronte: dos perfiles espalda con espalda -->
+    <symbol id="ianus" viewBox="0 0 200 200">
+      <circle cx="100" cy="100" r="96" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="100" cy="100" r="88" fill="none" stroke="currentColor" stroke-width=".75" stroke-dasharray="1 4"/>
+      <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
+        <path id="faceR" d="M100 34 C116 34 128 42 131 56 L134 70 C135 74 137 76 140 82 L146 95 L138 98 L139 104 L136 107 L139 111 L136 116 C134 126 128 134 118 142 L110 148 L106 160 L104 172"/>
+        <use href="#faceR" transform="translate(200 0) scale(-1 1)"/>
+        <path d="M128 78 q-5 -2 -9 1"/><path d="M72 78 q5 -2 9 1"/>
+        <path d="M100 34 C 92 50 92 70 100 86 C108 102 108 120 100 140"/>
+        <path d="M118 120 q-6 6 -2 14 M112 126 q-4 6 0 12 M82 120 q6 6 2 14 M88 126 q4 6 0 12"/>
+      </g>
+      <g fill="currentColor" opacity=".9">
+        <ellipse cx="86" cy="36" rx="7" ry="3" transform="rotate(-25 86 36)"/>
+        <ellipse cx="74" cy="42" rx="7" ry="3" transform="rotate(-40 74 42)"/>
+        <ellipse cx="114" cy="36" rx="7" ry="3" transform="rotate(25 114 36)"/>
+        <ellipse cx="126" cy="42" rx="7" ry="3" transform="rotate(40 126 42)"/>
+      </g>
+      <text x="100" y="186" text-anchor="middle" font-family="Cinzel,serif" font-size="12" letter-spacing="5" fill="currentColor">IANVS</text>
+    </symbol>
+    <!-- hoja de olivo (logo Rivoli) -->
+    <symbol id="leaf" viewBox="0 0 20 8"><path d="M0 4 Q10 -2 20 4 Q10 10 0 4Z" fill="currentColor"/></symbol>
+    <symbol id="column" viewBox="0 0 40 60"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 6h28M8 10h24M10 10v42M30 10v42M16 10v42M24 10v42M6 54h28M4 58h32"/><path d="M8 6q-4-4 0-5M32 6q4-4 0-5"/></g></symbol>
+    <symbol id="door" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 36V12a12 12 0 0 1 24 0v24M20 36V6M4 36h32"/><circle cx="17" cy="24" r="1" fill="currentColor"/><circle cx="23" cy="24" r="1" fill="currentColor"/></g></symbol>
+    <symbol id="key" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="20" r="7"/><path d="M19 20h17M30 20v6M35 20v4"/></g></symbol>
+    <symbol id="sun" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="20" cy="20" r="7"/><path d="M20 3v6M20 31v6M3 20h6M31 20h6M8 8l4 4M28 28l4 4M32 8l-4 4M12 28l-4 4"/></g></symbol>
+    <symbol id="hands" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><path d="M4 26l8-6 6 2 4-3M36 26l-8-6-6 2-4-3M14 22l5 5 3-2M22 25l3 3"/></g></symbol>
+    <symbol id="shield" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="20" cy="20" r="14"/><circle cx="20" cy="20" r="3"/><path d="M20 6v8M20 26v8M6 20h8M26 20h8"/></g></symbol>
+    <symbol id="amphora" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M16 4h8M17 4v5c-7 3-9 10-7 17 1 4 5 8 10 10 5-2 9-6 10-10 2-7 0-14-7-17V4"/><path d="M17 9c-5 0-6 6-3 8M23 9c5 0 6 6 3 8M13 20h14"/></g></symbol>
+    <symbol id="glassico" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M10 6h20l-3 26H13z"/><path d="M12 14h16"/></g></symbol>
+    <symbol id="ice" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 14l10-5 10 5v12l-10 5-10-5z"/><path d="M8 14l10 5 10-5M18 19v12"/></g></symbol>
+    <symbol id="shake" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M13 14h14l-2 22H15z"/><path d="M15 14l1-5h8l1 5M18 9l1-5h2l1 5"/></g></symbol>
+    <symbol id="hourglass" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M10 4h20M10 36h20M12 4c0 10 16 10 16 16S12 26 12 36M28 4c0 10-16 10-16 16s16 6 16 16"/></g></symbol>
+    <symbol id="sprig" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 38V8"/><path d="M20 14q-9-2-10-9 8 0 10 9M20 22q9-2 10-9-8 0-10 9M20 30q-9-2-10-9 8 0 10 9"/></g></symbol>
+    <symbol id="book" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 9c6-2 11-1 16 3 5-4 10-5 16-3v22c-6-2-11-1-16 3-5-4-10-5-16-3z"/><path d="M20 12v22"/></g></symbol>
+    <symbol id="ship" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 26h32l-5 7H9zM20 26V5l10 17H20M20 9l-9 13h9"/></g></symbol>
+    <symbol id="pillars" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 12L20 4l16 8zM6 12v20M14 12v20M26 12v20M34 12v20M3 34h34"/></g></symbol>
+    <symbol id="plate" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="20" cy="22" r="12"/><circle cx="20" cy="22" r="7"/><path d="M4 8v8M4 12h3M36 6v26"/></g></symbol>
+    <symbol id="broken" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M6 34h28M10 34V14M30 34V20M8 14h6M26 20h8"/><path d="M14 10l3 4-4 3"/></g></symbol>
+    <symbol id="press" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><rect x="6" y="6" width="28" height="28" rx="2"/><path d="M11 13h18M11 19h8M11 25h8M23 19h6v8h-6z"/></g></symbol>
+    <symbol id="coin" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="20" cy="20" r="15"/><path d="M20 10c-4 0-5 4-4 8l-3 3h4c0 4 1 7 3 9M20 10c4 0 5 4 4 8l3 3h-4c0 4-1 7-3 9"/></g></symbol>
+    <symbol id="statue" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="20" cy="7" r="3"/><path d="M20 10v13l-4 12M20 23l4 12M20 13l-8-6M20 13l7 5 4-3M12 36h16"/></g></symbol>
+    <symbol id="lyre" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 6c-6 6-4 18 4 24h8c8-6 10-18 4-24M12 6c4 2 4 8 4 12M28 6c-4 2-4 8-4 12M14 12h12M17 12v18M20 12v18M23 12v18M14 34h12"/></g></symbol>
+  </defs>
+</svg>
+
+<nav class="nav" aria-label="Secciones">
+  <div class="wrap">
+    <span class="brand">RIVOLI</span>
+    <ul>
+      <li><a href="#pocula"><b>I</b>Pocula</a></li>
+      <li><a href="#ratio"><b>II</b>Ratio</a></li>
+    </ul>
+    <button class="themebtn" id="themeBtn" aria-label="Cambiar tema claro u oscuro" title="Tema">
+      <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z" fill="currentColor"/></svg>
+    </button>
+  </div>
+</nav>
+
+<main>
+<div class="wrap">
+  <header class="top" id="pocula">
+    <svg class="coin" role="img" aria-label="Medallón de Jano bifronte"><use href="#ianus"/></svg>
+    <div>
+      <p class="cap" style="margin:0;font-style:normal;display:flex;gap:.7rem;align-items:center">Rivoli · Verano MMXXVII <span class="vtag">V02</span></p>
+      <h1 style="margin-top:.6rem">POCVLA</h1>
+      <p>Tres tragos nuevos, armados solo con lo que ya tiene la barra.</p>
+    </div>
+  </header>
+
+  <div class="meander" aria-hidden="true"></div>
+
+  <section aria-label="Tres tragos propuestos" style="padding-top:2.2rem">
+    <div class="trio" id="trio"></div>
+    <p class="hint">Abre un trago para ver su origen, popularidad y receta.</p>
+  </section>
+
+  <div class="meander" aria-hidden="true"></div>
+
+  <section id="ratio" aria-labelledby="h-ratio">
+    <div class="sechead">
+      <span class="num">II</span>
+      <h2 id="h-ratio">Por qué estos tres</h2>
+      <p>Cinco criterios para elegir, y lo que quedó fuera.</p>
+    </div>
+
+    <div class="reasons" id="reasons"></div>
+
+    <div class="sub-h"><span class="cap">Lo que ya vende la carta de Rivoli</span></div>
+    <p style="margin-bottom:1.2rem">Tragos en carta por familia (Aperitivi y Mocktails). En dorado, las tres familias de donde salen las propuestas.</p>
+    <div class="chart" id="chart" role="img" aria-label="Gráfico de barras: tragos en carta de Rivoli por familia"></div>
+    <div class="legend"><span><i style="background:var(--gold)"></i>Familia elegida</span><span><i style="background:var(--vein)"></i>Otra familia</span></div>
+
+    <div class="sub-h"><span class="cap">Tres tragos, tres territorios</span></div>
+    <div class="matrix-wrap"><table class="matrix" id="matrix"></table></div>
+
+    <div class="sub-h"><span class="cap">Ingredientes de barra que usa cada uno</span></div>
+    <div class="grid-ing" id="gridIng"></div>
+
+    <div class="sub-h"><span class="cap">Lo que quedó fuera</span></div>
+    <div class="places drop" id="drop"></div>
+  </section>
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="cap">Fontes</span>
+    <p>Carta digital de Rivoli (Aperitivi y Mocktails, nov. 2026). Drinks International, <i>The bestselling classic cocktails at the world's best bars 2026</i> (abril 2026). Historia del spritz y del Aperol: Essential Italy. Historia del pisco sour: Cocktail Society (investigación de Toro-Lira y Morris). Origen, lugares y fechas de mojito, Clover Club y Pornstar Martini según la historia de coctelería más difundida; algunas fechas son aproximadas (c.).</p>
+    <p>1 dedo ≈ ¾ oz (≈ 22 ml). Versión V02 · solo tragos. V01 incluye el contexto del restaurante.</p>
+  </div>
+</footer>
+
+<div class="scrim" id="scrim" hidden></div>
+<aside class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="dTitle" hidden>
+  <div class="dhead">
+    <span class="cap" id="dCap"></span>
+    <button class="x" id="dClose" aria-label="Cerrar panel">✕</button>
+  </div>
+  <div class="dbody" id="dBody"></div>
+</aside>
+
+<script>
+(function(){
+const $=s=>document.querySelector(s);
+const ico=(id,cls)=>`<svg class="${cls||''}" viewBox="0 0 40 40" aria-hidden="true"><use href="#${id}"/></svg>`;
+
+$('#themeBtn').addEventListener('click',()=>{
+  const r=document.documentElement;
+  const dark=r.dataset.theme? r.dataset.theme==='dark' : matchMedia('(prefers-color-scheme: dark)').matches;
+  r.dataset.theme=dark?'light':'dark';
+  try{localStorage.setItem('rv-theme',r.dataset.theme)}catch(e){}
+});
+try{const t=localStorage.getItem('rv-theme');if(t)document.documentElement.dataset.theme=t}catch(e){}
+
+const DEDO=0.75;
+const D=[
+ {id:'ianus',ro:'I',name:'IANVS',es:'Jano Bifronte',sub:'Spritz de dos caras',
+  colors:['#e7b03a','#d9622b'],bg:'#f2e6cf',bgD:'#3a3326',glass:'balloon',
+  art:{i:'coin',t:'<i>As</i> romano con la cabeza de Jano bifronte',a:'Ceca de Roma, República romana',y:'c. 225–217 a.C.'},
+  story:'Jano mira hacia atrás y hacia adelante a la vez. El trago tiene dos caras que se ven en la copa: abajo el dorado del maracuyá con limón de pica y jengibre, arriba el naranja amargo del Aperol, que se sirve flotando. Enero (Ianuarius) es el mes de Jano y, en Santiago, el corazón del verano.',
+  family:'Spritz con espumante',
+  lineage:[
+   ['s. XIX','Véneto','Los soldados del Imperio austrohúngaro rebajan el vino local con un chorro de agua: <i>spritzen</i>, salpicar. Así nace el spritz.'],
+   ['1919','Padua','Los hermanos Luigi y Silvio Barbieri presentan el Aperol en la Feria de Padua: 11% de alcohol, naranja y amargo.'],
+   ['años 50','Véneto','El Aperol se une al spritz y el vino se cambia por prosecco. Nace el Aperol Spritz.'],
+   ['2002','Londres','Douglas Ankrah crea el Pornstar Martini en el bar Townhouse: maracuyá con un shot de espumante al lado. Instala el maracuyá en la coctelería mundial.'],
+   ['2011','IBA','La International Bartenders Association suma el Aperol Spritz a su lista oficial de cócteles.'],
+   ['2027','Santiago','IANVS en Rivoli: el spritz se cruza con el maracuyá y el limón de pica.',1]],
+  pop:[['7','Aperol Spritz','de los 50 más vendidos del mundo'],['26','Pornstar Martini','de los 50 más vendidos del mundo'],['7','spritz en carta','en Rivoli',1]],
+  popTxt:'El Aperol Spritz es el 7º clásico más vendido en los mejores bares del mundo; el Pornstar Martini, que popularizó el maracuyá con espumante, el 26º (Drinks International 2026). En Rivoli, el spritz es la familia con más variantes en carta.',
+  places:[['Venecia','Los bàcari y bares del Véneto, donde el spritz es el aperitivo de cada tarde.'],['Padua','Cuna del Aperol (1919).'],['Londres','Townhouse, donde nació el Pornstar Martini (2002).'],['Santiago','Rivoli ya sirve un Orange Spritz con maracuyá: IANVS lleva esa idea a un trago de autor.']],
+  why:[['sun','Es el trago del salón que da nombre a la casa: se vende contando su historia.'],['amphora','Usa solo productos de barra: gin, Aperol, maracuyá líquida, limón de pica, jengibre líquido y espumante.'],['hands','Une a dos públicos que ya piden mucho: el de los spritz y el de los sour frutales (Fresco Pasión).'],['hourglass','Se arma en menos de un minuto: una agitada y un relleno.']],
+  serv:[['glassico','Copa balón'],['ice','Hielo en cubos'],['shake','Agitado + flotado'],['sprig','Rodaja de limón de pica y menta']],
+  ing:[['Gin','',1.5],['Maracuyá líquida','',1],['Jugo de limón de pica','exprimido',.5],['Jengibre líquido','',.25],['Espumante (prosecco)','para completar',2],['Aperol','flotado al final',.75]],
+  steps:['Llena la copa balón de hielo.','En coctelera con hielo: gin, maracuyá, limón de pica y jengibre. Agita fuerte 10 segundos.','Cuela sobre la copa y completa con el espumante.','Vierte el Aperol lento sobre el dorso de una cuchara para que quede arriba: las dos caras.','Decora con una rodaja de limón de pica y una hoja de menta. Se sirve sin revolver.'],
+  variant:['Sin alcohol','Reemplaza el gin por 1½ oz de limonada y el espumante por agua con gas; el Aperol por 1 oz de jamaicano para mantener las dos capas.']},
+ {id:'sabina',ro:'II',name:'SABINA',es:'Sabina Sour',sub:'Sour de pisco y frutilla',
+  colors:['#d9576b','#f4ece4'],bg:'#f3dfe0',bgD:'#3b2a2e',glass:'coupe',
+  art:{i:'statue',t:'<i>Las Sabinas</i> (L\'Intervention des Sabines)',a:'Jacques-Louis David, Museo del Louvre',y:'1799'},
+  story:'Las Sabinas detuvieron la guerra entre sus padres sabinos, un pueblo de las montañas, y sus maridos romanos. Este sour hace lo mismo en la copa: une el pisco, nacido en los valles de la cordillera, con el limoncello de Italia. Es también la historia de Rivoli, un romano que echó raíces en Chile. La espuma de la clara recuerda el mármol de Giambologna y el rojo de la frutilla, el drama de David.',
+  family:'Sour con clara de huevo',
+  lineage:[
+   ['c. 1900–1910','Filadelfia','Los caballeros del Clover Club se reúnen en el hotel Bellevue-Stratford; su sour de gin, frambuesa, limón y clara lleva el nombre del club.'],
+   ['1903','Lima','El <i>Nuevo Manual de Cocina a la Criolla</i> registra un "cocktail" de pisco, huevo, azúcar y limón.'],
+   ['c. 1916–1921','Lima','Victor Morris, estadounidense, lo sirve en su Morris\' Bar. En 1921 la revista <i>Mundial</i> le atribuye la invención del pisco sour.'],
+   ['1924','Lima','Mario Bruiget, ex bartender de Morris, lo lleva al Hotel Maury y suma el amargo de angostura.'],
+   ['s. XX','Chile','Chile reclama su propio origen (Elliott Stubb, Iquique, década de 1870). La disputa sigue: el pisco sour es el cóctel nacional de ambos países.'],
+   ['2027','Santiago','SABINA en Rivoli: el sour chileno se encuentra con la frutilla y el limoncello.',1]],
+  pop:[['21','Pisco Sour','de los 50 más vendidos del mundo'],['22','Clover Club','de los 50 más vendidos del mundo'],['6','sours en carta','en Rivoli',1]],
+  popTxt:'El Pisco Sour es el 21º clásico más vendido en los mejores bares del mundo y el Clover Club, el sour frutal con clara, el 22º (Drinks International 2026). En Chile es el aperitivo por excelencia, y Rivoli ya ofrece dos pisco sour en carta.',
+  places:[['Lima','Morris\' Bar, Hotel Maury y Hotel Bolívar: los bares que lo hicieron famoso.'],['Iquique','Origen que reclama Chile, aún en disputa.'],['Filadelfia','Bellevue-Stratford, hogar del Clover Club.'],['Brooklyn','Clover Club, el bar de Julie Reiner (2008) que devolvió el clásico a las cartas.']],
+  why:[['hands','El pisco sour es el aperitivo más pedido en Chile: este es una versión de la casa que se ofrece como alternativa natural.'],['amphora','Todo está en barra: pisco, limoncello, frutilla, jamaicano, jugo de limón y clara de huevo.'],['sun','Más fresco y frutal que el sour clásico, pensado para la tarde.'],['pillars','Da nombre y relato al segundo salón: cada mesa del Rapto de las Sabinas tiene su trago.']],
+  serv:[['glassico','Copa coupé fría'],['ice','Sin hielo en copa'],['shake','Doble agitado'],['sprig','Gotas de jamaicano y media frutilla']],
+  ing:[['Pisco','',2],['Pulpa de frutilla','',1],['Jugo de limón','exprimido',.75],['Jamaicano','preparación dulce de la casa',.75],['Limoncello','',.5],['Clara de huevo','≈ 1 clara',.75]],
+  steps:['Enfría la copa coupé con hielo y agua mientras preparas.','En coctelera SIN hielo: todos los ingredientes. Agita 10 segundos (dry shake) para montar la espuma.','Agrega hielo y agita otros 12 segundos.','Bota el hielo de la copa y cuela doble (colador fino) para una espuma lisa.','Dibuja tres gotas de jamaicano sobre la espuma y coloca media frutilla en el borde.'],
+  variant:['Ajuste de dulzor','Si la frutilla viene muy ácida, sube el jamaicano a 1 oz. Si se pide más suave, baja el pisco a 1½ oz.']},
+ {id:'apollo',ro:'III',name:'APOLLO',es:'Apolo de Terraza',sub:'Trago largo de mango y té',
+  colors:['#f0a43a','#cfe3c8'],bg:'#f4ead0',bgD:'#3a3424',glass:'highball',
+  art:{i:'lyre',t:'<i>Apolo del Belvedere</i>',a:'Copia romana en mármol de un bronce de Leocares, Museos Vaticanos',y:'c. 120–140 d.C.'},
+  story:'Apolo es el dios del sol, la luz y la música. El Apolo del Belvedere fue para el Neoclasicismo el ideal de belleza clásica, y Winckelmann lo describió como la escultura más perfecta de la Antigüedad. Este trago es el sol de la tarde en la terraza: largo, dorado y frío, con mango, té helado, menta y un toque de jengibre.',
+  family:'Highball tipo mojito',
+  lineage:[
+   ['s. XVI','Caribe','Según la leyenda, la tripulación de Francis Drake bebe "El Draque": aguardiente, menta, lima y azúcar.'],
+   ['s. XIX','Cuba','El ron reemplaza al aguardiente y la receta toma el nombre de mojito.'],
+   ['1942','La Habana','Abre La Bodeguita del Medio, que convierte al mojito en un ícono de Cuba.'],
+   ['años 60','EE.UU.','El golfista Arnold Palmer populariza mezclar té helado con limonada: el té entra al vaso alto.'],
+   ['s. XXI','Mundo','El mojito se abre a las frutas: maracuyá, frutilla, mango. Rivoli ya sirve tres versiones.'],
+   ['2027','Santiago','APOLLO en Rivoli: mojito largo con mango, té helado y jengibre.',1]],
+  pop:[['12','Mojito','de los 50 más vendidos del mundo'],['5','mojitos en carta','en Rivoli',1]],
+  popTxt:'El Mojito es el 12º clásico más vendido en los mejores bares del mundo (Drinks International 2026). En Rivoli ya hay cinco mojitos entre tragos y mocktails, lo que muestra que el formato menta–limón–soda ya se vende.',
+  places:[['La Habana','La Bodeguita del Medio, el bar que lo hizo famoso.'],['EE.UU.','El "Arnold Palmer": té helado con limonada, sin alcohol.'],['Santiago','Mojitos de maracuyá y frutilla en la carta de Rivoli.']],
+  why:[['sun','Pensado para la terraza en verano: refrescante, de baja graduación y para tomar con calma.'],['amphora','Aprovecha preparaciones de alta rotación y bajo costo: té helado, mango, menta, limón de pica y jengibre líquido.'],['glassico','Se pasa a versión sin alcohol cambiando un solo ingrediente, así suma a la oferta de mocktails.'],['hourglass','Se arma en la misma estación del mojito, sin pasos nuevos para la barra.']],
+  serv:[['glassico','Vaso alto (highball)'],['ice','Hielo en cubos hasta el borde'],['shake','Agitado + relleno'],['sprig','Ramita de menta y limón de pica']],
+  ing:[['Ron blanco','',1.5],['Pulpa de mango','',1.5],['Té helado','',2],['Jugo de limón de pica','',.5],['Jengibre líquido','',.25],['Agua con gas','para completar',1.5],['Hojas de menta','8 hojas',null]],
+  steps:['En el vaso alto: las hojas de menta con el limón de pica. Presiona suave con el mortero, sin romperlas.','Llena el vaso de hielo.','En coctelera con hielo: ron, mango, té helado y jengibre. Agita 8 segundos.','Cuela sobre el vaso y completa con agua con gas. Revuelve una vez de abajo hacia arriba.','Decora con una ramita de menta y una rodaja de limón de pica.'],
+  variant:['Apollo 0°','Reemplaza el ron por 1½ oz de limonada: queda como mocktail para la carta sin alcohol.']}
+];
+
+/* ---------- glass art ---------- */
+function glassSVG(d){
+  const [c1,c2]=d.colors; const g=d.glass; let body='';
+  if(g==='balloon'){
+    body=`<path d="M70 62 C66 110 84 140 100 142 C116 140 134 110 130 62 Z" fill="${c1}" opacity=".9"/>
+      <path d="M70 62 C69 74 70 82 72 88 L128 88 C130 82 131 74 130 62 Z" fill="${c2}"/>
+      <g fill="#fff" opacity=".55"><rect x="84" y="96" width="12" height="12" rx="2" transform="rotate(12 90 102)"/><rect x="102" y="104" width="12" height="12" rx="2" transform="rotate(-10 108 110)"/></g>
+      <path d="M64 50 C58 116 80 148 100 150 C120 148 142 116 136 50" fill="none" stroke="var(--fg)" stroke-width="1.6"/>
+      <path d="M100 150 V184 M80 186 H120" stroke="var(--fg)" stroke-width="1.6"/>
+      <circle cx="128" cy="56" r="11" fill="${c1}" stroke="var(--fg)" stroke-width="1"/><path d="M128 45v22M117 56h22" stroke="var(--fg)" stroke-width=".6"/>`;
+  }else if(g==='coupe'){
+    body=`<path d="M58 78 C62 104 80 116 100 116 C120 116 138 104 142 78 Z" fill="${c1}"/>
+      <path d="M58 78 C59 84 61 88 63 90 L137 90 C139 88 141 84 142 78 Z" fill="${c2}"/>
+      <g fill="${c1}"><circle cx="88" cy="84" r="2.2"/><circle cx="100" cy="84" r="2.2"/><circle cx="112" cy="84" r="2.2"/></g>
+      <path d="M52 72 C56 108 78 122 100 122 C122 122 144 108 148 72" fill="none" stroke="var(--fg)" stroke-width="1.6"/>
+      <path d="M100 122 V178 M78 180 H122" stroke="var(--fg)" stroke-width="1.6"/>
+      <path d="M140 72 q8 -12 0 -18 q-10 2 -8 14 z" fill="${c1}" stroke="var(--fg)" stroke-width="1"/>`;
+  }else{
+    body=`<path d="M74 70 L77 180 H123 L126 70 Z" fill="${c1}" opacity=".88"/>
+      <path d="M74 70 L74.6 92 H125.4 L126 70 Z" fill="${c2}" opacity=".9"/>
+      <g fill="#fff" opacity=".5"><rect x="82" y="100" width="14" height="14" rx="2" transform="rotate(10 89 107)"/><rect x="102" y="122" width="14" height="14" rx="2" transform="rotate(-12 109 129)"/><rect x="84" y="146" width="14" height="14" rx="2"/></g>
+      <path d="M70 52 L74 184 H126 L130 52" fill="none" stroke="var(--fg)" stroke-width="1.6"/>
+      <g fill="#5d9a5a"><ellipse cx="96" cy="46" rx="9" ry="4" transform="rotate(-30 96 46)"/><ellipse cx="108" cy="42" rx="9" ry="4" transform="rotate(25 108 42)"/><ellipse cx="102" cy="34" rx="8" ry="3.5" transform="rotate(-80 102 34)"/></g>
+      <path d="M102 70 V36" stroke="#5d9a5a" stroke-width="1.4"/>
+      <path d="M136 30 l-24 120" stroke="var(--fg)" stroke-width="1.2" opacity=".5"/>`;
+  }
+  return `<svg class="art" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <circle cx="100" cy="104" r="84" fill="none" stroke="var(--gold-soft)" stroke-width=".8" stroke-dasharray="1 5"/>
+    <circle cx="100" cy="104" r="70" fill="${d.bgCur}" opacity=".9"/>${body}</svg>`;
+}
+const isDark=()=>document.documentElement.dataset.theme==='dark'||(!document.documentElement.dataset.theme&&matchMedia('(prefers-color-scheme: dark)').matches);
+const bgFor=d=>isDark()?d.bgD:d.bg;
+
+const trio=$('#trio');
+function renderTrio(){
+  trio.innerHTML=D.map((d,i)=>{d.bgCur=bgFor(d);return `<button class="cup" data-i="${i}" aria-haspopup="dialog" aria-label="${d.es}: ver origen, popularidad y receta">
+    ${glassSVG(d)}<span class="roman">${d.ro}</span>
+    <span class="label"><span><strong>${d.name}</strong><small>${d.es}</small></span><span class="go" aria-hidden="true">›</span></span></button>`}).join('');
+}
+renderTrio();
+new MutationObserver(renderTrio).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',renderTrio);
+
+/* ---------- recipe helpers ---------- */
+function fracTxt(x){const w=Math.floor(x+1e-6),f=x-w;let fs='';if(Math.abs(f-1/3)<.05)fs='⅓';else if(Math.abs(f-2/3)<.05)fs='⅔';else if(Math.abs(f-.5)<.05)fs='½';return (w?w:'')+(fs||(w?'':'0'))}
+function ozTxt(x){const w=Math.floor(x+1e-6),f=+(x-w).toFixed(3);const m={0.25:'¼',0.5:'½',0.75:'¾'};return ((w?w:'')+(m[f]||''))||'0'}
+function fingers(oz){
+  if(oz==null)return '<span class="note">a gusto</span>';
+  const n=oz/DEDO,full=Math.floor(n+1e-6),part=n-full;let s='';
+  for(let i=0;i<Math.min(full,8);i++)s+='<i></i>';
+  if(part>0.05&&full<8)s+=`<i style="--f:${Math.round(part*100)}%"></i>`;
+  const txt=fracTxt(Math.round(n*3)/3);
+  return `<span class="fing" aria-label="aproximadamente ${txt} dedos">${s}<em>≈ ${txt}</em></span>`;
+}
+
+/* ---------- drawer ---------- */
+let mult=1,cur=-1,lastFocus=null;
+const drawer=$('#drawer'),scrim=$('#scrim'),dBody=$('#dBody');
+function renderDrawer(){
+  const d=D[cur];
+  $('#dCap').innerHTML=`<b>${d.ro}</b> · Poculum · ${d.family}`;
+  const rows=d.ing.map(r=>{const oz=r[2]==null?null:r[2]*mult;return `<tr><td class="n">${r[0]}${r[1]?`<small>${r[1]}</small>`:''}</td>
+    <td class="oz">${oz==null?(mult*8)+' hojas':ozTxt(oz)+' oz'}${oz==null?'':`<small>${Math.round(oz*29.57)} ml</small>`}</td><td>${fingers(oz)}</td></tr>`}).join('');
+  dBody.innerHTML=`
+   <div class="dtitle"><div class="mini" style="position:relative;background:var(--surface)">${glassSVG(d)}</div>
+     <div><h2 id="dTitle">${d.name}</h2><p class="es">${d.es} · ${d.sub}</p>
+     <nav class="jump" aria-label="Ir a"><a href="#r-hist">Historia</a><a href="#r-orig">Origen</a><a href="#r-pop">Popularidad</a><a href="#r-why">Por qué</a><a href="#r-rec">Receta</a></nav></div></div>
+   <div class="blk" id="r-hist"><span class="cap">Historia</span><p>${d.story}</p>
+     <div class="artref">${ico(d.art.i)}<div>${d.art.t}<br><span class="note" style="font-style:normal">${d.art.a} · ${d.art.y}</span></div></div></div>
+   <div class="blk" id="r-orig"><span class="cap">De dónde viene</span>
+     <ol class="lin">${d.lineage.map(l=>`<li class="${l[3]?'now':''}"><span class="when">${l[0]} <span>· ${l[1]}</span></span><p>${l[2]}</p></li>`).join('')}</ol></div>
+   <div class="blk" id="r-pop"><span class="cap">Qué tan popular es</span>
+     <div class="pop">${d.pop.map(p=>`<div class="rank"><strong>${p[3]?p[0]:'Nº '+p[0]}${p[3]?'':'<sup> /50</sup>'}</strong><span>${p[1]}</span><small>${p[2]}</small></div>`).join('')}</div>
+     <p class="note" style="font-style:normal">${d.popTxt}</p></div>
+   <div class="blk"><span class="cap">Dónde se ha hecho</span>
+     <div class="places">${d.places.map(p=>`<div class="place"><b>${p[0]}</b><span>${p[1]}</span></div>`).join('')}</div></div>
+   <div class="blk" id="r-why"><span class="cap">Por qué lo recomendamos</span><ul class="why">${d.why.map(w=>`<li>${ico(w[0])}<span>${w[1]}</span></li>`).join('')}</ul></div>
+   <div class="blk" id="r-rec"><span class="cap">Receta</span>
+    <div class="recipe">
+     <div class="rtop"><span class="cap" style="color:var(--fg)">Para ${mult} ${mult>1?'tragos':'trago'}</span>
+       <div class="mult" role="group" aria-label="Cantidad de tragos">${[1,2,4].map(m=>`<button data-m="${m}" aria-pressed="${m===mult}">×${m}</button>`).join('')}</div></div>
+     <div class="serv">${d.serv.map(s=>`<div>${ico(s[0])}<span>${s[1]}</span></div>`).join('')}</div>
+     <div style="overflow-x:auto"><table class="ing"><thead><tr><th>Ingrediente</th><th>Onzas</th><th>Dedos</th></tr></thead><tbody>${rows}</tbody></table></div>
+     <ol class="steps">${d.steps.map(s=>`<li><span>${s}</span></li>`).join('')}</ol>
+     <p class="variant"><b>${d.variant[0].toUpperCase()}</b><br>${d.variant[1]}</p>
+     <p class="note">1 dedo ≈ ¾ oz ≈ 22 ml. Referencia rápida; mide siempre con jigger.</p>
+    </div></div>`;
+  dBody.querySelectorAll('.mult button').forEach(b=>b.addEventListener('click',()=>{mult=+b.dataset.m;const st=dBody.scrollTop;renderDrawer();dBody.scrollTop=st;dBody.querySelector(`.mult button[data-m="${mult}"]`).focus()}));
+  dBody.querySelectorAll('.jump a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const t=dBody.querySelector(a.getAttribute('href'));dBody.scrollTo({top:t.offsetTop-dBody.offsetTop-12,behavior:'smooth'})}));
+}
+function openDrawer(i){
+  cur=i;mult=1;D[i].bgCur=bgFor(D[i]);renderDrawer();lastFocus=document.activeElement;
+  drawer.hidden=false;scrim.hidden=false;document.body.style.overflow='hidden';
+  requestAnimationFrame(()=>{drawer.classList.add('on');scrim.classList.add('on');$('#dClose').focus()});
+  dBody.scrollTop=0;
+}
+function closeDrawer(){
+  drawer.classList.remove('on');scrim.classList.remove('on');document.body.style.overflow='';
+  setTimeout(()=>{drawer.hidden=true;scrim.hidden=true},420);
+  if(lastFocus)lastFocus.focus();cur=-1;
+}
+trio.addEventListener('click',e=>{const b=e.target.closest('.cup');if(b)openDrawer(+b.dataset.i)});
+$('#dClose').addEventListener('click',closeDrawer);
+scrim.addEventListener('click',closeDrawer);
+document.addEventListener('keydown',e=>{
+  if(cur<0)return;
+  if(e.key==='Escape')closeDrawer();
+  if(e.key==='Tab'){const f=[...drawer.querySelectorAll('button,a[href]')];const first=f[0],last=f[f.length-1];
+    if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}}
+});
+
+/* ---------- Ratio: reasons ---------- */
+const R=[
+ ['pillars','Probados en el mundo','Cada propuesta sale de una familia que está entre los clásicos más vendidos: spritz (7º), mojito (12º) y pisco sour (21º).'],
+ ['amphora','Probados en Rivoli','Spritz, sour y mojito son tres de las familias con más variantes en la carta actual: el cliente de Rivoli ya las pide.'],
+ ['key','Cero compras nuevas','Los tres se arman con preparaciones y botellas que la barra ya tiene. No suman insumos ni costo de inventario.'],
+ ['hands','Tres bases, tres momentos','Gin, pisco y ron: no compiten entre sí. Aperitivo burbujeante, sour de mesa y trago largo de terraza.'],
+ ['column','Un relato de la casa','Cada uno se conecta con la iconografía de Rivoli (Jano, las Sabinas, Apolo), así el garzón puede venderlo contando su historia.']
+];
+$('#reasons').innerHTML=R.map((r,i)=>`<div class="reason">${ico(r[0])}<span class="rn">${['I','II','III','IV','V'][i]}</span><h3>${r[1]}</h3><p>${r[2]}</p></div>`).join('');
+
+/* ---------- chart: families in Rivoli's carta ---------- */
+const FAM=[
+ ['Spritz',7,1,'Aperol, Limoncello, Orange, Lambrusco, Saint Germain, Strawberry Limoncello, Copa Spritz sin alcohol'],
+ ['Sour',6,1,'Pisco Sour, Pisco Sour Catedral, Amaretto, Whisky, Campari Sour, Penicillin'],
+ ['Tónica / fizz',6,0,'Campari Tónica, Gin Tonic, Gin Tonic Vesuvio, Vodkatonic, Vodka Tonic Grey Goose, Disaronno Fizz'],
+ ['Mojito',5,1,'Tradicional, Maracuyá, Frutilla, sin alcohol, de Berries'],
+ ['Negroni',5,0,'Negroni, Sbagliato, Frenchie, Rivoli, Ristretto'],
+ ['Sangría',5,0,'Copa y jarra, tinto y blanco, y versión sin alcohol'],
+ ['Margarita',3,0,'Tequila, Saint Germain, Aperol Coconut']
+];
+const MAX=8;
+$('#chart').innerHTML=FAM.map(f=>`<div class="bar ${f[2]?'pick':''}" tabindex="0" aria-label="${f[0]}: ${f[1]} tragos">
+  <span class="nm">${f[0]}</span><span class="trk"><span class="fill" style="display:block;width:${f[1]/MAX*100}%"></span></span><span class="v">${f[1]}</span>
+  <span class="tip">${f[1]} en carta: ${f[3]}</span></div>`).join('');
+
+/* ---------- matrix ---------- */
+const M=[
+ ['Familia','Spritz con espumante','Sour con clara','Highball tipo mojito'],
+ ['Base','Gin','Pisco','Ron blanco'],
+ ['Momento','Aperitivo, antes de la pasta','Aperitivo o con la entrada','Tarde de terraza'],
+ ['Perfil','Frutal, amargo, burbujeante','Ácido, frutal, sedoso','Fresco, herbal, largo'],
+ ['Clásico de referencia','Aperol Spritz · Pornstar Martini','Pisco Sour · Clover Club','Mojito · Arnold Palmer'],
+ ['Técnica','Agitado y flotado','Doble agitado','Macerado, agitado y relleno'],
+ ['Versión 0°','Sí','No','Sí'],
+ ['Relato','Jano, dios de enero','Las Sabinas, unión de dos pueblos','Apolo, dios del sol']
+];
+$('#matrix').innerHTML=`<thead><tr><th></th>${D.map(d=>`<th>${d.ro} · ${d.name}<span>${d.es}</span></th>`).join('')}</tr></thead>
+ <tbody>${M.map(r=>`<tr><th scope="row">${r[0]}</th>${r.slice(1).map(c=>`<td>${c}</td>`).join('')}</tr>`).join('')}</tbody>`;
+
+/* ---------- ingredient grid ---------- */
+const BAR=[
+ ['Menta en hojas','',[0,0,1]],['Limonada','solo en versiones 0°',[1,0,1]],['Clara de huevo','',[0,1,0]],['Jengibre líquido','',[1,0,1]],
+ ['Maracuyá líquida','',[1,0,0]],['Jamaicano','',[0,1,0]],['Limón de pica','',[1,0,1]],['Jugo de limón','',[0,1,0]],
+ ['Frutilla','',[0,1,0]],['Mango','',[0,0,1]],['Té helado','',[0,0,1]],
+ ['Gin','',[1,0,0]],['Aperol','',[1,0,0]],['Espumante','',[1,0,0]],['Pisco','',[0,1,0]],['Limoncello','',[0,1,0]],['Ron','',[0,0,1]],['Agua con gas','',[0,0,1]]
+];
+const tot=[0,1,2].map(k=>BAR.filter(b=>b[2][k]).length);
+$('#gridIng').innerHTML=`<table><thead><tr><th>Ingrediente de barra</th>${D.map(d=>`<th>${d.name}</th>`).join('')}</tr></thead><tbody>
+ ${BAR.map(b=>`<tr><td>${b[0]}${b[1]?` <small>· ${b[1]}</small>`:''}</td>${b[2].map(v=>`<td>${v?'<span class="dot" aria-label="usa"></span>':'<span class="nodot" aria-label="no usa"></span>'}</td>`).join('')}</tr>`).join('')}
+ <tr class="tot"><td>Ingredientes nuevos a comprar</td><td>0</td><td>0</td><td>0</td></tr></tbody></table>`;
+
+/* ---------- dropped ---------- */
+const DROP=[
+ ['Negroni nuevo','La carta ya tiene cinco negronis. Es amargo y de sobremesa: menos de verano.'],
+ ['Margarita','Ya hay tres margaritas en carta. Una cuarta competiría con ellas.'],
+ ['Whisky','Penicillin, Whisky Sour y Clavo Oxidado ya cubren el whisky, con un perfil más invernal.'],
+ ['Kahlúa y café','Espresso Martini y Carajillo son de cierre de comida, no de tarde de calor.'],
+ ['Bebida refrescante','No la usé: sin conocer su receta exacta no puedo calcular la medida.']
+];
+$('#drop').innerHTML=DROP.map(d=>`<div class="place"><b>${d[0]}</b><span>${d[1]}</span></div>`).join('');
+
+const links=[...document.querySelectorAll('.nav a')];
+const io=new IntersectionObserver(es=>es.forEach(en=>{if(en.isIntersecting)links.forEach(l=>l.setAttribute('aria-current',l.getAttribute('href')==='#'+en.target.id))}),{rootMargin:'-40% 0px -55% 0px'});
+['pocula','ratio'].forEach(id=>io.observe(document.getElementById(id)));
+})();
+</script>
+
+</body>
+</html>
