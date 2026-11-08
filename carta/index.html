@@ -158,12 +158,13 @@ const count=s=>s.cats.reduce((a,c)=>a+c[2].length,0);
 const portada=document.getElementById('portada'),interior=document.getElementById('interior'),app=document.getElementById('app'),back=document.getElementById('back');
 let cat=0;
 
-const IMG_LISTA=['aperitivi'];
+const IMG_LISTA=['aperitivi','mocktails','birre','jugos'];
+const IMG_POS={mocktails:'100%',jugos:'100%'};
 function renderCarta(){
   back.setAttribute('href','#');
   app.innerHTML=`<div class="view"><div class="intro" style="margin-top:5.2px;margin-bottom:1.265rem"><h1 class="h">La Carta</h1></div>
    <nav class="arches" aria-label="Secciones de la carta">
-   ${SECCIONES.map(s=>{const ok=IMG_LISTA.includes(s.id);return `<a class="arch${ok?'':' falta'}" href="#${s.id}"><span class="aw"><img src="../assets/carta/${s.id}${ok?'':'-prov'}.jpg" alt="" loading="lazy"></span><span class="n">${s.n}</span><span class="d">${s.d}</span></a>`}).join('')}
+   ${SECCIONES.map(s=>{const ok=IMG_LISTA.includes(s.id);return `<a class="arch${ok?'':' falta'}" href="#${s.id}"><span class="aw"><img src="../assets/carta/${s.id}${ok?'':'-prov'}.jpg" alt="" loading="lazy"${IMG_POS[s.id]?` style="object-position:center ${IMG_POS[s.id]}"`:''}></span><span class="n">${s.n}</span><span class="d">${s.d}</span></a>`}).join('')}
    <a class="arch falta" href="../tragos-verano/"><span class="aw"><img src="../assets/carta/nuevos-prov.jpg" alt="" loading="lazy"></span><span class="n">3 nuevos</span><span class="d">Los tragos propuestos para el verano.</span></a>
    </nav></div>`;
 }
