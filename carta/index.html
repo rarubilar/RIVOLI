@@ -12,7 +12,7 @@
 /* Layout: portada ilustrada a pantalla completa → índice en arcos → sección con categorías deslizables. Fondo blanco, un solo tema claro. */
 :root{
   --bg:#ffffff; --ink:#1f262d; --muted:#6b737a; --gold:#8a6a32; --gold-soft:#c9b48a;
-  --line:#e7e4de; --tint:#faf7f1; --sand:#e3c99b;
+  --line:#e7e4de; --tint:#faf7f1; --sand:#e7cf9f;
   --f-name:"Instrument Serif","Times New Roman",serif;
   --f-cap:"Cinzel","Trajan Pro",serif;
   --f-body:"Cormorant Garamond",Garamond,Georgia,serif;
@@ -28,7 +28,7 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
 /* ---------- Portada ---------- */
-#portada{position:fixed;inset:0;background:#e9d8b4 url("../assets/ilustraciones/aestas.jpg") center/cover no-repeat}
+#portada{position:fixed;inset:0;background:#e9d8b4 url("../assets/ilustraciones/aestas-oleo.jpg") center/cover no-repeat}
 #portada::before{content:"";position:absolute;inset:0 0 auto 0;height:calc(150px + env(safe-area-inset-top,0px));background:linear-gradient(to bottom,var(--sand) 45%,rgba(227,201,155,0))}
 #portada .logo{position:absolute;left:50%;transform:translateX(-50%);top:calc(30px + env(safe-area-inset-top,0px));height:62px;width:auto;z-index:1}
 #portada .cta{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(58px + env(safe-area-inset-bottom,0px));
