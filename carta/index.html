@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#e3c99b">
+<title>Rivoli · Carta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Cinzel:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap">
+<style>
+/* Layout: portada ilustrada a pantalla completa → índice en arcos → sección con categorías deslizables. Fondo blanco, un solo tema claro. */
+:root{
+  --bg:#ffffff; --ink:#1f262d; --muted:#6b737a; --gold:#8a6a32; --gold-soft:#c9b48a;
+  --line:#e7e4de; --tint:#faf7f1; --sand:#e3c99b;
+  --f-name:"Instrument Serif","Times New Roman",serif;
+  --f-cap:"Cinzel","Trajan Pro",serif;
+  --f-body:"Cormorant Garamond",Garamond,Georgia,serif;
+  --r:.5rem; color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:18px;line-height:1.45;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ---------- Portada ---------- */
+#portada{position:fixed;inset:0;background:#e9d8b4 url("../assets/ilustraciones/aestas.jpg") center/cover no-repeat}
+#portada::before{content:"";position:absolute;inset:0 0 auto 0;height:calc(150px + env(safe-area-inset-top,0px));background:linear-gradient(to bottom,var(--sand) 45%,rgba(227,201,155,0))}
+#portada .logo{position:absolute;left:50%;transform:translateX(-50%);top:calc(30px + env(safe-area-inset-top,0px));height:62px;width:auto;z-index:1}
+#portada .cta{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(58px + env(safe-area-inset-bottom,0px));
+  width:160px;height:43px;display:grid;place-items:center;font-family:var(--f-name);font-size:24px;letter-spacing:.02em;
+  background:var(--ink);color:#f6f2ea;border-radius:6px;box-shadow:0 0 0 1px #c9a96e inset, 0 6px 18px rgba(31,38,45,.25);transition:transform .2s}
+#portada .cta:active{transform:translateX(-50%) scale(.97)}
+
+/* ---------- Vistas interiores ---------- */
+.shell{max-width:480px;margin-inline:auto;min-height:100%;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);height:64px;
+  display:grid;grid-template-columns:44px 1fr 44px;align-items:center;border-bottom:1px solid #eee9e0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+header .back{font-family:var(--f-name);font-size:2rem;color:var(--gold);display:grid;place-items:center;min-height:44px}
+header .home{display:grid;place-items:center}
+header .home img{height:40px;width:auto}
+main{padding-block:16px 48px}
+.view{animation:rise .4s cubic-bezier(.2,.7,.2,1)}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.cap{font-family:var(--f-cap);font-size:.68rem;letter-spacing:.22em;color:var(--gold);text-transform:uppercase}
+.h{font-family:var(--f-name);font-weight:400;font-size:2.6rem;line-height:1;margin:.2rem 0 0}
+.intro{text-align:center;display:grid;gap:.2rem;margin-bottom:1.1rem}
+.intro p{margin:.5rem auto 0;font-size:1.05rem;color:#58616a;max-width:34ch;line-height:1.4}
+
+/* arcos */
+.arches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.arch{border:1px solid #e2d6bd;border-radius:999px 999px 6px 6px;padding:18px 8px 12px;display:grid;justify-items:center;text-align:center;gap:4px;background:#fff;transition:background .2s,border-color .2s}
+.arch:active,.arch:hover{background:var(--tint);border-color:var(--gold)}
+.arch svg{width:36px;height:36px;color:var(--gold)}
+.arch .n{font-family:var(--f-name);font-size:1.3rem;line-height:1}
+.arch .d{font-size:.86rem;color:#6b737a;line-height:1.2}
+.arch .c{font-family:var(--f-cap);font-size:.72rem;color:var(--gold)}
+.arch.nuevo{border-color:var(--gold-soft);background:var(--tint)}
+
+/* categorías deslizables */
+.rowwrap{position:relative;margin:0 calc(-1 * max(16px,env(safe-area-inset-left,0px))) .4rem}
+.cats{display:flex;gap:7px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px max(16px,env(safe-area-inset-left,0px)) 8px;scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.cats button{scroll-snap-align:start;flex:0 0 auto;font-family:var(--f-name);font-size:1.15rem;padding:8px 14px;border:1px solid #e2ded6;border-radius:4px;background:#fff;color:#58616a;line-height:1;min-height:40px}
+.cats button b{font-family:var(--f-cap);font-weight:500;font-size:.68rem;color:var(--gold);margin-left:6px}
+.cats button[aria-selected="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.cats button[aria-selected="true"] b{color:#e8d6ad}
+.fade{position:absolute;right:0;top:0;bottom:8px;width:40px;background:linear-gradient(to right,rgba(255,255,255,0),#fff);pointer-events:none}
+.sub{border-left:2px solid var(--gold-soft);padding-left:10px;margin:.6rem 0 .4rem}
+.sub .n{font-family:var(--f-name);font-size:1.5rem;line-height:1.1}
+.sub .d{font-style:italic;color:#58616a;font-size:1rem}
+.list{animation:rise .3s ease}
+.row{display:flex;justify-content:space-between;align-items:center;border-bottom:1px dotted var(--line);padding:9px 0;gap:10px}
+.row .n{font-family:var(--f-name);font-size:1.3rem;line-height:1.1}
+.row small{display:block;font-family:var(--f-body);font-size:.95rem;color:#8a8f94;margin-top:2px}
+.row .go{font-family:var(--f-name);color:var(--gold);font-size:1.4rem}
+.pend{font-family:var(--f-cap);font-size:.6rem;letter-spacing:.14em;color:#a39a8a;white-space:nowrap}
+.empty{border:1px dashed #e2d6bd;border-radius:var(--r);padding:1.4rem 1rem;text-align:center;color:#6b737a;font-style:italic}
+.hint{font-size:.85rem;color:#a39a8a;text-align:center;font-style:italic;margin-top:.8rem}
+</style>
+</head>
+<body>
+
+<section id="portada" aria-label="Portada">
+  <img class="logo" src="../assets/logo/rivoli-oscuro.png" alt="Rivoli">
+  <a class="cta" href="#carta">Carta</a>
+</section>
+
+<div class="shell" id="interior" hidden>
+  <header>
+    <a class="back" id="back" href="#" aria-label="Volver">‹</a>
+    <a class="home" href="#" aria-label="Volver a la portada"><img src="../assets/logo/rivoli-oscuro.png" alt="Rivoli"></a>
+    <span></span>
+  </header>
+  <main id="app"></main>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="copa" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 5c-2 14 4 20 10 20s12-6 10-20M20 25v9M13 35h14"/></g></symbol>
+  <symbol id="coupe" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 10c1 9 7 13 14 13s13-4 14-13zM20 23v11M13 35h14"/></g></symbol>
+  <symbol id="alto" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 4h16l-1 32H13z"/></g></symbol>
+  <symbol id="birra" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 8h16v26H10zM26 13h5v14h-5M10 13h16"/></g></symbol>
+  <symbol id="vino" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 4h14c0 12-3 16-7 16s-7-4-7-16zM20 20v13M14 35h12"/></g></symbol>
+  <symbol id="cafe" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 14h18v10a7 7 0 0 1-7 7h-4a7 7 0 0 1-7-7zM27 17h3a3 3 0 0 1 0 6h-3M15 6v4M20 5v5"/></g></symbol>
+  <symbol id="digest" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 6h10M16 6v8l-3 4v16h14V18l-3-4V6"/></g></symbol>
+  <symbol id="cero" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 12h20l-3 22H13zM14 20h12"/></g></symbol>
+</defs></svg>
+
+<script>
+(function(){
+const ic=id=>`<svg aria-hidden="true"><use href="#${id}"/></svg>`;
+/* Secciones = índices reales de la carta de Rivoli. Ingredientes según carta digital (nov. 2026). */
+const SECCIONES=[
+ {id:'aperitivi',n:'Aperitivi',i:'copa',d:'Para abrir la comida: spritz, sours y amargos.',
+  intro:'Cócteles para abrir la comida y despertar el apetito: spritz burbujeantes, sours cítricos y amargos italianos. Se sirven antes o junto a los antipasti.',
+  cats:[
+   ['Spritz','Burbujeantes y bajos en alcohol. Para la tarde y el aperitivo.',[['Aperol Spritz','Aperol · Cinzano To Spritz · soda'],['Limoncello Spritz','Limoncello · prosecco · soda'],['Orange Spritz','St-Germain · Aperol · maracuyá · soda'],['Lambrusco Spritz','Lambrusco · ginger ale · Aperol'],['Saint Germain Spritz','St-Germain · prosecco · soda'],['Strawberry Limoncello Spritz','Limoncello · frutilla · prosecco'],['Ramazzotti Tradicional','Ramazzotti · prosecco · soda']]],
+   ['Sour','Cítricos y sedosos. El pisco sour es el más pedido de la casa.',[['Pisco Sour','Pisco peruano · limón · goma'],['Pisco Sour Catedral','Pisco peruano · limón · goma'],['Amaretto Sour','Amaretto · limón · goma'],['Whisky Sour','Whisky · limón · goma'],['Campari Sour','Gin · Cinzano · Campari · limón · goma'],['Penicillin Rivoli','Whisky · limón · miel · jengibre']]],
+   ['Negroni','Amargos italianos, para antes de comer.',[['Negroni','Gin · vermouth rosso · Campari'],['Negroni Sbagliato','Espumoso · Campari · vermouth rosso'],['Negroni Frenchie','Gin · Campari · vermouth · St-Germain'],['Negroni Rivoli','Gin · Campari · Cynar'],['Negroni Ristretto','Gin · Campari · vermouth · café'],['Campari Tónica','Campari · tónica'],['Campari Naranja','Campari · jugo de naranja']]],
+   ['Mojitos','Frescos, con menta y lima. Ideales para la terraza.',[['Mojito Tradicional','Ron · limón · azúcar · menta · soda'],['Mojito Maracuyá','Ron · limón · goma · maracuyá'],['Mojito Frutilla','Ron · limón · goma · frutilla'],['Caipirinha','Cachaza · limón · goma'],['Caipiroska','Vodka · limón · goma'],['Fresco Pasión','Ron · maracuyá · limón'],['Cynar Julep','Gin · Cynar · pomelo · limón · menta']]],
+   ['Tónicas','Largos y secos, con tónica o soda.',[['Gin Tonic','Gin Bombay · tónica'],['Gin Tonic Vesuvio','Gin Bombay · limoncello · tónica'],['Vodkatonic','Vodka · tónica'],['Vodka Tonic Grey Goose','Vodka Grey Goose · tónica'],['Disaronno Fizz','Disaronno · limón · tónica'],['Tom Collins','Gin · limón · azúcar · soda']]],
+   ['Clásicos','Cócteles de siempre, cortos y potentes.',[['Martini Dry','Gin · vermouth dry'],['Manhattan','Bourbon · vermouth rosso'],['Clavo Oxidado','Whisky · Drambuie'],['French 75','Gin · limón · prosecco'],['Espresso Martini Rivoli','Vodka · espresso · licor de naranja'],['Bloody Mary','Vodka · tomate · limón · especias'],['Bellini','Conserva de durazno · prosecco'],['Venni Julet Rivoli','Vino tinto · St-Germain · vodka · ginger beer'],['Vaina','Oporto · cognac · yema · cacao · canela'],['Carajillo','Café · Licor 43']]],
+   ['Margaritas','Tequila con cítricos.',[['Tequila Margarita','Tequila · limón · licor de naranja'],['Saint Germain Margarita','St-Germain · tequila · limón'],['Aperol Coconut Margarita','Tequila · Aperol · limón · coco']]],
+   ['Sangrías','Para compartir, en copa o jarra.',[['Copa Sangría Vino Tinto','Vino tinto · frutas · azúcar · pisco'],['Copa Sangría Vino Blanco','Vino blanco · frutas · goma · maracuyá · pisco'],['Jarra Sangría Vino Tinto','Para la mesa'],['Jarra Sangría Vino Blanco','Para la mesa']]],
+   ['Piscos','Solos o con bebida.',[['Alto del Carmen','Solo o con bebida'],['Pisco Republicano 40','Solo o con bebida']]]
+  ]},
+ {id:'mocktails',n:'Mocktails',i:'cero',d:'Sin alcohol, frutales y frescos.',
+  intro:'Tragos sin alcohol para quien no bebe o maneja. Frutales, frescos y con la misma presentación que un cóctel.',
+  cats:[
+   ['Spritz 0°','Burbujeantes, sin alcohol.',[['Bellini sin alcohol','Durazno · goma · espumante sin alcohol'],['Copa Spritz sin alcohol','Espumante rosé sin alcohol · fruta · limón']]],
+   ['Mojitos 0°','Menta, lima y soda.',[['Mojito Tradicional sin alcohol','Lima · azúcar · menta · soda'],['Mojito de Berries','Berries · menta · lima'],['Caipirina sin alcohol','Tónica · mandarina · limón · goma']]],
+   ['Hibisco','Florales y frutales.',[['Fiore di Hibisco','Flor de hibisco · naranja · miel · lima · tónica'],['Dolce Rosso','Hibisco · maracuyá · limón · naranja · miel']]],
+   ['Sangría 0°','Para compartir.',[['Copa Sangría sin alcohol','Vino sin alcohol · frutas · maracuyá · limón']]]
+  ]},
+ {id:'birre',n:'Birre',i:'birra',d:'Cervezas para pizzas y antipasti.',intro:'Cervezas para acompañar pizzas, antipasti y la terraza.',cats:[]},
+ {id:'jugos',n:'Jugos y aguas',i:'alto',d:'Jugos naturales y aguas para la mesa.',intro:'Jugos naturales, bebidas y aguas para la mesa.',cats:[]},
+ {id:'digestivi',n:'Digestivi',i:'digest',d:'Licores y amari para cerrar.',intro:'Licores y amari italianos para cerrar la comida.',cats:[]},
+ {id:'vinos',n:'Vinos',i:'vino',d:'Tintos, blancos y espumantes.',intro:'Tintos, blancos y espumantes chilenos e italianos para maridar.',cats:[]},
+ {id:'caffe',n:'Caffè',i:'cafe',d:'Espresso y cafés para el final.',intro:'Espresso y cafés a la italiana, para el final.',cats:[]}
+];
+const count=s=>s.cats.reduce((a,c)=>a+c[2].length,0);
+
+const portada=document.getElementById('portada'),interior=document.getElementById('interior'),app=document.getElementById('app'),back=document.getElementById('back');
+let cat=0;
+
+function renderCarta(){
+  back.setAttribute('href','#');
+  app.innerHTML=`<div class="view"><div class="intro"><span class="cap">La carta</span><h1 class="h">Índice</h1></div>
+   <nav class="arches" aria-label="Secciones de la carta">
+   ${SECCIONES.map(s=>{const n=count(s);return `<a class="arch" href="#${s.id}">${ic(s.i)}<span class="n">${s.n}</span><span class="d">${s.d}</span><span class="c">${n||'—'}</span></a>`}).join('')}
+   <a class="arch nuevo" href="../tragos-verano/">${ic('coupe')}<span class="n">3 nuevos</span><span class="d">Los tragos propuestos para el verano.</span><span class="c">3</span></a>
+   </nav></div>`;
+}
+function renderSeccion(s){
+  back.setAttribute('href','#carta');
+  const n=count(s);
+  app.innerHTML=`<div class="view"><div class="intro"><span class="cap">La carta${n?' · '+n+' tragos':''}</span><h1 class="h">${s.n}</h1><p>${s.intro}</p></div>
+   ${s.cats.length?`<div class="rowwrap"><div class="cats" id="cats" role="tablist" aria-label="Categorías">${s.cats.map((c,i)=>`<button role="tab" data-i="${i}" aria-selected="${i===cat}">${c[0]}<b>${c[2].length}</b></button>`).join('')}</div><div class="fade"></div></div>
+   <div id="lista"></div><p class="hint">Desliza las categorías hacia el lado</p>`
+   :`<div class="empty">Aún no cargamos el detalle de esta sección.</div>`}</div>`;
+  if(!s.cats.length)return;
+  const cats=document.getElementById('cats');
+  const show=i=>{cat=i;const c=s.cats[i];
+    cats.querySelectorAll('button').forEach((b,j)=>b.setAttribute('aria-selected',j===i));
+    document.getElementById('lista').innerHTML=`<div class="list"><div class="sub"><div class="n">${c[0]}</div><div class="d">${c[1]}</div></div>${c[2].map(r=>`<div class="row"><div><span class="n">${r[0]}</span><small>${r[1]}</small></div><span class="pend">receta pendiente</span></div>`).join('')}</div>`;
+    cats.querySelector(`[data-i="${i}"]`).scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
+  };
+  cats.addEventListener('click',e=>{const b=e.target.closest('button');if(b)show(+b.dataset.i)});
+  let x0=null,y0=null;const lista=document.getElementById('lista');
+  lista.addEventListener('touchstart',e=>{x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});
+  lista.addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;
+    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5)show((cat+(dx<0?1:-1)+s.cats.length)%s.cats.length);x0=null},{passive:true});
+  show(cat);
+}
+function route(){
+  const h=location.hash.slice(1);
+  if(!h){portada.hidden=false;interior.hidden=true;document.title='Rivoli · Carta';return}
+  portada.hidden=true;interior.hidden=false;
+  const s=SECCIONES.find(x=>x.id===h);
+  if(s){cat=0;renderSeccion(s);document.title='Rivoli · '+s.n}else{renderCarta();document.title='Rivoli · Índice'}
+  scrollTo(0,0);
+}
+addEventListener('hashchange',route);route();
+})();
+</script>
+</body>
+</html>
