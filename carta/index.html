@@ -31,10 +31,15 @@ button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:poin
 #portada{position:fixed;inset:0;background:#e9d8b4 url("../assets/ilustraciones/aestas-real.jpg") center/cover no-repeat}
 #portada::before{content:"";position:absolute;inset:0 0 auto 0;height:calc(150px + env(safe-area-inset-top,0px));background:linear-gradient(to bottom,var(--sand) 45%,rgba(227,201,155,0))}
 #portada .logo{position:absolute;left:50%;transform:translateX(-50%);top:calc(30px + env(safe-area-inset-top,0px));height:62px;width:auto;z-index:1}
-#portada .cta{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(58px + env(safe-area-inset-bottom,0px));
-  width:160px;height:43px;display:grid;place-items:center;font-family:var(--f-name);font-size:24px;letter-spacing:.02em;
+#portada .ctas{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(58px + env(safe-area-inset-bottom,0px));
+  display:flex;gap:10px;align-items:stretch;z-index:1}
+#portada .cta{width:160px;height:43px;display:grid;place-items:center;font-family:var(--f-name);font-size:24px;letter-spacing:.02em;
   background:var(--ink);color:#f6f2ea;border-radius:6px;box-shadow:0 0 0 1px #c9a96e inset, 0 6px 18px rgba(31,38,45,.25);transition:transform .2s}
-#portada .cta:active{transform:translateX(-50%) scale(.97)}
+#portada .tres{height:43px;padding:0 12px 0 10px;display:flex;align-items:center;gap:6px;background:#fff;color:var(--ink);border-radius:6px;
+  box-shadow:0 0 0 1px #c9a96e inset, 0 6px 18px rgba(31,38,45,.25);transition:transform .2s;white-space:nowrap}
+#portada .tres .n3{font-family:var(--f-name);font-size:44px;line-height:.72;color:var(--gold);padding-top:2px}
+#portada .tres .tx{font-family:var(--f-name);font-size:12px;line-height:1.02;letter-spacing:.01em}
+#portada .cta:active,#portada .tres:active{transform:scale(.97)}
 
 /* ---------- Vistas interiores ---------- */
 .shell{max-width:480px;margin-inline:auto;min-height:100%;
@@ -89,7 +94,10 @@ main{padding-block:16px 48px}
 
 <section id="portada" aria-label="Portada">
   <img class="logo" src="../assets/logo/rivoli-oscuro.png" alt="Rivoli">
-  <a class="cta" href="#carta">Carta</a>
+  <div class="ctas">
+    <a class="cta" href="#carta">Carta</a>
+    <a class="tres" href="../tragos-verano/" aria-label="3 tragos nuevos para el verano"><span class="n3" aria-hidden="true">3</span><span class="tx" aria-hidden="true">tragos nuevos<br>para el<br>verano</span></a>
+  </div>
 </section>
 
 <div class="shell" id="interior" hidden>
