@@ -55,8 +55,25 @@ main{padding-block:16px 48px}
 @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .cap{font-family:var(--f-cap);font-size:.68rem;letter-spacing:.22em;color:var(--gold);text-transform:uppercase}
 .h{font-family:var(--f-name);font-weight:400;font-size:2.6rem;line-height:1;margin:.2rem 0 0}
-.intro{text-align:center;display:grid;gap:.2rem;margin-bottom:1.1rem}
-.intro p{margin:.5rem auto 0;font-size:1.05rem;color:#58616a;max-width:39ch;line-height:1.4}
+.intro{text-align:center;display:grid;gap:.24rem;margin-bottom:1.32rem}
+.intro .icono{width:22px;height:auto;justify-self:center;margin:.45rem 0 -2px}
+.buscar{display:grid;justify-items:center;margin:-10px 0 1rem}
+.lupa{width:44px;height:44px;display:grid;place-items:center;color:var(--gold);transition:opacity .2s}
+.lupa svg{width:24px;height:24px}
+.lupa[aria-expanded="true"]{opacity:.55}
+.caja{width:100%;max-height:0;overflow:hidden;opacity:0;transition:max-height .3s ease,opacity .25s ease,margin .3s}
+.caja.on{max-height:70px;opacity:1;margin-top:.6rem}
+.caja label{display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--gold);padding:6px 2px}
+.caja svg{width:16px;height:16px;color:var(--gold);flex:none}
+.caja input{flex:1;min-width:0;border:0;outline:0;background:none;font-family:var(--f-name);font-size:1.35rem;color:var(--ink);padding:2px 0}
+.caja input::placeholder{color:#b8bcc0}
+.caja input::-webkit-search-cancel-button,.caja input::-webkit-search-decoration{-webkit-appearance:none;appearance:none}
+.caja .x{font-size:1.3rem;color:#a39a8a;width:32px;height:32px;display:grid;place-items:center}
+.row mark{background:linear-gradient(transparent 58%,#f1e3c4 58%);color:inherit}
+.row .cat{font-family:var(--f-cap);font-size:.58rem;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:2px}
+.cats.dim{opacity:.35}
+.nada{text-align:center;color:#8a8f94;font-style:italic;padding:1.4rem 0}
+.intro p{margin:.6rem auto 0;font-size:1.05rem;color:#58616a;max-width:39ch;line-height:1.4}
 
 /* arcos */
 .arches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 10px}
@@ -78,25 +95,28 @@ main{padding-block:16px 48px}
 .arch.falta .aw{border-style:dashed}.arch.falta .aw img{filter:grayscale(1) opacity(.35)}
 
 /* categorías deslizables */
-.rowwrap{position:relative;margin:0 calc(-1 * max(16px,env(safe-area-inset-left,0px))) .4rem}
-.cats{display:flex;gap:7px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px max(16px,env(safe-area-inset-left,0px)) 8px;scrollbar-width:none}
+.rowwrap{position:relative;margin:0 calc(-1 * max(16px,env(safe-area-inset-left,0px))) .48rem}
+.cats{display:flex;gap:0;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;padding:2px 0 0;scrollbar-width:none;border-bottom:1px solid #eee9e0}
 .cats::-webkit-scrollbar{display:none}
-.cats button{scroll-snap-align:start;flex:0 0 auto;font-family:var(--f-name);font-size:1.15rem;padding:8px 14px;border:1px solid #e2ded6;border-radius:4px;background:#fff;color:#58616a;line-height:1;min-height:40px}
-.cats button b{font-family:var(--f-cap);font-weight:500;font-size:.68rem;color:var(--gold);margin-left:6px}
-.cats button[aria-selected="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
-.cats button[aria-selected="true"] b{color:#e8d6ad}
-.fade{position:absolute;right:0;top:0;bottom:8px;width:40px;background:linear-gradient(to right,rgba(255,255,255,0),#fff);pointer-events:none}
-.sub{border-left:2px solid var(--gold-soft);padding-left:10px;margin:.6rem 0 .4rem}
+.cats button{scroll-snap-align:center;flex:0 0 33.3333%;min-width:0;display:grid;justify-items:center;gap:2px;padding:4px 4px 9px;background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer;transition:border-color .2s}
+.cats button .r{font-family:var(--f-cap);font-size:.66rem;letter-spacing:.2em;color:#c9b48a;line-height:1}
+.cats button .t{font-family:var(--f-name);font-size:clamp(1.15rem,5.6vw,1.45rem);line-height:1;color:#a3a7ab;transition:color .2s;white-space:nowrap}
+.cats button[aria-selected="true"]{border-bottom-color:var(--gold)}
+.cats button[aria-selected="true"] .t{color:var(--ink)}
+.cats button[aria-selected="true"] .r{color:var(--gold)}
+.fade{position:absolute;right:0;top:0;bottom:1px;width:40px;background:linear-gradient(to right,rgba(255,255,255,0),#fff);pointer-events:none}
+.fade.l{right:auto;left:0;background:linear-gradient(to left,rgba(255,255,255,0),#fff)}
+.sub{border-left:2px solid var(--gold-soft);padding-left:10px;margin:1.08rem 0 .48rem}
 .sub .n{font-family:var(--f-name);font-size:1.5rem;line-height:1.1}
 .sub .d{font-style:italic;color:#58616a;font-size:1rem}
-.list{animation:rise .3s ease}
-.row{display:flex;justify-content:space-between;align-items:center;border-bottom:1px dotted var(--line);padding:9px 0;gap:10px}
+.list{animation:rise .3s ease;margin-top:.7rem}
+.row{display:flex;justify-content:space-between;align-items:center;border-bottom:1px dotted var(--line);padding:10.8px 0;gap:10px}
 .row .n{font-family:var(--f-name);font-size:1.3rem;line-height:1.1}
 .row small{display:block;font-family:var(--f-body);font-size:.95rem;color:#8a8f94;margin-top:2px}
 .row .go{font-family:var(--f-name);color:var(--gold);font-size:1.4rem}
 .pend{font-family:var(--f-cap);font-size:.6rem;letter-spacing:.14em;color:#a39a8a;white-space:nowrap}
 .empty{border:1px dashed #e2d6bd;border-radius:var(--r);padding:1.4rem 1rem;text-align:center;color:#6b737a;font-style:italic}
-.hint{font-size:.85rem;color:#a39a8a;text-align:center;font-style:italic;margin-top:.8rem}
+.hint{font-size:.85rem;color:#a39a8a;text-align:center;font-style:italic;margin-top:.96rem}
 </style>
 </head>
 <body>
@@ -126,6 +146,7 @@ main{padding-block:16px 48px}
   <symbol id="vino" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 4h14c0 12-3 16-7 16s-7-4-7-16zM20 20v13M14 35h12"/></g></symbol>
   <symbol id="cafe" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 14h18v10a7 7 0 0 1-7 7h-4a7 7 0 0 1-7-7zM27 17h3a3 3 0 0 1 0 6h-3M15 6v4M20 5v5"/></g></symbol>
   <symbol id="digest" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 6h10M16 6v8l-3 4v16h14V18l-3-4V6"/></g></symbol>
+  <symbol id="i-lupa" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></g></symbol>
   <symbol id="cero" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 12h20l-3 22H13zM14 20h12"/></g></symbol>
 </defs></svg>
 
@@ -134,7 +155,7 @@ main{padding-block:16px 48px}
 const ic=id=>`<svg aria-hidden="true"><use href="#${id}"/></svg>`;
 /* Secciones = índices reales de la carta de Rivoli. Ingredientes según carta digital (nov. 2026). */
 const SECCIONES=[
- {id:'aperitivi',n:'Aperitivi',i:'copa',d:'Para abrir la comida: spritz, sours y amargos.',
+ {id:'aperitivi',n:'Aperitivi',icono:'aguila',i:'copa',d:'Para abrir la comida: spritz, sours y amargos.',
   intro:'Para abrir la comida: spritz burbujeantes, sours cítricos y amargos italianos, antes o con los antipasti.',
   cats:[
    ['Spritz','Burbujeantes y bajos en alcohol. Para la tarde y el aperitivo.',[['Aperol Spritz','Aperol · Cinzano To Spritz · soda'],['Limoncello Spritz','Limoncello · prosecco · soda'],['Orange Spritz','St-Germain · Aperol · maracuyá · soda'],['Lambrusco Spritz','Lambrusco · ginger ale · Aperol'],['Saint Germain Spritz','St-Germain · prosecco · soda'],['Strawberry Limoncello Spritz','Limoncello · frutilla · prosecco'],['Ramazzotti Tradicional','Ramazzotti · prosecco · soda']]],
@@ -167,6 +188,7 @@ const count=s=>s.cats.reduce((a,c)=>a+c[2].length,0);
 const portada=document.getElementById('portada'),interior=document.getElementById('interior'),app=document.getElementById('app'),back=document.getElementById('back');
 let cat=0;
 
+const ROM=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
 const IMG_LISTA=['aperitivi','mocktails','birre','jugos','digestivi','vinos','caffe','bases'];
 const IMG_POS={mocktails:'100%',jugos:'100%',digestivi:'100%',caffe:'35%',bases:'80%'};
 function renderCarta(){
@@ -179,18 +201,34 @@ function renderCarta(){
 function renderSeccion(s){
   back.setAttribute('href','#carta');
   const n=count(s);
-  app.innerHTML=`<div class="view"><div class="intro"><span class="cap">La carta${n?' · '+n+' tragos':''}</span><h1 class="h">${s.n}</h1><p>${s.intro}</p></div>
-   ${s.cats.length?`<div class="rowwrap"><div class="cats" id="cats" role="tablist" aria-label="Categorías">${s.cats.map((c,i)=>`<button role="tab" data-i="${i}" aria-selected="${i===cat}">${c[0]}<b>${c[2].length}</b></button>`).join('')}</div><div class="fade"></div></div>
+  app.innerHTML=`<div class="view"><div class="intro"><span class="cap">La carta${n?' · '+n+' tragos':''}</span>${s.icono?`<img class="icono" src="../assets/iconos/${s.icono}.png" alt="">`:''}<h1 class="h">${s.n}</h1></div>
+   ${s.cats.length?`<div class="buscar"><button class="lupa" id="lupa" aria-label="Buscar un trago" aria-expanded="false" aria-controls="caja">${ic("i-lupa")}</button><div class="caja" id="caja"><label>${ic("i-lupa")}<input id="q" type="search" placeholder="Nombre del trago" autocomplete="off" enterkeyhint="search" aria-label="Nombre del trago"><button class="x" id="qx" aria-label="Borrar búsqueda" hidden>×</button></label></div></div>`:''}
+   ${s.cats.length?`<div class="rowwrap"><div class="cats" id="cats" role="tablist" aria-label="Categorías">${s.cats.map((c,i)=>`<button role="tab" data-i="${i}" aria-selected="${i===cat}" aria-label="${c[0]}, ${c[2].length} tragos"><span class="r">${ROM[i]}</span><span class="t">${c[0]}</span></button>`).join('')}</div><div class="fade"></div><div class="fade l"></div></div>
    <div id="lista"></div><p class="hint">Desliza las categorías hacia el lado</p>`
    :`<div class="empty">Aún no cargamos el detalle de esta sección.</div>`}</div>`;
   if(!s.cats.length)return;
   const cats=document.getElementById('cats');
   const show=i=>{cat=i;const c=s.cats[i];
     cats.querySelectorAll('button').forEach((b,j)=>b.setAttribute('aria-selected',j===i));
-    document.getElementById('lista').innerHTML=`<div class="list"><div class="sub"><div class="n">${c[0]}</div><div class="d">${c[1]}</div></div>${c[2].map(r=>`<div class="row"><div><span class="n">${r[0]}</span><small>${r[1]}</small></div><span class="pend">receta pendiente</span></div>`).join('')}</div>`;
+    q.value='';qx.hidden=true;cats.classList.remove('dim');
+    document.getElementById('lista').innerHTML=`<div class="list">${c[2].map(r=>`<div class="row"><div><span class="n">${r[0]}</span><small>${r[1]}</small></div><span class="pend">receta pendiente</span></div>`).join('')}</div>`;
     cats.querySelector(`[data-i="${i}"]`).scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
   };
   cats.addEventListener('click',e=>{const b=e.target.closest('button');if(b)show(+b.dataset.i)});
+  /* buscador */
+  const lupa=document.getElementById('lupa'),caja=document.getElementById('caja'),q=document.getElementById('q'),qx=document.getElementById('qx');
+  const norm=t=>t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  const esc=t=>t.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const marca=(t,k)=>{const i=norm(t).indexOf(k);return i<0?esc(t):esc(t.slice(0,i))+'<mark>'+esc(t.slice(i,i+k.length))+'</mark>'+esc(t.slice(i+k.length))};
+  const buscar=()=>{const k=norm(q.value.trim());qx.hidden=!q.value;
+    if(!k){cats.classList.remove('dim');show(cat);return}
+    cats.classList.add('dim');
+    const r=[];s.cats.forEach((c,i)=>c[2].forEach(d=>{if(norm(d[0]).includes(k))r.push([d,c[0]])}));
+    document.getElementById('lista').innerHTML=r.length?`<div class="list">${r.map(([d,cn])=>`<div class="row"><div><span class="cat">${cn}</span><span class="n">${marca(d[0],k)}</span><small>${d[1]}</small></div><span class="pend">receta pendiente</span></div>`).join('')}</div>`:`<p class="nada">No encontramos “${esc(q.value.trim())}”</p>`};
+  lupa.addEventListener('click',()=>{const on=!caja.classList.contains('on');caja.classList.toggle('on',on);lupa.setAttribute('aria-expanded',on);
+    if(on)setTimeout(()=>q.focus(),60);else{q.value='';buscar()}});
+  q.addEventListener('input',buscar);
+  qx.addEventListener('click',()=>{q.value='';buscar();q.focus()});
   let x0=null,y0=null;const lista=document.getElementById('lista');
   lista.addEventListener('touchstart',e=>{x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});
   lista.addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;
