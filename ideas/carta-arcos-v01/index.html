@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rivoli Carta · Arcos V01</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Cinzel:wght@400;500&display=swap">
+<style>
+:root{--surface-1:#f3f1ec;--text-secondary:#6b737a}
+body{margin:0;background:#f3f1ec;font-family:system-ui,sans-serif;padding:16px}
+h1{font-family:'Instrument Serif',serif;font-weight:400;font-size:28px;margin:0 0 4px;color:#1f262d}
+p.note{margin:0 0 14px;color:#6b737a;font-size:13px}
+.wrap{max-width:720px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px}
+.ph{background:#fff;border-radius:22px;border:0.5px solid #e2ded6;padding:12px 12px 14px;color:#1f262d;display:flex;flex-direction:column;gap:10px;min-height:560px;overflow:hidden}
+.lv{font-size:11px;color:var(--text-secondary);text-align:center;margin-top:4px}
+.hd{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #eee9e0;padding-bottom:6px}
+.lg{font-family:Cinzel,serif;letter-spacing:.3em;font-size:12px}.bk{font-family:'Instrument Serif',serif;font-size:20px;color:#8a6a32}
+.cap{font-family:Cinzel,serif;font-size:11px;letter-spacing:.18em;color:#8a6a32}
+.h{font-family:'Instrument Serif',serif;font-size:30px;line-height:1}
+.d{font-size:12px;color:#58616a;line-height:1.4}
+.g2{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+.arch{border:1px solid #e2d6bd;border-radius:60px 60px 6px 6px;padding:13px 6px 9px;display:grid;justify-items:center;text-align:center;gap:3px;background:#fff}
+.arch .n{font-family:'Instrument Serif',serif;font-size:17px;line-height:1}
+.arch .d{font-size:11px;line-height:1.2}
+.arch .c{font-family:Cinzel,serif;font-size:11px;color:#8a6a32}
+.arch.on{border-color:#8a6a32;background:#faf7f1}
+.rowwrap{position:relative;margin:0 -12px}
+.cats{display:flex;gap:6px;overflow-x:auto;scroll-snap-type:x mandatory;padding:2px 12px 6px;scrollbar-width:none}
+.cats::-webkit-scrollbar{display:none}
+.cats button{scroll-snap-align:start;flex:0 0 auto;font-family:'Instrument Serif',serif;font-size:17px;padding:6px 12px;border:1px solid #e2ded6;border-radius:4px;background:#fff;color:#58616a;cursor:pointer;line-height:1}
+.cats button b{font-family:Cinzel,serif;font-weight:500;font-size:11px;color:#8a6a32;margin-left:5px}
+.cats button.on{background:#1f262d;color:#fff;border-color:#1f262d}
+.cats button.on b{color:#e8d6ad}
+.fade{position:absolute;right:0;top:0;bottom:6px;width:34px;background:linear-gradient(to right,rgba(255,255,255,0),#fff);pointer-events:none}
+.sub{border-left:2px solid #c9b48a;padding-left:9px}
+.sub .n{font-family:'Instrument Serif',serif;font-size:20px;line-height:1.1}
+.row{display:flex;justify-content:space-between;align-items:center;border-bottom:1px dotted #e7e4de;padding:6px 0;gap:8px}
+.row .n{font-family:'Instrument Serif',serif;font-size:17px;line-height:1.1}
+.row small{display:block;font-size:11px;color:#8a8f94;margin-top:2px}
+.row .go{font-family:'Instrument Serif',serif;color:#8a6a32;font-size:18px}
+.hint{font-size:11px;color:#a39a8a;text-align:center;font-style:italic}
+</style>
+</head>
+<body>
+<div style="max-width:720px;margin:0 auto"><h1>Carta · arcos V01</h1><p class="note">Maqueta guardada el 8 de noviembre de 2026. Índice de la carta en arcos y, dentro de Aperitivi, categorías deslizables bajo la descripción.</p></div>
+<div class="wrap">
+ <div><div class="ph" id="p1"></div><div class="lv">Índice de la carta</div></div>
+ <div><div class="ph" id="p2"></div><div class="lv">Dentro de Aperitivi · desliza las categorías</div></div>
+</div>
+<script>
+const I={copa:'<path d="M10 5c-2 14 4 20 10 20s12-6 10-20M20 25v9M13 35h14"/>',coupe:'<path d="M6 10c1 9 7 13 14 13s13-4 14-13zM20 23v11M13 35h14"/>',alto:'<path d="M12 4h16l-1 32H13z"/>',birra:'<path d="M10 8h16v26H10zM26 13h5v14h-5M10 13h16"/>',vino:'<path d="M13 4h14c0 12-3 16-7 16s-7-4-7-16zM20 20v13M14 35h12"/>',cafe:'<path d="M9 14h18v10a7 7 0 0 1-7 7h-4a7 7 0 0 1-7-7zM27 17h3a3 3 0 0 1 0 6h-3M15 6v4M20 5v5"/>',digest:'<path d="M15 6h10M16 6v8l-3 4v16h14V18l-3-4V6"/>',cero:'<path d="M10 12h20l-3 22H13zM14 20h12"/>'};
+const ic=(k,w=30)=>`<svg viewBox="0 0 40 40" width="${w}" height="${w}" fill="none" stroke="#8a6a32" stroke-width="1.6" aria-hidden="true">${I[k]}</svg>`;
+const S=[['Aperitivi','52','copa','Para abrir la comida: spritz, sours y amargos.'],['Mocktails','8','cero','Sin alcohol, frutales y frescos.'],['Birre','—','birra','Cervezas para pizzas y antipasti.'],['Jugos y aguas','—','alto','Jugos naturales y aguas para la mesa.'],['Digestivi','—','digest','Licores y amari para cerrar.'],['Vinos','—','vino','Tintos, blancos y espumantes.'],['Caffè','—','cafe','Espresso y cafés para el final.'],['3 nuevos','3','coupe','Tragos de verano propuestos.']];
+const hd='<div class="hd"><span class="bk">‹</span><span class="lg">RIVOLI</span><span class="bk" style="opacity:0">›</span></div>';
+document.getElementById('p1').innerHTML=`${hd}<div style="text-align:center"><div class="cap">La carta</div><div class="h">Índice</div></div><div class="g2">${S.map((s,i)=>`<div class="arch${i===0?' on':''}">${ic(s[2])}<span class="n">${s[0]}</span><span class="d">${s[3]}</span><span class="c">${s[1]}</span></div>`).join('')}</div>`;
+const C=[
+ ['Spritz','Burbujeantes y bajos en alcohol. Para la tarde y el aperitivo.',[['Aperol Spritz','Aperol · Cinzano To Spritz · soda'],['Limoncello Spritz','Limoncello · prosecco · soda'],['Orange Spritz','St-Germain · Aperol · maracuyá'],['Lambrusco Spritz','Lambrusco · ginger ale · Aperol'],['Saint Germain Spritz','St-Germain · prosecco · soda'],['Strawberry Limoncello','Limoncello · frutilla · prosecco'],['Ramazzotti Tradicional','Ramazzotti · prosecco · soda']]],
+ ['Sour','Cítricos y sedosos. El pisco sour es el más pedido de la casa.',[['Pisco Sour','Pisco · limón · goma'],['Pisco Sour Catedral','Pisco · limón · goma, tamaño grande'],['Amaretto Sour','Amaretto · limón · goma'],['Whisky Sour','Whisky · limón · goma'],['Campari Sour','Gin · Cinzano · Campari · limón'],['Penicillin Rivoli','Whisky · limón · miel · jengibre']]],
+ ['Negroni','Amargos italianos, para antes de comer. Cinco versiones de la casa.',[['Negroni','Gin · vermouth rosso · Campari'],['Negroni Sbagliato','Espumoso · Campari · vermouth'],['Negroni Frenchie','Gin · Campari · vermouth · St-Germain'],['Negroni Rivoli','Gin · Campari · Cynar'],['Negroni Ristretto','Negroni aromatizado con café'],['Campari Tónica','Campari · tónica'],['Campari Naranja','Campari · jugo de naranja']]],
+ ['Mojitos','Frescos, con menta y lima. Ideales para la terraza.',[['Mojito Tradicional','Ron · limón · menta · soda'],['Mojito Maracuyá','Ron · limón · maracuyá'],['Mojito Frutilla','Ron · limón · frutilla'],['Caipirinha','Cachaza · limón · goma'],['Caipiroska','Vodka · limón · goma'],['Fresco Pasión','Ron · maracuyá · limón'],['Cynar Julep','Gin · Cynar · pomelo · menta']]],
+ ['Tónicas','Largos y secos, con tónica o soda.',[['Gin Tonic','Gin Bombay · tónica'],['Gin Tonic Vesuvio','Gin · limoncello · tónica'],['Vodkatonic','Vodka · tónica'],['Vodka Tonic Grey Goose','Vodka Grey Goose · tónica'],['Disaronno Fizz','Disaronno · limón · tónica'],['Tom Collins','Gin · limón · azúcar · soda']]],
+ ['Clásicos','Cócteles de siempre, cortos y potentes.',[['Martini Dry','Gin · vermouth dry'],['Manhattan','Bourbon · vermouth rosso'],['Clavo Oxidado','Whisky · Drambuie'],['French 75','Gin · limón · prosecco'],['Espresso Martini','Vodka · espresso · licor de naranja'],['Bloody Mary','Vodka · tomate · especias'],['Bellini','Durazno · prosecco'],['Venni Julet Rivoli','Vino tinto · St-Germain · vodka'],['Vaina','Oporto · cognac · yema · cacao'],['Carajillo','Café · Licor 43']]],
+ ['Margaritas','Tequila con cítricos.',[['Tequila Margarita','Tequila · limón · licor de naranja'],['Saint Germain Margarita','St-Germain · tequila · limón'],['Aperol Coconut Margarita','Tequila · Aperol · coco']]],
+ ['Sangrías','Para compartir, en copa o jarra.',[['Copa Sangría Tinto','Vino tinto · frutas · pisco'],['Copa Sangría Blanco','Vino blanco · frutas · maracuyá'],['Jarra Sangría Tinto','Para la mesa'],['Jarra Sangría Blanco','Para la mesa']]],
+ ['Piscos','Solos o con bebida.',[['Alto del Carmen','Solo o con bebida'],['Pisco Republicano 40','Solo o con bebida']]]
+];
+let cur=0;
+const p2=document.getElementById('p2');
+p2.innerHTML=`${hd}<div style="text-align:center"><div class="cap">La carta · 52 tragos</div><div class="h">Aperitivi</div><div class="d" style="margin-top:5px">Cócteles para abrir la comida y despertar el apetito: spritz burbujeantes, sours cítricos y amargos italianos. Se sirven antes o junto a los antipasti.</div></div>
+<div class="rowwrap"><div class="cats" id="cats" role="tablist" aria-label="Categorías">${C.map((c,i)=>`<button role="tab" data-i="${i}" class="${i===0?'on':''}" aria-selected="${i===0}">${c[0]}<b>${c[2].length}</b></button>`).join('')}</div><div class="fade"></div></div>
+<div id="body"></div><div class="hint">Desliza las categorías hacia el lado</div>`;
+function show(i){cur=i;const c=C[i];
+ document.querySelectorAll('#cats button').forEach((b,j)=>{b.classList.toggle('on',j===i);b.setAttribute('aria-selected',j===i)});
+ document.getElementById('body').innerHTML=`<div class="sub"><div class="n">${c[0]}</div><div class="d" style="font-style:italic">${c[1]}</div></div>${c[2].map(r=>`<div class="row"><div><span class="n">${r[0]}</span><small>${r[1]}</small></div><span class="go">›</span></div>`).join('')}`;
+ const btn=document.querySelector(`#cats button[data-i="${i}"]`);btn.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
+}
+document.getElementById('cats').addEventListener('click',e=>{const b=e.target.closest('button');if(b)show(+b.dataset.i)});
+let x0=null;const body=document.getElementById('body');
+body.addEventListener('touchstart',e=>x0=e.touches[0].clientX,{passive:true});
+body.addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>50)show((cur+(dx<0?1:-1)+C.length)%C.length);x0=null},{passive:true});
+show(0);
+</script>
+</body>
+</html>
