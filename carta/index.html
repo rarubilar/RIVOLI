@@ -67,6 +67,14 @@ main{padding-block:16px 48px}
 .arch:active .aw,.arch:hover .aw{border-color:var(--gold);transform:translateY(-2px)}
 .arch .n{font-family:var(--f-name);font-size:1.38rem;line-height:1;margin-top:5px}
 .arch .d{font-size:.86rem;color:#6b737a;line-height:1.2}
+.arch.solo{grid-column:1 / -1;width:calc(50% - 5px);justify-self:center;position:relative}
+.arch.solo::before,.arch.solo::after{content:"";position:absolute;top:66px;width:83px;height:135px;background:url(../assets/logo/rama.png) center/contain no-repeat;opacity:.55;pointer-events:none}
+.arch.solo::before{right:calc(100% + 10px);transform:rotate(-18deg) scaleX(-1)}
+.arch.solo::after{left:calc(100% + 10px);transform:rotate(18deg)}
+.arch.grande{grid-column:1 / -1;width:75%;justify-self:center;margin-top:14px}
+.arch.grande .aw{height:230px}
+.arch.grande .n{font-size:1.75rem}
+.arch.grande .d{font-size:.95rem;max-width:30ch}
 .arch.falta .aw{border-style:dashed}.arch.falta .aw img{filter:grayscale(1) opacity(.35)}
 
 /* categorías deslizables */
@@ -151,20 +159,21 @@ const SECCIONES=[
  {id:'jugos',n:'Jugos y aguas',i:'alto',d:'Jugos naturales y aguas para la mesa.',intro:'Jugos naturales, bebidas y aguas para la mesa.',cats:[]},
  {id:'digestivi',n:'Digestivi',i:'digest',d:'Licores y amari para cerrar.',intro:'Licores y amari italianos para cerrar la comida.',cats:[]},
  {id:'vinos',n:'Vinos',i:'vino',d:'Tintos, blancos y espumantes.',intro:'Tintos, blancos y espumantes chilenos e italianos para maridar.',cats:[]},
- {id:'caffe',n:'Caffè',i:'cafe',d:'Espresso y cafés para el final.',intro:'Espresso y cafés a la italiana, para el final.',cats:[]}
+ {id:'caffe',n:'Caffè',i:'cafe',d:'Espresso y cafés para el final.',intro:'Espresso y cafés a la italiana, para el final.',cats:[],cls:'solo'},
+ {id:'bases',n:'Preparaciones de barra',i:'alto',d:'Las bases que preparamos para armar los tragos: limonada, jamaicano, jengibre, maracuyá y más.',intro:'Recetas de las preparaciones que se hacen en la barra y se usan como base de otros tragos.',cats:[],cls:'grande'}
 ];
 const count=s=>s.cats.reduce((a,c)=>a+c[2].length,0);
 
 const portada=document.getElementById('portada'),interior=document.getElementById('interior'),app=document.getElementById('app'),back=document.getElementById('back');
 let cat=0;
 
-const IMG_LISTA=['aperitivi','mocktails','birre','jugos','digestivi','vinos','caffe'];
-const IMG_POS={mocktails:'100%',jugos:'100%',digestivi:'100%',caffe:'35%'};
+const IMG_LISTA=['aperitivi','mocktails','birre','jugos','digestivi','vinos','caffe','bases'];
+const IMG_POS={mocktails:'100%',jugos:'100%',digestivi:'100%',caffe:'35%',bases:'80%'};
 function renderCarta(){
   back.setAttribute('href','#');
   app.innerHTML=`<div class="view"><div class="intro" style="margin-top:5.2px;margin-bottom:1.265rem"><h1 class="h">La Carta</h1></div>
    <nav class="arches" aria-label="Secciones de la carta">
-   ${SECCIONES.map(s=>{const ok=IMG_LISTA.includes(s.id);return `<a class="arch${ok?'':' falta'}" href="#${s.id}"><span class="aw"><img src="../assets/carta/${s.id}${ok?'':'-prov'}.jpg" alt="" loading="lazy"${IMG_POS[s.id]?` style="object-position:center ${IMG_POS[s.id]}"`:''}></span><span class="n">${s.n}</span><span class="d">${s.d}</span></a>`}).join('')}
+   ${SECCIONES.map(s=>{const ok=IMG_LISTA.includes(s.id);return `<a class="arch${s.cls?' '+s.cls:''}${ok?'':' falta'}" href="#${s.id}"><span class="aw"><img src="../assets/carta/${s.id}${ok?'':'-prov'}.jpg" alt="" loading="lazy"${IMG_POS[s.id]?` style="object-position:center ${IMG_POS[s.id]}"`:''}></span><span class="n">${s.n}</span><span class="d">${s.d}</span></a>`}).join('')}
    </nav></div>`;
 }
 function renderSeccion(s){
