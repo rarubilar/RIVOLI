@@ -159,7 +159,7 @@ let cat=0;
 
 function renderCarta(){
   back.setAttribute('href','#');
-  app.innerHTML=`<div class="view"><div class="intro" style="margin-top:2.4px;margin-bottom:1.265rem"><h1 class="h">La Carta</h1></div>
+  app.innerHTML=`<div class="view"><div class="intro" style="margin-top:5.2px;margin-bottom:1.265rem"><h1 class="h">La Carta</h1></div>
    <nav class="arches" aria-label="Secciones de la carta">
    ${SECCIONES.map(s=>{const n=count(s);return `<a class="arch" href="#${s.id}">${ic(s.i)}<span class="n">${s.n}</span><span class="d">${s.d}</span><span class="c">${n||'—'}</span></a>`}).join('')}
    <a class="arch nuevo" href="../tragos-verano/">${ic('coupe')}<span class="n">3 nuevos</span><span class="d">Los tragos propuestos para el verano.</span><span class="c">3</span></a>
