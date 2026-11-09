@@ -353,7 +353,7 @@ function buscadorGlobal(){
   const abrir=()=>{if(v.classList.contains('buscando'))return;v.classList.add('buscando');q.tabIndex=0;scrollTo({top:0,behavior:'smooth'});pintar();
     clearTimeout(tOculta);tOculta=setTimeout(()=>{if(v.classList.contains('buscando'))rec.classList.add('fuera')},560)};
   const cerrar=()=>{if(!v.classList.contains('buscando'))return;
-    if(volverA&&!q.value.trim()){const t=volverA;volverA=null;location.hash=t;return}clearTimeout(tOculta);rec.classList.remove('fuera');void rec.offsetHeight;v.classList.remove('buscando');q.tabIndex=-1;q.value='';q.blur();res.innerHTML=''};
+    if(volverA&&!q.value.trim()){const t=volverA;volverA=null;if(irVolverCat!=null){irCat=irVolverCat;irVolverCat=null}location.hash=t;return}clearTimeout(tOculta);rec.classList.remove('fuera');void rec.offsetHeight;v.classList.remove('buscando');q.tabIndex=-1;q.value='';q.blur();res.innerHTML=''};
   const pintar=()=>{const k=norm(q.value.trim());
     if(!k){res.innerHTML='';return}
     const r=[];SECCIONES.forEach(s=>s.cats.forEach((c,ci)=>c[2].forEach(d=>{if(norm(d[0]).includes(k))r.push([s,ci,c[0],d])})));
@@ -383,11 +383,16 @@ function buscadorGlobal(){
   document.addEventListener('touchend',suelta,{passive:true});document.addEventListener('touchcancel',suelta,{passive:true});
   addEventListener('wheel',e=>{if(v.isConnected&&v.classList.contains('buscando')&&e.deltaY>30&&!conTexto()&&alFondo())cerrar()},{passive:true});
 }
+function hLupa(desde){
+  document.getElementById('hRight').innerHTML=`<a class="hlupa" href="#carta" aria-label="Buscar un trago">${ic('i-lupa')}</a>`;
+  document.querySelector('#hRight .hlupa').addEventListener('click',()=>{abrirBusq=true;volverA=desde;if(desde.startsWith('#')&&SECCIONES.some(x=>'#'+x.id===desde))irVolverCat=cat});
+}
+let irVolverCat=null;
 function renderSeccion(s){
   back.setAttribute('href','#carta');
+  hLupa('#'+s.id);
   const n=count(s);
   app.innerHTML=`<div class="view"><div class="intro"><div class="sello"><span class="cap">Recetas</span>${s.icono?`<img class="icono" src="../assets/iconos/${s.icono}.png" alt="">`:'<span class="cap" aria-hidden="true">·</span>'}<span class="cap">${n} tragos</span></div><h1 class="h">${s.n}</h1></div>
-   ${s.cats.length?`<div class="buscar"><button class="lupa" id="lupa" aria-label="Buscar un trago" aria-expanded="false" aria-controls="caja">${ic("i-lupa")}</button><div class="caja" id="caja"><label>${ic("i-lupa")}<input id="q" type="search" placeholder="Nombre del trago" autocomplete="off" enterkeyhint="search" aria-label="Nombre del trago"><button class="x" id="qx" aria-label="Borrar búsqueda" hidden>×</button></label></div></div>`:''}
    ${s.cats.length?`<div class="rowwrap"><div class="cats" id="cats" role="tablist" aria-label="Categorías">${s.cats.map((c,i)=>`<button role="tab" data-i="${i}" aria-selected="${i===cat}" aria-label="${c[0]}, ${c[2].length} tragos"><span class="r">${ROM[i]}</span><span class="t">${c[0]}</span></button>`).join('')}</div><div class="fade"></div><div class="fade l"></div></div>
    <div id="lista"></div><p class="hint">Desliza las categorías hacia el lado</p>`
    :`<div class="empty">Aún no cargamos el detalle de esta sección.</div>`}</div>`;
@@ -395,27 +400,12 @@ function renderSeccion(s){
   const cats=document.getElementById('cats');
   const show=i=>{cat=i;const c=s.cats[i];
     cats.querySelectorAll('button').forEach((b,j)=>b.setAttribute('aria-selected',j===i));
-    q.value='';qx.hidden=true;cats.classList.remove('dim');
     document.getElementById('lista').innerHTML=`<div class="list tarjs">${c[2].map(r=>{const f=FOTOS[r[0]],R=RECETAS[r[0]];return `<${R?`a href="#${R.id}"`:'div'} class="tarj${f?'':' sin'}">${f?`<img class="foto" src="../assets/tragos/${f}" alt="" loading="lazy">`:`<span class="foto">${ic(s.i)}</span>`}<div class="tx"><span class="top"><span class="cat">${c[0]}</span>${R?'<span class="ok">Receta ›</span>':'<span class="pend">receta pendiente</span>'}</span><span class="n">${r[0]}</span><small>${r[1]}</small></div></${R?'a':'div'}>`}).join('')}</div>`;
     /* si el nombre usa dos líneas, los ingredientes quedan en una para que todas las tarjetas midan lo mismo */
     document.querySelectorAll('.tarj').forEach(t=>t.classList.toggle('largo',t.querySelector('.n').offsetHeight>30));
     cats.querySelector(`[data-i="${i}"]`).scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
   };
   cats.addEventListener('click',e=>{const b=e.target.closest('button');if(b)show(+b.dataset.i)});
-  /* buscador */
-  const lupa=document.getElementById('lupa'),caja=document.getElementById('caja'),q=document.getElementById('q'),qx=document.getElementById('qx');
-  const norm=t=>t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
-  const esc=t=>t.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-  const marca=(t,k)=>{const i=norm(t).indexOf(k);return i<0?esc(t):esc(t.slice(0,i))+'<mark>'+esc(t.slice(i,i+k.length))+'</mark>'+esc(t.slice(i+k.length))};
-  const buscar=()=>{const k=norm(q.value.trim());qx.hidden=!q.value;
-    if(!k){cats.classList.remove('dim');show(cat);return}
-    cats.classList.add('dim');
-    const r=[];s.cats.forEach((c,i)=>c[2].forEach(d=>{if(norm(d[0]).includes(k))r.push([d,c[0]])}));
-    document.getElementById('lista').innerHTML=r.length?`<div class="list">${r.map(([d,cn])=>`<div class="row"><div><span class="cat">${cn}</span><span class="n">${marca(d[0],k)}</span><small>${d[1]}</small></div><span class="pend">receta pendiente</span></div>`).join('')}</div>`:`<p class="nada">No encontramos “${esc(q.value.trim())}”</p>`};
-  lupa.addEventListener('click',()=>{const on=!caja.classList.contains('on');caja.classList.toggle('on',on);lupa.setAttribute('aria-expanded',on);
-    if(on)setTimeout(()=>q.focus(),60);else{q.value='';buscar()}});
-  q.addEventListener('input',buscar);
-  qx.addEventListener('click',()=>{q.value='';buscar();q.focus()});
   let x0=null,y0=null;const lista=document.getElementById('lista');
   lista.addEventListener('touchstart',e=>{x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});
   lista.addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;
@@ -523,8 +513,7 @@ let multT=1;
 const fmtQ=q=>{const w=Math.floor(q),f=q-w,fr=f>.6?'¾':f>.4?'½':f>.2?'¼':'';return (w?w:'')+(fr||(w?'':'0'))};
 function renderTrago(r){
   back.setAttribute('href','#'+r.sec);irCat=r.cat;
-  document.getElementById('hRight').innerHTML=`<a class="hlupa" href="#carta" aria-label="Buscar otro trago">${ic('i-lupa')}</a>`;
-  document.querySelector('#hRight .hlupa').addEventListener('click',()=>{abrirBusq=true;volverA='#'+r.id});
+  hLupa('#'+r.id);
   const rows=r.ing.map(x=>{const q=x.fixed?x.q:x.q*multT;
     return `<tr><td class="n">${x.n}${x.sub?`<small>${x.sub(multT)}</small>`:''}</td><td class="qty">${x.pre?`<i class="qx">${x.pre}</i>`:''}${fmtQ(q)}${x.u?' '+x.u:''}${x.post?`<i class="qx">${x.post}</i>`:''}</td></tr>`}).join('');
   app.innerHTML=`<article class="view trago" aria-labelledby="dn">
@@ -554,7 +543,7 @@ function route(){
   if(!h){portada.hidden=false;interior.hidden=true;document.title='Rivoli · Carta';return}
   portada.hidden=true;interior.hidden=false;
   const s=SECCIONES.find(x=>x.id===h);
-  if(s){cat=irCat??0;irCat=null;renderSeccion(s);document.title='Rivoli · '+s.n}else if(REC_ID[h]){multT=1;renderTrago(REC_ID[h]);document.title='Rivoli · '+REC_ID[h].name}else{irCat=null;renderCarta();document.title='Rivoli · Recetario'}
+  if(s){cat=irCat??irVolverCat??0;irCat=null;irVolverCat=null;renderSeccion(s);document.title='Rivoli · '+s.n}else if(REC_ID[h]){multT=1;renderTrago(REC_ID[h]);document.title='Rivoli · '+REC_ID[h].name}else{irCat=null;renderCarta();document.title='Rivoli · Recetario'}
   scrollTo(0,0);
 }
 addEventListener('hashchange',route);route();
