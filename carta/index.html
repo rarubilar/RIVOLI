@@ -59,6 +59,11 @@ main{padding-block:var(--s4) var(--s6)}
 .h{font-family:var(--f-name);font-weight:400;font-size:2.6rem;line-height:1;margin:0}
 .intro{text-align:center;display:grid;gap:var(--s2);margin-bottom:var(--s3)}
 .intro .icono{width:22px;height:auto;justify-self:center;margin:0}
+/* sello: Recetas · águila · N tragos, un paso más chico que el rótulo normal */
+.sello{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:var(--s3);margin-bottom:calc(var(--s1) - var(--s2))}
+.sello .cap{font-size:.5rem;letter-spacing:.26em;margin-right:-.26em}
+.sello .cap:first-child{justify-self:end}.sello .cap:last-child{justify-self:start}
+.sello .icono{width:14px}
 .buscar{display:grid;justify-items:center;margin:0 0 var(--s3)}
 .lupa{width:44px;height:44px;display:grid;place-items:center;color:var(--gold);transition:opacity .2s}
 .lupa svg{width:24px;height:24px}
@@ -107,6 +112,22 @@ main{padding-block:var(--s4) var(--s6)}
 .bvolver::before{content:"";width:10px;height:10px;border-left:1.5px solid var(--gold);border-top:1.5px solid var(--gold);transform:rotate(45deg);animation:sube 1.6s ease-in-out infinite}
 @keyframes sube{50%{transform:translateY(-4px) rotate(45deg)}}
 .buscando .bvolver{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+
+/* tarjetas de trago: texto sobre blanco a la izquierda, la escena del trago aparece hacia la derecha */
+.tarjs{display:grid;gap:var(--s3);margin-top:var(--s4)}
+.tarj{position:relative;display:block;height:128px;border:1px solid #ece3d1;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 4px 14px rgba(31,38,45,.05);transition:transform .2s,border-color .2s}
+.tarj:active{transform:scale(.985);border-color:var(--gold-soft)}
+.tarj .foto{position:absolute;top:0;bottom:0;right:calc(-1 * var(--s3));width:66%;height:100%;object-fit:cover;-webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.35) 22%,#000 50%);mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.35) 22%,#000 50%)}
+.tarj.sin .foto{display:grid;place-items:center;background:linear-gradient(90deg,#fff 0%,#f6f0e4 55%,#efe5d2 100%)}
+.tarj.sin .foto svg{width:46px;height:46px;color:var(--gold-soft);margin-left:30%}
+.tarj .tx{position:relative;z-index:1;height:100%;width:57%;padding:var(--s3) 0 var(--s3) var(--s3);display:flex;flex-direction:column;justify-content:center;gap:var(--s1)}
+.tarj .cat{font-family:var(--f-cap);font-size:.58rem;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+.tarj .n{font-family:var(--f-name);font-size:1.45rem;line-height:1;text-wrap:balance}
+.tarj small{font-size:.9rem;color:#7d848a;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tarj .top{display:flex;gap:var(--s2);align-items:baseline;white-space:nowrap}
+.tarj .top .pend{font-size:.5rem}
+.tarj .n{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tarj.largo small{-webkit-line-clamp:1}
 
 /* arcos */
 .arches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s4) var(--s3)}
@@ -223,6 +244,8 @@ const portada=document.getElementById('portada'),interior=document.getElementByI
 let cat=0;
 
 const ROM=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+/* fotos por trago (nombre exacto → archivo en assets/tragos). Las que faltan muestran la copa dibujada */
+const FOTOS={'Aperol Spritz':'aperol-spritz.jpg','Orange Spritz':'orange-spritz.jpg'};
 const IMG_LISTA=['aperitivi','mocktails','birre','jugos','digestivi','vinos','caffe','bases'];
 const IMG_POS={mocktails:'100%',jugos:'100%',digestivi:'100%',caffe:'35%',bases:'80%'};
 function renderCarta(){
@@ -279,7 +302,7 @@ function buscadorGlobal(){
 function renderSeccion(s){
   back.setAttribute('href','#carta');
   const n=count(s);
-  app.innerHTML=`<div class="view"><div class="intro"><span class="cap">La carta${n?' · '+n+' tragos':''}</span>${s.icono?`<img class="icono" src="../assets/iconos/${s.icono}.png" alt="">`:''}<h1 class="h">${s.n}</h1></div>
+  app.innerHTML=`<div class="view"><div class="intro"><div class="sello"><span class="cap">Recetas</span>${s.icono?`<img class="icono" src="../assets/iconos/${s.icono}.png" alt="">`:'<span class="cap" aria-hidden="true">·</span>'}<span class="cap">${n} tragos</span></div><h1 class="h">${s.n}</h1></div>
    ${s.cats.length?`<div class="buscar"><button class="lupa" id="lupa" aria-label="Buscar un trago" aria-expanded="false" aria-controls="caja">${ic("i-lupa")}</button><div class="caja" id="caja"><label>${ic("i-lupa")}<input id="q" type="search" placeholder="Nombre del trago" autocomplete="off" enterkeyhint="search" aria-label="Nombre del trago"><button class="x" id="qx" aria-label="Borrar búsqueda" hidden>×</button></label></div></div>`:''}
    ${s.cats.length?`<div class="rowwrap"><div class="cats" id="cats" role="tablist" aria-label="Categorías">${s.cats.map((c,i)=>`<button role="tab" data-i="${i}" aria-selected="${i===cat}" aria-label="${c[0]}, ${c[2].length} tragos"><span class="r">${ROM[i]}</span><span class="t">${c[0]}</span></button>`).join('')}</div><div class="fade"></div><div class="fade l"></div></div>
    <div id="lista"></div><p class="hint">Desliza las categorías hacia el lado</p>`
@@ -289,7 +312,9 @@ function renderSeccion(s){
   const show=i=>{cat=i;const c=s.cats[i];
     cats.querySelectorAll('button').forEach((b,j)=>b.setAttribute('aria-selected',j===i));
     q.value='';qx.hidden=true;cats.classList.remove('dim');
-    document.getElementById('lista').innerHTML=`<div class="list">${c[2].map(r=>`<div class="row"><div><span class="n">${r[0]}</span><small>${r[1]}</small></div><span class="pend">receta pendiente</span></div>`).join('')}</div>`;
+    document.getElementById('lista').innerHTML=`<div class="list tarjs">${c[2].map(r=>{const f=FOTOS[r[0]];return `<div class="tarj${f?'':' sin'}">${f?`<img class="foto" src="../assets/tragos/${f}" alt="" loading="lazy">`:`<span class="foto">${ic(s.i)}</span>`}<div class="tx"><span class="top"><span class="cat">${c[0]}</span><span class="pend">receta pendiente</span></span><span class="n">${r[0]}</span><small>${r[1]}</small></div></div>`}).join('')}</div>`;
+    /* si el nombre usa dos líneas, los ingredientes quedan en una para que todas las tarjetas midan lo mismo */
+    document.querySelectorAll('.tarj').forEach(t=>t.classList.toggle('largo',t.querySelector('.n').offsetHeight>30));
     cats.querySelector(`[data-i="${i}"]`).scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
   };
   cats.addEventListener('click',e=>{const b=e.target.closest('button');if(b)show(+b.dataset.i)});
