@@ -183,6 +183,7 @@ main{padding-block:var(--s4) var(--s6)}
 .trago .build>.cap{display:flex;align-items:center;gap:var(--s3)}
 .trago .build>.cap::before,.trago .build>.cap::after{content:"";flex:1;height:1px;background:var(--line)}
 .trago .build svg{width:100%;height:auto;display:block}
+.trago .qty .qx{display:block;font-family:var(--f-cap);font-style:normal;font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);line-height:1.6}
 .trago .serv{grid-template-columns:repeat(3,minmax(0,1fr))}
 .trago .badge{display:flex;align-items:center;justify-content:center;gap:var(--s2);margin:var(--s4) 0 0;font-family:var(--f-cap);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
 .trago .badge svg{width:30px;height:30px;color:var(--gold)}
@@ -317,10 +318,10 @@ const RECETAS={
   serv:[['kero','Vaso Gran Cruz 300 ml'],['blender','Licuar'],['gotas','Angostura al final']],
   ing:[
    {n:'Hielo',sub:m=>'cubos, en la licuadora',q:3},
-   {n:'Preparado de pisco sour',q:160,u:'ml',sub:m=>`hasta la marca de ${250*m} ml con el hielo`},
+   {n:'Preparado de pisco sour',q:250,u:'ml',pre:'hasta',post:'marca'},
    {n:'Clara de huevo',q:.5,u:'cda',sub:m=>'cuchara de té'},
    {n:'Amargo de angostura',q:2,u:'gotas',fixed:1,sub:m=>'por vaso, ya servido'}],
-  steps:['En la licuadora pon 3 hielos.','Agrega el preparado de pisco sour hasta la marca de 250 ml, contando el hielo (≈ 160 ml).','Suma ½ cuchara de té de clara de huevo.','Licúa 1 minuto, hasta que quede espumoso.','Sirve en el vaso Gran Cruz (≈ 300 ml), con la espuma arriba.','Ya servido, agrega 2 gotas de amargo de angostura sobre la espuma.']}
+  steps:['En la licuadora pon 3 hielos.','Agrega el preparado de pisco sour hasta la marca de 250 ml, contando el hielo.','Suma ½ cuchara de té de clara de huevo.','Licúa 1 minuto, hasta que quede espumoso.','Sirve en el vaso Gran Cruz (≈ 300 ml), con la espuma arriba.','Ya servido, agrega 2 gotas de amargo de angostura sobre la espuma.']}
 };
 const REC_ID=Object.fromEntries(Object.values(RECETAS).map(r=>[r.id,r]));
 /* fotos por trago (nombre exacto → archivo en assets/tragos). Las que faltan muestran la copa dibujada */
@@ -422,7 +423,7 @@ const DEDO=.75;
 const BC={gin:'#e3e9ec',mara:'#e9b13c',limon:'#e6e98f',jeng:'#d8b47e',esp:'#f2e09a',ape:'#d9542b',pisco:'#efe7d2',goma:'#f1ece2',clara:'#ddd3bd',ron:'#ece6d4',mango:'#f0a43a',frut:'#e0566b'};
 const BUILD={
  'pisco-sour':()=>({tool:'jug',g:'kero',gl:'EL VASO',unit:'MEDIDA',ice:0,noIce:1,vIce:3,how:['Licuar 1 minuto','y servir'],
-  cap:5.2,extra:[['Clara de huevo','½ cda']],v:[['Preparado\nPisco Sour',5.5,BC.pisco,1.3,'≈ 160 ml']],
+  cap:5.2,extra:[['Clara de huevo','½ cda']],v:[['Preparado\nPisco Sour',5.5,BC.pisco,1.3,'hasta 250 ml']],
   glass:[['Pisco sour',4.55,'#efe7d2',null,'≈ 250 ml'],['Angostura',.1,'drops',.45,'2 gotas']]})
 };
 const BPX=20,BGAP=32,BNX=136,BW=300;
@@ -512,7 +513,7 @@ const fmtQ=q=>{const w=Math.floor(q),f=q-w,fr=f>.6?'¾':f>.4?'½':f>.2?'¼':'';r
 function renderTrago(r){
   back.setAttribute('href','#'+r.sec);irCat=r.cat;
   const rows=r.ing.map(x=>{const q=x.fixed?x.q:x.q*multT;
-    return `<tr><td class="n">${x.n}<small>${x.sub(multT)}</small></td><td class="qty">${fmtQ(q)}${x.u?' '+x.u:''}</td></tr>`}).join('');
+    return `<tr><td class="n">${x.n}${x.sub?`<small>${x.sub(multT)}</small>`:''}</td><td class="qty">${x.pre?`<i class="qx">${x.pre}</i>`:''}${fmtQ(q)}${x.u?' '+x.u:''}${x.post?`<i class="qx">${x.post}</i>`:''}</td></tr>`}).join('');
   app.innerHTML=`<article class="view trago" aria-labelledby="dn">
     <div class="hero"><img src="${r.hero}" alt="${r.name} en vaso de pisco sour Gran Cruz, con espuma y gotas de angostura"></div>
     <div class="title"><h1 id="dn">${r.name}</h1></div>
