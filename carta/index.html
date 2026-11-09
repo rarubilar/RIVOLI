@@ -393,6 +393,10 @@ function masPedidos(){
   q.addEventListener('input',lista);
   document.getElementById('masx').addEventListener('click',()=>{q.value='';lista();q.focus()});
   document.getElementById('masok').addEventListener('click',cerrar);
+  /* tocar fuera del panel (y de los botones) cierra la edición */
+  const fuera=e=>{if(!panel.isConnected){document.removeEventListener('click',fuera,true);return}
+    if(edit&&!e.target.closest('#maspanel,#pills')){e.preventDefault();e.stopPropagation();cerrar()}};
+  document.addEventListener('click',fuera,true);
   pinta();
 }
 function renderCarta(){
