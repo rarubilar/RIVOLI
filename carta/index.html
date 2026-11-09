@@ -340,6 +340,8 @@ function renderCarta(){
    ${SECCIONES.map(s=>{const ok=IMG_LISTA.includes(s.id);return `<a class="arch${s.cls?' '+s.cls:''}${ok?'':' falta'}" href="#${s.id}"><span class="aw"><img src="../assets/carta/${s.id}${ok?'':'-prov'}.jpg" alt="" loading="lazy"${IMG_POS[s.id]?` style="object-position:center ${IMG_POS[s.id]}"`:''}></span><span class="n">${s.n}</span><span class="d">${s.d}</span></a>`}).join('')}
    </nav></div><button class="bvolver" id="bvolver">Ver recetario</button></div>`;
   buscadorGlobal();
+  document.getElementById('hRight').innerHTML=`<button class="hlupa" type="button" aria-label="Buscar un trago">${ic('i-lupa')}</button>`;
+  document.querySelector('#hRight .hlupa').addEventListener('click',e=>{e.stopPropagation();document.getElementById('blupa').click()});
   if(abrirBusq){abrirBusq=false;if(volverA)back.setAttribute('href',volverA);setTimeout(()=>document.getElementById('blupa').click(),30)}else volverA=null;
 }
 let irCat=null;
