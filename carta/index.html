@@ -214,6 +214,11 @@ main{padding-block:var(--s4) var(--s6)}
 .pillw{position:relative;display:inline-flex}
 .pill{min-height:44px;display:inline-flex;align-items:center;padding:0 var(--s3);border:1px solid var(--gold-soft);border-radius:999px;font-family:var(--f-name);font-size:1.15rem;background:#fff;color:var(--ink)}
 .pill.mas-add{width:44px;padding:0;justify-content:center;color:var(--gold);font-size:1.4rem;border-style:dashed}
+.pills.editando .pillw{animation:vibra .28s ease-in-out infinite alternate;touch-action:none}
+.pills.editando .pillw:nth-child(2n){animation-delay:-.14s;animation-duration:.31s}
+.pills.editando .pillw.arr{animation:none;z-index:3;box-shadow:0 8px 20px rgba(31,38,45,.18);border-radius:999px}
+@keyframes vibra{from{transform:rotate(-1.4deg)}to{transform:rotate(1.4deg)}}
+.pills.editando .pillw.arr{transition:none}
 .pillx{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-size:.9rem;line-height:1;display:grid;place-items:center}
 .pillx::after{content:"";position:absolute;inset:-11px}
 .maspanel{margin-top:var(--s3);border:1px solid var(--gold-soft);border-radius:12px;padding:var(--s2) var(--s3);background:#fbf8f1;display:grid;gap:0}
@@ -400,7 +405,7 @@ function masPedidos(){
   const pills=document.getElementById('pills'),panel=document.getElementById('maspanel'),q=document.getElementById('masq'),res=document.getElementById('masres');
   let edit=false;
   const norm=t=>t.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
-  const pinta=()=>{const L=getMas();
+  const pinta=()=>{const L=getMas();pills.classList.toggle('editando',edit);
     pills.innerHTML=L.map(n=>{const R=RECETAS[n],f=findT(n);return `<span class="pillw"><a class="pill" href="#${R?R.id:f.s.id}" data-n="${n}">${n.replace(' Rivoli','')}</a>${edit?`<button class="pillx" type="button" data-x="${n}" aria-label="Quitar ${n}">×</button>`:''}</span>`}).join('')
       +(edit?'':`<button class="pill mas-add" id="masadd" type="button" aria-label="Agregar un trago a más pedidos">+</button>`);
     const add=document.getElementById('masadd');if(add)add.addEventListener('click',abrir)};
@@ -409,11 +414,24 @@ function masPedidos(){
     res.innerHTML=r.length?r.map(n=>`<button class="masr" type="button" data-a="${n}"><span>${n}</span><i>+</i></button>`).join(''):'<p class="nada">No encontramos ese trago</p>'};
   const abrir=()=>{edit=true;panel.hidden=false;q.value='';lista();pinta();setTimeout(()=>q.focus(),40)};
   const cerrar=()=>{edit=false;panel.hidden=true;q.blur();pinta()};
+  /* en edición, los atajos se pueden arrastrar para cambiar el orden */
+  let drag=null;
+  pills.addEventListener('pointerdown',e=>{if(!edit||e.target.closest('[data-x]'))return;const w=e.target.closest('.pillw');if(!w)return;
+    e.preventDefault();drag={n:w.querySelector('.pill').dataset.n,el:w,x:e.clientX,y:e.clientY,moved:false}});
+  pills.addEventListener('dragstart',e=>{if(edit)e.preventDefault()});
+  document.addEventListener('pointermove',e=>{if(!drag||!pills.isConnected)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
+    if(!drag.moved&&Math.hypot(dx,dy)<6)return;drag.moved=true;drag.el.classList.add('arr');drag.el.style.transform=`translate(${dx}px,${dy}px)`;
+    drag.el.style.pointerEvents='none';const t=document.elementFromPoint(e.clientX,e.clientY)?.closest('.pillw');drag.el.style.pointerEvents='';
+    if(t&&t!==drag.el){const L=getMas(),a=L.indexOf(drag.n),b=L.indexOf(t.querySelector('.pill').dataset.n);if(a>-1&&b>-1){L.splice(a,1);L.splice(b,0,drag.n);setMas(L);
+      const r=drag.el.getBoundingClientRect();pinta();const nw=[...pills.querySelectorAll('.pillw')].find(x=>x.querySelector('.pill').dataset.n===drag.n);
+      if(nw){const r2=nw.getBoundingClientRect();drag.x+=r2.left-r.left;drag.y+=r2.top-r.top;drag.el=nw;nw.classList.add('arr');nw.style.transform=`translate(${e.clientX-drag.x}px,${e.clientY-drag.y}px)`}}}});
+  const suelta=()=>{if(!drag)return;drag.el.classList.remove('arr');drag.el.style.transform='';drag=null};
+  document.addEventListener('pointerup',suelta);document.addEventListener('pointercancel',suelta);
   pills.addEventListener('click',e=>{const x=e.target.closest('[data-x]');if(x){setMas(getMas().filter(n=>n!==x.dataset.x));pinta();lista();return}
     const a=e.target.closest('a.pill');if(a){if(edit){e.preventDefault();return}desdeMenu=true;const f=findT(a.dataset.n);if(f&&!RECETAS[a.dataset.n])irCat=f.i}});
   res.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;setMas([...getMas(),b.dataset.a]);q.value='';pinta();lista();q.focus()});
   q.addEventListener('input',lista);
-  document.getElementById('masx').addEventListener('click',()=>{q.value='';lista();q.focus()});
+  document.getElementById('masx').addEventListener('click',()=>cerrar());
   document.getElementById('masok').addEventListener('click',cerrar);
   /* tocar fuera del panel (y de los botones) cierra la edición */
   const fuera=e=>{if(!panel.isConnected){document.removeEventListener('click',fuera,true);return}
@@ -428,7 +446,7 @@ function renderCarta(){
    <div id="bres" aria-live="polite"></div>
    <div class="rec"><div class="intro" style="margin-bottom:var(--s4)"><h1 class="h">Recetario</h1></div>
    <section class="mas" aria-labelledby="mash"><h2 class="cap mt" id="mash">Más pedidos</h2><div class="pills" id="pills"></div>
-     <div class="maspanel" id="maspanel" hidden><label class="masq"><svg aria-hidden="true"><use href="#i-lupa"/></svg><input id="masq" type="search" autocomplete="off" placeholder="Agregar un trago" aria-label="Buscar un trago para agregar"><button class="masx" id="masx" type="button" aria-label="Borrar búsqueda">×</button></label><div id="masres"></div><button class="masok" id="masok" type="button" aria-label="Listo">›</button></div></section>
+     <div class="maspanel" id="maspanel" hidden><label class="masq"><svg aria-hidden="true"><use href="#i-lupa"/></svg><input id="masq" type="search" autocomplete="off" placeholder="Agregar un trago" aria-label="Buscar un trago para agregar"><button class="masx" id="masx" type="button" aria-label="Cerrar">×</button></label><div id="masres"></div><button class="masok" id="masok" type="button" aria-label="Listo">›</button></div></section>
    <nav class="arches" aria-label="Secciones principales">${PRI.map(id=>{const s=S(id);return `<a class="arch" href="#${id}"><span class="aw"><img src="../assets/carta/${id}.jpg" alt="" loading="lazy"${IMG_POS[id]?` style="object-position:center ${IMG_POS[id]}"`:''}></span><span class="n">${s.n}</span></a>`}).join('')}</nav>
    <nav class="srv" style="margin-top:var(--s5)" aria-label="Servicio">${SRV.map(id=>{const s=S(id);return `<a class="mini" href="#${id}"><span class="aw"><img src="../assets/carta/${id}.jpg" alt="" loading="lazy"${IMG_POS[id]?` style="object-position:center ${IMG_POS[id]}"`:''}></span><span class="n">${s.n}</span></a>`}).join('')}</nav>
    <h2 class="cap mt">En botella</h2><nav class="rows" aria-label="En botella"><a class="srow" href="#bases"><span class="aw"><img src="../assets/carta/bases.jpg" alt="" loading="lazy" style="object-position:center 80%"></span><span class="tx"><b>Preparaciones de barra</b><small>Bases que se dejan listas en botella</small></span><i>›</i></a></nav>
