@@ -480,7 +480,7 @@ function bBlock(kind,layers,Y,s,ice,inline,cap){
   const nl=nm.split('\n');maxLy=Math.max(maxLy,ly+(nl.length-1)*21);
   out+=`<circle cx="${mx}" cy="${my}" r="2" fill="#8a6a32"/>${lead}<text dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${nl.map((t,k)=>`<tspan x="${BNX}" y="${ly+k*21}">${t}</tspan>`).join('')}</text>${lab?`<text x="${BW}" y="${ly}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="12" fill="#8a6a32">${lab}</text>`:bFingers(oz,ly)}`;
  });
- return {out,end:Math.max(Y+span,maxLy+16),maxLy};
+ return {out,end:Math.max(Y+span,maxLy+16),maxLy,top:ty-s*20,bot:ty+s*(v.bot+v.foot)};
 }
 function iceRow(y,n){
  let s=`<g transform="translate(${BNX-28} ${y-9}) scale(.45)"><path d="M8 14l10-5 10 5v12l-10 5-10-5z M8 14l10 5 10-5M18 19v12" fill="none" stroke="#8aa3ad" stroke-width="2.4"/></g>
@@ -494,8 +494,16 @@ function buildSVG(id,k){
  const b=BUILD[id](k),tool=b.tool==='jug'?'LICUADORA':'COCTELERA';
  let out=`<text x="0" y="14" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">I · EN LA ${tool}</text><text x="${BW}" y="14" text-anchor="end" font-family="Cinzel,serif" font-size="10" letter-spacing="1.5" fill="#a39a8a">${b.unit||'DEDOS'}</text>`;
  const a=bBlock(b.tool,b.v,30,.65,b.vIce,true,b.cap);out+=a.out;
+ const clRow=(ey,nm,val)=>`<g transform="translate(${BNX-28} ${ey-9})"><ellipse cx="7" cy="9" rx="5.5" ry="7" fill="none" stroke="#c9b48a" stroke-width="1.2"/></g><text x="${BNX}" y="${ey}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${nm}</text><text x="${BW}" y="${ey}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="12" fill="#8a6a32">${val}</text>`;
+ if(b.cap){ /* licuadora: hielo y clara arriba, alineados con el borde superior; preparado abajo */
+  const rows=[];if(b.vIce)rows.push(y=>iceRow(y,b.vIce));(b.extra||[]).forEach(([nm,val])=>rows.push(y=>clRow(y,nm,val)));
+  const y0=a.top+10,yp=a.maxLy-21,st=(yp-y0)/rows.length;
+  rows.forEach((f,i)=>{out+=f(y0+st*i)});
+  a.end=Math.max(a.end,a.bot+8);
+ }else{
  if(b.vIce){const iy=Math.max(a.maxLy+34,a.end-6);out+=iceRow(iy,b.vIce);a.end=iy+16;}
- (b.extra||[]).forEach(([nm,val])=>{const ey=a.end+20;out+=`<g transform="translate(${BNX-28} ${ey-9})"><ellipse cx="7" cy="9" rx="5.5" ry="7" fill="none" stroke="#c9b48a" stroke-width="1.2"/></g><text x="${BNX}" y="${ey}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${nm}</text><text x="${BW}" y="${ey}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="12" fill="#8a6a32">${val}</text>`;a.end=ey+16;});
+ (b.extra||[]).forEach(([nm,val])=>{const ey=a.end+20;out+=clRow(ey,nm,val);a.end=ey+16;});
+ }
  let y=a.end+22;out+=`<line x1="${BNX-80}" y1="${y}" x2="${BW}" y2="${y}" stroke="#eee9e0"/>`;y+=18;
  out+=`<line x1="64" y1="${y+2}" x2="64" y2="${y+36}" stroke="#8a6a32" stroke-width="1.4"/><path d="M58 ${y+30} L64 ${y+38} L70 ${y+30}" fill="none" stroke="#8a6a32" stroke-width="1.4"/>
   <text font-family="'Instrument Serif',serif" font-style="italic" font-size="16" fill="#6b737a">${b.how[1]?`<tspan x="${BNX}" y="${y+19-9.5}" dominant-baseline="central">${b.how[0]}</tspan><tspan x="${BNX}" y="${y+19+9.5}" dominant-baseline="central">${b.how[1]}</tspan>`:`<tspan x="${BNX}" y="${y+19}" dominant-baseline="central">${b.how[0]}</tspan>`}</text>`;
@@ -523,7 +531,6 @@ function renderTrago(r){
       <div class="recipe">
         <div class="serv">${r.serv.map(x=>`<div><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#${x[0]}"/></svg><span>${x[1]}</span></div>`).join('')}</div>
         <table class="ing"><colgroup><col class="c-n"><col class="c-q"></colgroup><tbody>${rows}</tbody></table>
-        <p class="note">Medidas estimadas desde la marca de 250 ml · 3 cubos ≈ 90 ml</p>
         <div class="rtop"><span class="cap" style="color:var(--ink)">${multT} ${multT>1?'tragos':'trago'}</span>
           <div class="mult" role="group" aria-label="Cantidad">${[1,2,4].map(m=>`<button data-m="${m}" aria-pressed="${m===multT}">×${m}</button>`).join('')}</div></div>
       </div></section>
