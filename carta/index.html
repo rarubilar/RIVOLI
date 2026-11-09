@@ -188,6 +188,11 @@ main{padding-block:var(--s4) var(--s6)}
 .trago .build>.cap::before,.trago .build>.cap::after{content:"";flex:1;height:1px;background:var(--line)}
 .trago .build svg{width:100%;height:auto;display:block}
 .trago .qty .qx{display:block;font-family:var(--f-cap);font-style:normal;font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);line-height:1.6}
+.trago .vsel{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s2);margin-top:var(--s4)}
+.trago .vsel button{border:1px solid var(--line);border-radius:4px;padding:var(--s3) var(--s1);font-family:var(--f-name);font-size:1.2rem;line-height:1.05;min-height:56px;transition:background .2s,color .2s,border-color .2s}
+.trago .vsel button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.trago .pendr{border:1px dashed var(--gold-soft);border-radius:var(--r);padding:var(--s4) var(--s3);text-align:center;display:grid;gap:var(--s2)}
+.trago .pendr p{margin:0;color:var(--muted);font-style:italic}
 .trago .serv{grid-template-columns:repeat(3,minmax(0,1fr))}
 .trago .badge{display:flex;align-items:center;justify-content:center;gap:var(--s2);margin:var(--s4) 0 0;font-family:var(--f-cap);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
 .trago .badge svg{width:30px;height:30px;color:var(--gold)}
@@ -258,6 +263,7 @@ main{padding-block:var(--s4) var(--s6)}
 .cats button[aria-selected="true"]{border-bottom-color:var(--gold)}
 .cats button[aria-selected="true"] .t{color:var(--ink)}
 .cats button[aria-selected="true"] .r{color:var(--gold)}
+.rowwrap.pocas .cats{justify-content:center}.rowwrap.pocas .fade{display:none}
 .fade{position:absolute;right:0;top:0;bottom:1px;width:40px;background:linear-gradient(to right,rgba(255,255,255,0),#fff);pointer-events:none}
 .fade.l{right:auto;left:0;background:linear-gradient(to left,rgba(255,255,255,0),#fff)}
 .sub{border-left:2px solid var(--gold-soft);padding-left:10px;margin:1.08rem 0 .48rem}
@@ -334,7 +340,9 @@ const SECCIONES=[
    ['Sangría 0°','Para compartir.',[['Copa Sangría sin alcohol','Vino sin alcohol · frutas · maracuyá · limón']]]
   ]},
  {id:'birre',n:'Birre',i:'birra',d:'Cervezas para pizzas y antipasti.',intro:'Cervezas para acompañar pizzas, antipasti y la terraza.',cats:[]},
- {id:'jugos',n:'Jugos y aguas',i:'alto',d:'Jugos naturales y aguas para la mesa.',intro:'Jugos naturales, bebidas y aguas para la mesa.',cats:[]},
+ {id:'jugos',n:'Jugos y aguas',i:'alto',d:'Jugos naturales y aguas para la mesa.',intro:'Jugos naturales, bebidas y aguas para la mesa.',cats:[
+   ['Limonadas','Naturales, con variantes de fruta y hierbas.',[['Limonada','Limón · azúcar · agua · versiones de fruta']]]
+  ]},
  {id:'digestivi',n:'Digestivi',i:'digest',d:'Licores y amari para cerrar.',intro:'Licores y amari italianos para cerrar la comida.',cats:[]},
  {id:'vinos',n:'Vinos',i:'vino',d:'Tintos, blancos y espumantes.',intro:'Tintos, blancos y espumantes chilenos e italianos para maridar.',cats:[]},
  {id:'caffe',n:'Caffè',i:'cafe',d:'Espresso y cafés para el final.',intro:'Espresso y cafés a la italiana, para el final.',cats:[],cls:'solo'},
@@ -358,18 +366,25 @@ const RECETAS={
    {n:'Preparado de pisco sour',q:250,u:'ml',pre:'hasta',post:'marca'},
    {n:'Clara de huevo',q:.5,u:'cda',sub:m=>'cuchara de té'},
    {n:'Amargo de angostura',q:2,u:'gotas',fixed:1,sub:m=>'por vaso, ya servido'}],
-  steps:['En la licuadora pon 3 hielos.','Agrega el preparado de pisco sour hasta la marca de 250 ml, contando el hielo.','Suma ½ cuchara de té de clara de huevo.','Licúa 1 minuto, hasta que quede espumoso.','Sirve en el vaso Gran Cruz (≈ 300 ml), con la espuma arriba.','Ya servido, agrega 2 gotas de amargo de angostura sobre la espuma.']}
+  steps:['En la licuadora pon 3 hielos.','Agrega el preparado de pisco sour hasta la marca de 250 ml, contando el hielo.','Suma ½ cuchara de té de clara de huevo.','Licúa 1 minuto, hasta que quede espumoso.','Sirve en el vaso Gran Cruz (≈ 300 ml), con la espuma arriba.','Ya servido, agrega 2 gotas de amargo de angostura sobre la espuma.']},
+ 'Limonada':{id:'limonada',sec:'jugos',cat:0,name:'Limonada',
+  hero:'../assets/carta/jugos.jpg',heroPos:'center 70%',
+  facts:[['Sabor','Ácida, fresca'],['Familia','Limonadas'],['Estilo','Largo, sin alcohol']],
+  badge:['laurea','Trago popular'],
+  /* receta en construcción: se completa con la barra */
+  variants:[{k:'Tradicional'},{k:'Menta jengibre'},{k:'Frutilla'}],
+  serv:[],ing:[],steps:[]}
 };
 const REC_ID=Object.fromEntries(Object.values(RECETAS).map(r=>[r.id,r]));
 /* fotos por trago (nombre exacto → archivo en assets/tragos). Las que faltan muestran la copa dibujada */
-const FOTOS={'Aperol Spritz':'aperol-spritz.jpg','Orange Spritz':'orange-spritz.jpg','Pisco Sour':'pisco-sour.jpg?v=2'};
+const FOTOS={'Aperol Spritz':'aperol-spritz.jpg','Orange Spritz':'orange-spritz.jpg','Pisco Sour':'pisco-sour.jpg?v=2','Limonada':'limonada.jpg'};
 const IMG_LISTA=['aperitivi','mocktails','birre','jugos','digestivi','vinos','caffe','bases'];
 const IMG_POS={mocktails:'100%',jugos:'100%',digestivi:'100%',caffe:'35%',bases:'80%'};
 
 /* ---------- índice del Recetario ---------- */
 const PRI=['aperitivi','mocktails','digestivi','caffe'],SRV=['birre','jugos','vinos'];
 const S=id=>SECCIONES.find(x=>x.id===id);
-const MAS_DEF=['Pisco Sour','Aperol Spritz','Mojito Tradicional','Negroni','Gin Tonic','Espresso Martini Rivoli'];
+const MAS_DEF=['Pisco Sour','Limonada','Aperol Spritz','Mojito Tradicional','Negroni','Gin Tonic','Espresso Martini Rivoli'];
 const findT=n=>{for(const s of SECCIONES)for(let i=0;i<s.cats.length;i++)if(s.cats[i][2].some(d=>d[0]===n))return {s,i};return null};
 const TODOS=()=>SECCIONES.flatMap(s=>s.cats.flatMap(c=>c[2].map(d=>d[0])));
 const getMas=()=>{try{const v=JSON.parse(localStorage.getItem('rivoli-mas'));if(Array.isArray(v))return v.filter(n=>findT(n))}catch(e){}return MAS_DEF.slice()};
@@ -408,7 +423,7 @@ function renderCarta(){
    <section class="mas" aria-labelledby="mash"><h2 class="cap mt" id="mash">Más pedidos</h2><div class="pills" id="pills"></div>
      <div class="maspanel" id="maspanel" hidden><label class="masq"><svg aria-hidden="true"><use href="#i-lupa"/></svg><input id="masq" type="search" autocomplete="off" placeholder="Agregar un trago" aria-label="Buscar un trago para agregar"><button class="masx" id="masx" type="button" aria-label="Borrar búsqueda">×</button></label><div id="masres"></div><button class="masok" id="masok" type="button" aria-label="Listo">›</button></div></section>
    <nav class="arches" aria-label="Secciones principales">${PRI.map(id=>{const s=S(id);return `<a class="arch" href="#${id}"><span class="aw"><img src="../assets/carta/${id}.jpg" alt="" loading="lazy"${IMG_POS[id]?` style="object-position:center ${IMG_POS[id]}"`:''}></span><span class="n">${s.n}</span></a>`}).join('')}</nav>
-   <h2 class="cap mt">Servicio</h2><nav class="srv" aria-label="Servicio">${SRV.map(id=>{const s=S(id);return `<a class="mini" href="#${id}"><span class="aw"><img src="../assets/carta/${id}.jpg" alt="" loading="lazy"${IMG_POS[id]?` style="object-position:center ${IMG_POS[id]}"`:''}></span><span class="n">${s.n}</span></a>`}).join('')}</nav>
+   <nav class="srv" style="margin-top:var(--s5)" aria-label="Servicio">${SRV.map(id=>{const s=S(id);return `<a class="mini" href="#${id}"><span class="aw"><img src="../assets/carta/${id}.jpg" alt="" loading="lazy"${IMG_POS[id]?` style="object-position:center ${IMG_POS[id]}"`:''}></span><span class="n">${s.n}</span></a>`}).join('')}</nav>
    <h2 class="cap mt">En botella</h2><nav class="rows" aria-label="En botella"><a class="srow" href="#bases"><span class="aw"><img src="../assets/carta/bases.jpg" alt="" loading="lazy" style="object-position:center 80%"></span><span class="tx"><b>Preparaciones de barra</b><small>Bases que se dejan listas en botella</small></span><i>›</i></a></nav>
   </div><button class="bvolver" id="bvolver">Ver recetario</button></div>`;
   buscadorGlobal();masPedidos();
@@ -466,9 +481,9 @@ function renderSeccion(s){
   back.setAttribute('href','#carta');
   hLupa('#'+s.id);
   const n=count(s);
-  app.innerHTML=`<div class="view"><div class="intro"><div class="sello"><span class="cap">Recetas</span>${s.icono?`<img class="icono" src="../assets/iconos/${s.icono}.png" alt="">`:'<span class="cap" aria-hidden="true">·</span>'}<span class="cap">${n} tragos</span></div><h1 class="h">${s.n}</h1></div>
-   ${s.cats.length?`<div class="rowwrap"><div class="cats" id="cats" role="tablist" aria-label="Categorías">${s.cats.map((c,i)=>`<button role="tab" data-i="${i}" aria-selected="${i===cat}" aria-label="${c[0]}, ${c[2].length} tragos"><span class="r">${ROM[i]}</span><span class="t">${c[0]}</span></button>`).join('')}</div><div class="fade"></div><div class="fade l"></div></div>
-   <div id="lista"></div><p class="hint">Desliza las categorías hacia el lado</p>`
+  app.innerHTML=`<div class="view"><div class="intro"><div class="sello"><span class="cap">Recetas</span>${s.icono?`<img class="icono" src="../assets/iconos/${s.icono}.png" alt="">`:'<span class="cap" aria-hidden="true">·</span>'}<span class="cap">${n} ${n===1?'trago':'tragos'}</span></div><h1 class="h">${s.n}</h1></div>
+   ${s.cats.length?`<div class="rowwrap${s.cats.length<3?' pocas':''}"><div class="cats" id="cats" role="tablist" aria-label="Categorías">${s.cats.map((c,i)=>`<button role="tab" data-i="${i}" aria-selected="${i===cat}" aria-label="${c[0]}, ${c[2].length} tragos"><span class="r">${ROM[i]}</span><span class="t">${c[0]}</span></button>`).join('')}</div><div class="fade"></div><div class="fade l"></div></div>
+   <div id="lista"></div>${s.cats.length>3?'<p class="hint">Desliza las categorías hacia el lado</p>':''}`
    :`<div class="empty">Aún no cargamos el detalle de esta sección.</div>`}</div>`;
   if(!s.cats.length)return;
   const cats=document.getElementById('cats');
@@ -585,29 +600,36 @@ const ozTxt=x=>{const w=Math.floor(x+1e-6),f=+(x-w).toFixed(3);const m={0.25:'¼
 const frac=x=>{const w=Math.floor(x+1e-6),f=x-w;let s='';if(Math.abs(f-1/3)<.05)s='⅓';else if(Math.abs(f-2/3)<.05)s='⅔';return (w?w:'')+(s||(w?'':'0'))};
 let multT=1;
 const fmtQ=q=>{const w=Math.floor(q),f=q-w,fr=f>.6?'¾':f>.4?'½':f>.2?'¼':'';return (w?w:'')+(fr||(w?'':'0'))};
+let varT=0;
 function renderTrago(r){
+  const R0=r;
   back.setAttribute('href','#'+r.sec);irCat=r.cat;
   hLupa('#'+r.id);
+  const V=r.variants?r.variants[Math.min(varT,r.variants.length-1)]:null,rr=Object.assign({},r,V&&V.ing?{ing:V.ing,serv:V.serv||r.serv,steps:V.steps||r.steps}:{});
+  r=rr;
   const rows=r.ing.map(x=>{const q=x.fixed?x.q:x.q*multT;
     return `<tr><td class="n">${x.n}${x.sub?`<small>${x.sub(multT)}</small>`:''}</td><td class="qty">${x.pre?`<i class="qx">${x.pre}</i>`:''}${fmtQ(q)}${x.u?' '+x.u:''}${x.post?`<i class="qx">${x.post}</i>`:''}</td></tr>`}).join('');
   app.innerHTML=`<article class="view trago" aria-labelledby="dn">
-    <div class="hero"><img src="${r.hero}" alt="${r.name} en vaso de pisco sour Gran Cruz, con espuma y gotas de angostura"></div>
+    <div class="hero"><img src="${r.hero}" alt="${r.name}"${r.heroPos?` style="object-position:${r.heroPos}"`:''}></div>
     <div class="title"><h1 id="dn">${r.name}</h1></div>
     <div class="facts">${r.facts.map(f=>`<div><span class="cap">${f[0]}</span><b>${f[1]}</b></div>`).join('')}</div>
     ${r.badge?`<p class="badge"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#${r.badge[0]}"/></svg><span>${r.badge[1]}</span></p>`:''}
+    ${r.variants?`<div class="vsel" role="group" aria-label="Versión">${r.variants.map((x,k)=>`<button data-v="${k}" aria-pressed="${k===varT}">${x.k}</button>`).join('')}</div>`:''}
     <section class="rblk" aria-labelledby="rh"><h2 class="rhead" id="rh">Receta</h2>
-      <div class="recipe">
+      ${!r.ing.length?`<div class="pendr"><span class="cap">Receta por cargar</span><p>Estamos armando esta receta con la barra.</p></div></section>`:''}
+      ${r.ing.length?`<div class="recipe">
         <div class="serv">${r.serv.map(x=>`<div><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#${x[0]}"/></svg><span>${x[1]}</span></div>`).join('')}</div>
         <table class="ing"><colgroup><col class="c-n"><col class="c-q"></colgroup><tbody>${rows}</tbody></table>
         <div class="rtop"><span class="cap" style="color:var(--ink)">${multT} ${multT>1?'tragos':'trago'}</span>
           <div class="mult" role="group" aria-label="Cantidad">${[1,2,4].map(m=>`<button data-m="${m}" aria-pressed="${m===multT}">×${m}</button>`).join('')}</div></div>
       </div></section>
-    <section class="rblk" aria-labelledby="ph"><h2 class="rhead" id="ph">Pasos</h2>
+    `:''}${r.ing.length?`    <section class="rblk" aria-labelledby="ph"><h2 class="rhead" id="ph">Pasos</h2>
       ${buildSVG(r.id)}
       <ol class="steps">${r.steps.map(x=>`<li><span>${x}</span></li>`).join('')}</ol>
-    </section>
+    </section>`:''}
   </article>`;
-  app.querySelectorAll('.mult button').forEach(b=>b.addEventListener('click',()=>{multT=+b.dataset.m;const y=scrollY;renderTrago(r);scrollTo(0,y);app.querySelector(`.mult button[data-m="${multT}"]`).focus()}));
+  app.querySelectorAll('.vsel button').forEach(b=>b.addEventListener('click',()=>{varT=+b.dataset.v;const y=scrollY;renderTrago(R0);scrollTo(0,y)}));
+  app.querySelectorAll('.mult button').forEach(b=>b.addEventListener('click',()=>{multT=+b.dataset.m;const y=scrollY;renderTrago(R0);scrollTo(0,y);app.querySelector(`.mult button[data-m="${multT}"]`).focus()}));
 }
 let abrirBusq=false,volverA=null;
 function route(){
@@ -617,7 +639,7 @@ function route(){
   if(!h){portada.hidden=false;interior.hidden=true;document.title='Rivoli · Carta';return}
   portada.hidden=true;interior.hidden=false;
   const s=SECCIONES.find(x=>x.id===h);
-  if(s){cat=irCat??irVolverCat??0;irCat=null;irVolverCat=null;renderSeccion(s);document.title='Rivoli · '+s.n}else if(REC_ID[h]){multT=1;renderTrago(REC_ID[h]);document.title='Rivoli · '+REC_ID[h].name}else{irCat=null;renderCarta();document.title='Rivoli · Recetario'}
+  if(s){cat=irCat??irVolverCat??0;irCat=null;irVolverCat=null;renderSeccion(s);document.title='Rivoli · '+s.n}else if(REC_ID[h]){multT=1;varT=0;renderTrago(REC_ID[h]);document.title='Rivoli · '+REC_ID[h].name}else{irCat=null;renderCarta();document.title='Rivoli · Recetario'}
   scrollTo(0,0);
 }
 addEventListener('hashchange',route);route();
