@@ -417,7 +417,7 @@ const DEDO=.75;
 const BC={gin:'#e3e9ec',mara:'#e9b13c',limon:'#e6e98f',jeng:'#d8b47e',esp:'#f2e09a',ape:'#d9542b',pisco:'#efe7d2',goma:'#f1ece2',clara:'#ddd3bd',ron:'#ece6d4',mango:'#f0a43a',frut:'#e0566b'};
 const BUILD={
  'pisco-sour':()=>({tool:'jug',g:'kero',gl:'EL VASO',unit:'MEDIDA',ice:0,noIce:1,vIce:3,how:['Batir 1 minuto','y servir'],
-  v:[['Preparado\nPisco Sour',5.5,BC.pisco,null,'≈ 5½ oz'],['Clara de huevo',.08,BC.clara,.45,'½ cdta']],
+  cap:10.4,v:[['Preparado\nPisco Sour',5.5,BC.pisco,1.3,'≈ 5½ oz'],['Clara de huevo',.08,'blob',2.6,'½ cdta']],
   glass:[['Pisco sour',4.55,'#efe7d2',null,'≈ 250 ml'],['Angostura',.1,'drops',.45,'2 gotas']]})
 };
 const BPX=20,BGAP=32,BNX=136,BW=300;
@@ -429,8 +429,8 @@ function bFingers(oz,yc){
  return s+`<text x="${BW}" y="${yc}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="13" fill="#8a6a32">${frac(Math.round(n*3)/3)}</text>`;
 }
 let bid=0;
-function bVessel(kind,layers,ice){
- const id='bv'+(bid++),tot=layers.reduce((a,l)=>a+(l[3]||l[1]),0),H=tot*BPX+(kind==='kero'||kind==='balloon'||kind==='coupe'?0:26),bot=H;
+function bVessel(kind,layers,ice,cap){
+ const id='bv'+(bid++),tot=layers.reduce((a,l)=>a+(l[3]||l[1]),0),H=cap?cap*BPX:tot*BPX+(kind==='kero'||kind==='balloon'||kind==='coupe'?0:26),bot=H;
  let shape,outline,extra='',foot,top,rx,rxAt=null;
  if(kind==='jug'){
   shape=`M22 0 L106 0 L98 ${bot} L30 ${bot} Z`;outline=shape;foot=34;top=20;rx=102;
@@ -453,14 +453,15 @@ function bVessel(kind,layers,ice){
   extra=`<path d="M64 ${bot+4} V${bot+40} M42 ${bot+44} H86" stroke="#1f262d" stroke-width="2"/>`;
  }
  let y=bot,fills='',lines='',mids=[];
- layers.forEach(([nm,oz,col,vz],i)=>{const h=(vz||oz)*BPX;y-=h;fills+=col==='drops'?`<rect x="0" y="${y}" width="130" height="${h}" fill="#f7f1e4"/><g fill="#9b3b2a"><ellipse cx="54" cy="${y+h*.6}" rx="4.5" ry="2"/><ellipse cx="76" cy="${y+h*.5}" rx="3.8" ry="1.7"/></g>`:`<rect x="0" y="${y}" width="130" height="${h}" fill="${col}"/>`;
+ layers.forEach(([nm,oz,col,vz],i)=>{const h=(vz||oz)*BPX;y-=h;fills+=col==='blob'?`<path d="M64 ${y+h*.5-10} c-5 6 -8 10 -8 13 a8 8 0 0 0 16 0 c0 -3 -3 -7 -8 -13z" fill="#f4efe2" stroke="#c9bfa6" stroke-width="1"/>`:col==='drops'?`<rect x="0" y="${y}" width="130" height="${h}" fill="#f7f1e4"/><g fill="#9b3b2a"><ellipse cx="54" cy="${y+h*.6}" rx="4.5" ry="2"/><ellipse cx="76" cy="${y+h*.5}" rx="3.8" ry="1.7"/></g>`:`<rect x="0" y="${y}" width="130" height="${h}" fill="${col}"/>`;
   if(i<layers.length-1)lines+=`<line x1="0" x2="130" y1="${y}" y2="${y}" stroke="#1f262d" stroke-width="1" stroke-dasharray="3 2"/>`;mids.push(y+h/2)});
  const IP=[[30,26,12],[64,30,-10],[44,52,18],[74,56,0],[24,58,0],[54,80,-14],[84,84,8]];
- const iceSvg=ice?`<g fill="#fff" fill-opacity=".5" stroke="#b9c6cc" stroke-width="1">${IP.slice(0,ice).map(([x,d,r])=>`<rect x="${x}" y="${bot-d-22}" width="22" height="22" rx="3" transform="rotate(${r} ${x+11} ${bot-d-11})"/>`).join('')}</g>`:'';
- return {svg:`<defs><clipPath id="${id}"><path d="${shape}"/></clipPath></defs><g clip-path="url(#${id})">${fills}${lines}${iceSvg}</g><path d="${outline}" fill="none" stroke="#1f262d" stroke-width="2"/>${extra}`,H,foot,top,mids,fillTop:bot-tot*BPX,bot,rx,rxAt};
+ const capMk=cap?`<g font-family="Cinzel,serif" font-size="11" fill="#a39a8a"><line x1="30" x2="42" y1="14" y2="14" stroke="#a39a8a"/><text x="46" y="14" dominant-baseline="central">2 L</text></g>`:'';
+ const iceSvg=ice&&cap?`<g fill="#fff" fill-opacity=".55" stroke="#b9c6cc" stroke-width="1">${[[34,-6],[56,8],[78,-4]].slice(0,ice).map(([x,r])=>`<rect x="${x}" y="${bot-20}" width="16" height="16" rx="2.5" transform="rotate(${r} ${x+8} ${bot-12})"/>`).join('')}</g>`:ice?`<g fill="#fff" fill-opacity=".5" stroke="#b9c6cc" stroke-width="1">${IP.slice(0,ice).map(([x,d,r])=>`<rect x="${x}" y="${bot-d-22}" width="22" height="22" rx="3" transform="rotate(${r} ${x+11} ${bot-d-11})"/>`).join('')}</g>`:'';
+ return {svg:`<defs><clipPath id="${id}"><path d="${shape}"/></clipPath></defs><g clip-path="url(#${id})">${fills}${lines}${iceSvg}</g><path d="${outline}" fill="none" stroke="#1f262d" stroke-width="2"/>${extra}${capMk}`,H,foot,top,mids,fillTop:bot-tot*BPX,bot,rx,rxAt};
 }
-function bBlock(kind,layers,Y,s,ice,inline){
- const v=bVessel(kind,layers,ice),n=layers.length,LH=(n-1)*BGAP;
+function bBlock(kind,layers,Y,s,ice,inline,cap){
+ const v=bVessel(kind,layers,ice,cap),n=layers.length,LH=(n-1)*BGAP;
  const vTop=s*v.top,vSpan=vTop+s*(v.H+v.foot);
  const span=inline?vSpan:Math.max(vSpan,LH+20);
  const ty=Y+(span-vSpan)/2+vTop,tx=(120-120*s)/2+12,cy=ty+s*(v.fillTop+v.bot)/2;
@@ -486,7 +487,7 @@ function buildSVG(id,k){
  if(!BUILD[id])return '';
  const b=BUILD[id](k),tool=b.tool==='jug'?'LICUADORA':'COCTELERA';
  let out=`<text x="0" y="14" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">I · EN LA ${tool}</text><text x="${BW}" y="14" text-anchor="end" font-family="Cinzel,serif" font-size="10" letter-spacing="1.5" fill="#a39a8a">${b.unit||'DEDOS'}</text>`;
- const a=bBlock(b.tool,b.v,30,.65,b.vIce,true);out+=a.out;
+ const a=bBlock(b.tool,b.v,30,.65,b.vIce,true,b.cap);out+=a.out;
  if(b.vIce){const iy=Math.max(a.maxLy+34,a.end-6);out+=iceRow(iy,b.vIce);a.end=iy+16;}
  let y=a.end+22;out+=`<line x1="${BNX-80}" y1="${y}" x2="${BW}" y2="${y}" stroke="#eee9e0"/>`;y+=18;
  out+=`<line x1="64" y1="${y+2}" x2="64" y2="${y+36}" stroke="#8a6a32" stroke-width="1.4"/><path d="M58 ${y+30} L64 ${y+38} L70 ${y+30}" fill="none" stroke="#8a6a32" stroke-width="1.4"/>
