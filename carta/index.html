@@ -96,6 +96,7 @@ main{padding-block:var(--s4) var(--s6)}
 .buscando .blupa{opacity:0;pointer-events:none}
 .rec{transition:transform .55s cubic-bezier(.3,.7,.2,1),opacity .4s ease}
 .buscando .rec{transform:translateY(70vh);opacity:0;pointer-events:none}
+.rec.fuera{display:none}
 .buscando .bhero{margin-bottom:var(--s3)}
 #bres{display:none}
 .buscando #bres{display:block;padding-bottom:96px}
@@ -240,8 +241,11 @@ function buscadorGlobal(){
   const norm=t=>t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
   const esc=t=>t.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
   const marca=(t,k)=>{const i=norm(t).indexOf(k);return i<0?esc(t):esc(t.slice(0,i))+'<mark>'+esc(t.slice(i,i+k.length))+'</mark>'+esc(t.slice(i+k.length))};
-  const abrir=()=>{if(v.classList.contains('buscando'))return;v.classList.add('buscando');q.tabIndex=0;scrollTo({top:0,behavior:'smooth'});pintar()};
-  const cerrar=()=>{v.classList.remove('buscando');q.tabIndex=-1;q.value='';q.blur();res.innerHTML=''};
+  const rec=v.querySelector('.rec');let tOculta=null;
+  /* el recetario baja animado y luego se saca del flujo, para que la página no quede con alto vacío */
+  const abrir=()=>{if(v.classList.contains('buscando'))return;v.classList.add('buscando');q.tabIndex=0;scrollTo({top:0,behavior:'smooth'});pintar();
+    clearTimeout(tOculta);tOculta=setTimeout(()=>{if(v.classList.contains('buscando'))rec.classList.add('fuera')},560)};
+  const cerrar=()=>{if(!v.classList.contains('buscando'))return;clearTimeout(tOculta);rec.classList.remove('fuera');void rec.offsetHeight;v.classList.remove('buscando');q.tabIndex=-1;q.value='';q.blur();res.innerHTML=''};
   const pintar=()=>{const k=norm(q.value.trim());
     if(!k){res.innerHTML='';return}
     const r=[];SECCIONES.forEach(s=>s.cats.forEach((c,ci)=>c[2].forEach(d=>{if(norm(d[0]).includes(k))r.push([s,ci,c[0],d])})));
@@ -249,13 +253,16 @@ function buscadorGlobal(){
   q.addEventListener('input',pintar);
   document.getElementById('blupa').addEventListener('click',()=>{abrir();q.focus()});
   document.getElementById('bvolver').addEventListener('click',cerrar);
+  /* tocar fuera de la caja (y fuera de un resultado) cierra el buscador y vuelve al inicio del recetario */
+  document.addEventListener('click',e=>{if(!v.isConnected||!v.classList.contains('buscando'))return;
+    if(e.target.closest('.bcaja,#blupa,a[data-c],header'))return;cerrar();scrollTo({top:0,behavior:'smooth'})});
   res.addEventListener('click',e=>{const a=e.target.closest('a[data-c]');if(a)irCat=+a.dataset.c});
-  /* deslizar hacia arriba desde la mitad inferior de la pantalla devuelve el recetario */
   let y0=null;
-  v.addEventListener('touchstart',e=>{y0=v.classList.contains('buscando')&&e.touches[0].clientY>innerHeight/2?e.touches[0].clientY:null},{passive:true});
-  v.addEventListener('touchmove',e=>{if(y0===null)return;const alFondo=innerHeight+scrollY>=document.documentElement.scrollHeight-4;
-    if(y0-e.touches[0].clientY>60&&alFondo){y0=null;cerrar()}},{passive:true});
-  addEventListener('wheel',e=>{if(v.isConnected&&v.classList.contains('buscando')&&e.deltaY>30&&innerHeight+scrollY>=document.documentElement.scrollHeight-4)cerrar()},{passive:true});
+  /* deslizar el dedo hacia arriba, cuando ya no queda lista por recorrer, trae el recetario desde abajo */
+  const alFondo=()=>innerHeight+scrollY>=document.documentElement.scrollHeight-4;
+  document.addEventListener('touchstart',e=>{y0=v.isConnected&&v.classList.contains('buscando')?e.touches[0].clientY:null},{passive:true});
+  document.addEventListener('touchmove',e=>{if(y0===null)return;if(y0-e.touches[0].clientY>50&&alFondo()){y0=null;cerrar()}},{passive:true});
+  addEventListener('wheel',e=>{if(v.isConnected&&v.classList.contains('buscando')&&e.deltaY>30&&alFondo())cerrar()},{passive:true});
 }
 function renderSeccion(s){
   back.setAttribute('href','#carta');
