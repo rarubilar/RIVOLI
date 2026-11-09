@@ -410,7 +410,7 @@ function masPedidos(){
   const abrir=()=>{edit=true;panel.hidden=false;q.value='';lista();pinta();setTimeout(()=>q.focus(),40)};
   const cerrar=()=>{edit=false;panel.hidden=true;q.blur();pinta()};
   pills.addEventListener('click',e=>{const x=e.target.closest('[data-x]');if(x){setMas(getMas().filter(n=>n!==x.dataset.x));pinta();lista();return}
-    const a=e.target.closest('a.pill');if(a){if(edit){e.preventDefault();return}const f=findT(a.dataset.n);if(f&&!RECETAS[a.dataset.n])irCat=f.i}});
+    const a=e.target.closest('a.pill');if(a){if(edit){e.preventDefault();return}desdeMenu=true;const f=findT(a.dataset.n);if(f&&!RECETAS[a.dataset.n])irCat=f.i}});
   res.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;setMas([...getMas(),b.dataset.a]);q.value='';pinta();lista();q.focus()});
   q.addEventListener('input',lista);
   document.getElementById('masx').addEventListener('click',()=>{q.value='';lista();q.focus()});
@@ -636,7 +636,7 @@ function renderTrago(r){
   app.querySelectorAll('.vsel button').forEach(b=>b.addEventListener('click',()=>{varT=+b.dataset.v;const y=scrollY;renderTrago(R0);scrollTo(0,y)}));
   app.querySelectorAll('.mult button').forEach(b=>b.addEventListener('click',()=>{multT=+b.dataset.m;const y=scrollY;renderTrago(R0);scrollTo(0,y);app.querySelector(`.mult button[data-m="${multT}"]`).focus()}));
 }
-let abrirBusq=false,volverA=null;
+let abrirBusq=false,volverA=null,desdeMenu=false;
 function route(){
   const h=location.hash.slice(1);
   document.getElementById('hRight').innerHTML='';
@@ -645,6 +645,8 @@ function route(){
   portada.hidden=true;interior.hidden=false;
   const s=SECCIONES.find(x=>x.id===h);
   if(s){cat=irCat??irVolverCat??0;irCat=null;irVolverCat=null;renderSeccion(s);document.title='Rivoli · '+s.n}else if(REC_ID[h]){multT=1;varT=0;renderTrago(REC_ID[h]);document.title='Rivoli · '+REC_ID[h].name}else{irCat=null;renderCarta();document.title='Rivoli · Recetario'}
+  if(desdeMenu&&(s||REC_ID[h]))back.setAttribute('href','#carta');
+  desdeMenu=false;
   scrollTo(0,0);
 }
 addEventListener('hashchange',route);route();
