@@ -305,7 +305,7 @@ const ROM=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
 /* recetas cargadas (clave = nombre exacto en la carta) */
 const RECETAS={
  'Pisco Sour':{id:'pisco-sour',sec:'aperitivi',cat:1,name:'Pisco Sour',alias:'El clásico de la casa',style:'Clásico',
-  hero:'../assets/tragos/pisco-sour-hero.jpg',
+  hero:'../assets/tragos/pisco-sour-hero.jpg?v=2',
   facts:[['Sabor','Ácido, sedoso, espumoso'],['Familia','Sour'],['Estilo','Corto, clásico']],
   intro:'El trago más pedido de la casa. Se arma con el preparado de pisco sour de la barra: se licúa con hielo y un toque de clara para darle espuma, y se termina con angostura.',
   why:[['star','El más pedido de la casa'],['clock','Un minuto en la licuadora'],['amphora','Usa el preparado de la barra']],
@@ -319,7 +319,7 @@ const RECETAS={
 };
 const REC_ID=Object.fromEntries(Object.values(RECETAS).map(r=>[r.id,r]));
 /* fotos por trago (nombre exacto → archivo en assets/tragos). Las que faltan muestran la copa dibujada */
-const FOTOS={'Aperol Spritz':'aperol-spritz.jpg','Orange Spritz':'orange-spritz.jpg','Pisco Sour':'pisco-sour.jpg'};
+const FOTOS={'Aperol Spritz':'aperol-spritz.jpg','Orange Spritz':'orange-spritz.jpg','Pisco Sour':'pisco-sour.jpg?v=2'};
 const IMG_LISTA=['aperitivi','mocktails','birre','jugos','digestivi','vinos','caffe','bases'];
 const IMG_POS={mocktails:'100%',jugos:'100%',digestivi:'100%',caffe:'35%',bases:'80%'};
 function renderCarta(){
@@ -418,7 +418,7 @@ const BC={gin:'#e3e9ec',mara:'#e9b13c',limon:'#e6e98f',jeng:'#d8b47e',esp:'#f2e0
 const BUILD={
  'pisco-sour':()=>({tool:'jug',g:'kero',gl:'EL VASO',unit:'MEDIDA',ice:0,noIce:1,vIce:3,how:['Batir 1 minuto','y servir'],
   v:[['Preparado\nPisco Sour',5.5,BC.pisco,null,'≈ 5½ oz'],['Clara de huevo',.08,BC.clara,.45,'½ cdta']],
-  glass:[['Pisco sour',6,'#efe7d2',null,'≈ 250 ml'],['Espuma',1.9,'#fbf8f0',null,'arriba'],['Angostura',.1,'drops',1.6,'2 gotas']]})
+  glass:[['Pisco sour',2.6,'#efe7d2',null,'≈ 250 ml'],['Espuma',1.25,'#fbf8f0',null,'arriba'],['Angostura',.1,'drops',1.25,'2 gotas']]})
 };
 const BPX=20,BGAP=32,BNX=136,BW=300;
 function bFingers(oz,yc){
