@@ -485,7 +485,7 @@ function bBlock(kind,layers,Y,s,ice,inline,cap){
 function iceRow(y,n){
  let s=`<g transform="translate(${BNX-28} ${y-9}) scale(.45)"><path d="M8 14l10-5 10 5v12l-10 5-10-5z M8 14l10 5 10-5M18 19v12" fill="none" stroke="#8aa3ad" stroke-width="2.4"/></g>
   <text x="${BNX}" y="${y}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="${n?'#1f262d':'#8a8f94'}" ${n?'':'font-style="italic"'}>${n?'Hielo':'Sin hielo'}</text>`;
- if(n){let x=BW-38-n*9;for(let i=0;i<n;i++){s+=`<rect x="${x}" y="${y-4}" width="7" height="7" rx="1.5" fill="#fff" stroke="#8aa3ad" stroke-width="1.2" transform="rotate(${i%2?8:-8} ${x+3.5} ${y-.5})"/>`;x+=9}
+ if(n){let x=BW-14-n*9;for(let i=0;i<n;i++){s+=`<rect x="${x}" y="${y-4}" width="7" height="7" rx="1.5" fill="#fff" stroke="#8aa3ad" stroke-width="1.2" transform="rotate(${i%2?8:-8} ${x+3.5} ${y-.5})"/>`;x+=9}
   s+=`<text x="${BW}" y="${y}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="13" fill="#5f7a85">${n}</text>`;}
  return s;
 }
