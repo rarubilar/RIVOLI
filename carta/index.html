@@ -200,11 +200,6 @@ main{padding-block:var(--s4) var(--s6)}
 .trago .rtop.sut .mult{border:0;border-radius:0;gap:0}
 .trago .rtop.sut .mult button{min-width:36px;min-height:40px;padding:0 var(--s1);font-size:.62rem;color:#a39a8a;background:none;border-bottom:1px solid transparent}
 .trago .rtop.sut .mult button[aria-pressed="true"]{background:none;color:var(--ink);border-bottom-color:var(--gold)}
-.trago .steps.tocables li{cursor:pointer;border-radius:4px;transition:opacity .2s}
-.trago .steps.tocables li[aria-pressed="true"]{opacity:.4}
-.trago .steps.tocables li[aria-pressed="true"] span{text-decoration:line-through;text-decoration-color:var(--gold)}
-.trago .steps.tocables li[aria-pressed="true"]::before{content:"✓"}
-.trago .steps.tocables+.note{margin-top:var(--s3)}
 .trago .title .corona{position:absolute;top:-2px;right:-22px;width:20px;height:20px;color:var(--gold);opacity:.85}
 .trago .badge{display:flex;align-items:center;justify-content:center;gap:var(--s2);margin:var(--s4) 0 0;font-family:var(--f-cap);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
 .trago .badge svg{width:30px;height:30px;color:var(--gold)}
@@ -378,7 +373,7 @@ const RECETAS={
    {n:'Preparado de pisco sour',q:250,u:'ml',pre:'hasta',post:'marca'},
    {n:'Clara de huevo',q:.5,u:'cda',sub:m=>'cuchara de té'},
    {n:'Amargo de angostura',q:2,u:'gotas',fixed:1,sub:m=>'por vaso, ya servido'}],
-  steps:['En la licuadora pon 3 hielos.','Agrega el preparado de pisco sour hasta la marca de 250 ml, contando el hielo.','Suma ½ cuchara de té de clara de huevo.','Licúa 1 minuto, hasta que quede espumoso.','Sirve en el vaso Gran Cruz (≈ 300 ml), con la espuma arriba.','Ya servido, agrega 2 gotas de amargo de angostura sobre la espuma.']},
+  steps:['En la licuadora: 3 hielos, preparado de pisco sour y ½ cuchara de clara de huevo.','Licuar 1 minuto.','Servir en el vaso.','Agregar 2 gotas de amargo de angostura.']},
  'Limonada':{id:'limonada',sec:'jugos',cat:0,name:'Limonada',
   hero:'../assets/carta/jugos.jpg',heroPos:'center 70%',
   facts:[['Sabor','Ácida, fresca'],['Familia','Limonadas'],['Estilo','Largo, sin alcohol']],
@@ -635,12 +630,9 @@ function renderTrago(r){
       </div></section>
     `:''}${r.ing.length?`    <section class="rblk" aria-labelledby="ph"><h2 class="rhead" id="ph">Pasos</h2>
       ${buildSVG(r.id)}
-      <ol class="steps tocables">${r.steps.map(x=>`<li role="button" tabindex="0" aria-pressed="false"><span>${x}</span></li>`).join('')}</ol>
-      <p class="note">Toca un paso para marcarlo como hecho</p>
+      <ol class="steps">${r.steps.map(x=>`<li><span>${x}</span></li>`).join('')}</ol>
     </section>`:''}
   </article>`;
-  app.querySelectorAll('.steps.tocables li').forEach(li=>{const t=()=>{const on=li.getAttribute('aria-pressed')!=='true';li.setAttribute('aria-pressed',on)};
-    li.addEventListener('click',t);li.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t()}})});
   app.querySelectorAll('.vsel button').forEach(b=>b.addEventListener('click',()=>{varT=+b.dataset.v;const y=scrollY;renderTrago(R0);scrollTo(0,y)}));
   app.querySelectorAll('.mult button').forEach(b=>b.addEventListener('click',()=>{multT=+b.dataset.m;const y=scrollY;renderTrago(R0);scrollTo(0,y);app.querySelector(`.mult button[data-m="${multT}"]`).focus()}));
 }
