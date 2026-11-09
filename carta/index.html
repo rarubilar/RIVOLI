@@ -196,6 +196,36 @@ main{padding-block:var(--s4) var(--s6)}
 .tarj .ver{margin-top:auto;font-family:var(--f-cap);font-size:.58rem;letter-spacing:.16em;color:var(--gold)}
 .tarj .top .ok{font-family:var(--f-cap);font-size:.5rem;letter-spacing:.14em;color:var(--gold)}
 
+.mt{display:block;text-align:center;margin:var(--s5) 0 var(--s3)}
+.mas .mt{margin-top:0}
+.pills{display:flex;flex-wrap:wrap;gap:var(--s2);justify-content:center}
+.pillw{position:relative;display:inline-flex}
+.pill{min-height:44px;display:inline-flex;align-items:center;padding:0 var(--s3);border:1px solid var(--gold-soft);border-radius:999px;font-family:var(--f-name);font-size:1.15rem;background:#fff;color:var(--ink)}
+.pill.mas-add{width:44px;padding:0;justify-content:center;color:var(--gold);font-size:1.4rem;border-style:dashed}
+.pillx{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-size:.9rem;line-height:1;display:grid;place-items:center}
+.pillx::after{content:"";position:absolute;inset:-11px}
+.maspanel{margin-top:var(--s3);border:1px solid var(--gold-soft);border-radius:12px;padding:var(--s3);background:#fbf8f1;display:grid;gap:var(--s2)}
+.masq{display:flex;align-items:center;gap:var(--s2);border-bottom:1px solid var(--gold);padding:var(--s1) 0}
+.masq svg{width:16px;height:16px;color:var(--gold)}
+.masq input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
+.masq input{flex:1;min-width:0;border:0;outline:0;background:none;font-family:var(--f-name);font-size:1.25rem;color:var(--ink)}
+.masr{width:100%;min-height:44px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px dotted var(--line);font-family:var(--f-name);font-size:1.15rem;text-align:left}
+.masr i{font-style:normal;color:var(--gold);font-size:1.3rem}
+.masok{justify-self:end;min-height:44px;padding:0 var(--s4);border-radius:999px;background:var(--ink);color:#fff;font-family:var(--f-cap);font-size:.68rem;letter-spacing:.18em}
+#vrec .arches{margin-top:var(--s5)}
+#vrec .arch .aw{height:178px}
+.srv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s3)}
+.mini{display:grid;justify-items:center;gap:var(--s1)}
+.mini .aw{width:100%;height:96px;border-radius:999px 999px 6px 6px;overflow:hidden;border:1px solid #c9b48a;padding:3px;background:#fff;display:block}
+.mini img{width:100%;height:100%;object-fit:cover;border-radius:999px 999px 4px 4px;display:block}
+.mini .n{font-family:var(--f-name);font-size:1.1rem}
+.rows{display:grid;gap:var(--s2)}
+.srow{display:grid;grid-template-columns:64px minmax(0,1fr) 20px;gap:var(--s3);align-items:center;padding:var(--s2) 0;border-bottom:1px solid var(--line)}
+.srow .aw{width:64px;height:80px;border-radius:999px 999px 4px 4px;overflow:hidden;border:1px solid #c9b48a;padding:2px;background:#fff;display:block}
+.srow .aw img{width:100%;height:100%;object-fit:cover;border-radius:999px 999px 3px 3px;display:block}
+.srow b{display:block;font-family:var(--f-name);font-weight:400;font-size:1.45rem;line-height:1.05}
+.srow small{color:var(--muted);font-size:.92rem;line-height:1.2}
+.srow i{font-style:normal;font-family:var(--f-name);font-size:1.5rem;color:var(--gold)}
 /* arcos */
 .arches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s4) var(--s3)}
 .arch{display:grid;justify-items:center;align-content:start;text-align:center;gap:var(--s1);min-width:0}
@@ -332,16 +362,48 @@ const REC_ID=Object.fromEntries(Object.values(RECETAS).map(r=>[r.id,r]));
 const FOTOS={'Aperol Spritz':'aperol-spritz.jpg','Orange Spritz':'orange-spritz.jpg','Pisco Sour':'pisco-sour.jpg?v=2'};
 const IMG_LISTA=['aperitivi','mocktails','birre','jugos','digestivi','vinos','caffe','bases'];
 const IMG_POS={mocktails:'100%',jugos:'100%',digestivi:'100%',caffe:'35%',bases:'80%'};
+
+/* ---------- índice del Recetario ---------- */
+const PRI=['aperitivi','mocktails','digestivi','caffe'],SRV=['birre','jugos','vinos'];
+const S=id=>SECCIONES.find(x=>x.id===id);
+const MAS_DEF=['Pisco Sour','Aperol Spritz','Mojito Tradicional','Negroni','Gin Tonic','Espresso Martini Rivoli'];
+const findT=n=>{for(const s of SECCIONES)for(let i=0;i<s.cats.length;i++)if(s.cats[i][2].some(d=>d[0]===n))return {s,i};return null};
+const TODOS=()=>SECCIONES.flatMap(s=>s.cats.flatMap(c=>c[2].map(d=>d[0])));
+const getMas=()=>{try{const v=JSON.parse(localStorage.getItem('rivoli-mas'));if(Array.isArray(v))return v.filter(n=>findT(n))}catch(e){}return MAS_DEF.slice()};
+const setMas=v=>{try{localStorage.setItem('rivoli-mas',JSON.stringify(v))}catch(e){}};
+function masPedidos(){
+  const pills=document.getElementById('pills'),panel=document.getElementById('maspanel'),q=document.getElementById('masq'),res=document.getElementById('masres');
+  let edit=false;
+  const norm=t=>t.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+  const pinta=()=>{const L=getMas();
+    pills.innerHTML=L.map(n=>{const R=RECETAS[n],f=findT(n);return `<span class="pillw"><a class="pill" href="#${R?R.id:f.s.id}" data-n="${n}">${n.replace(' Rivoli','')}</a>${edit?`<button class="pillx" type="button" data-x="${n}" aria-label="Quitar ${n}">×</button>`:''}</span>`}).join('')
+      +(edit?'':`<button class="pill mas-add" id="masadd" type="button" aria-label="Agregar un trago a más pedidos">+</button>`);
+    const add=document.getElementById('masadd');if(add)add.addEventListener('click',abrir)};
+  const lista=()=>{const k=norm(q.value.trim()),L=getMas();
+    const r=TODOS().filter(n=>!L.includes(n)&&(!k||norm(n).includes(k))).slice(0,8);
+    res.innerHTML=r.length?r.map(n=>`<button class="masr" type="button" data-a="${n}"><span>${n}</span><i>+</i></button>`).join(''):'<p class="nada">No encontramos ese trago</p>'};
+  const abrir=()=>{edit=true;panel.hidden=false;q.value='';lista();pinta();setTimeout(()=>q.focus(),40)};
+  const cerrar=()=>{edit=false;panel.hidden=true;q.blur();pinta()};
+  pills.addEventListener('click',e=>{const x=e.target.closest('[data-x]');if(x){setMas(getMas().filter(n=>n!==x.dataset.x));pinta();lista();return}
+    const a=e.target.closest('a.pill');if(a){if(edit){e.preventDefault();return}const f=findT(a.dataset.n);if(f&&!RECETAS[a.dataset.n])irCat=f.i}});
+  res.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;setMas([...getMas(),b.dataset.a]);q.value='';pinta();lista();q.focus()});
+  q.addEventListener('input',lista);
+  document.getElementById('masok').addEventListener('click',cerrar);
+  pinta();
+}
 function renderCarta(){
   back.setAttribute('href','#');
   app.innerHTML=`<div class="view" id="vrec"><section class="bhero" aria-label="Buscar un trago"><span class="cap">Buscador</span><div class="marco"><svg class="laurel l" aria-hidden="true"><use href="#i-laurel"/></svg><h2 class="q">¿Qué trago quieres hacer?</h2><svg class="laurel r" aria-hidden="true"><use href="#i-laurel"/></svg></div>
    <div class="bzona"><div class="bcaja"><input id="bq" type="search" autocomplete="off" enterkeyhint="search" aria-label="Nombre del trago" tabindex="-1"></div><button class="blupa" id="blupa" aria-label="Buscar un trago">${ic('i-lupa')}</button></div></section>
    <div id="bres" aria-live="polite"></div>
    <div class="rec"><div class="intro" style="margin-bottom:var(--s4)"><h1 class="h">Recetario</h1></div>
-   <nav class="arches" aria-label="Secciones de la carta">
-   ${SECCIONES.map(s=>{const ok=IMG_LISTA.includes(s.id);return `<a class="arch${s.cls?' '+s.cls:''}${ok?'':' falta'}" href="#${s.id}"><span class="aw"><img src="../assets/carta/${s.id}${ok?'':'-prov'}.jpg" alt="" loading="lazy"${IMG_POS[s.id]?` style="object-position:center ${IMG_POS[s.id]}"`:''}></span><span class="n">${s.n}</span><span class="d">${s.d}</span></a>`}).join('')}
-   </nav></div><button class="bvolver" id="bvolver">Ver recetario</button></div>`;
-  buscadorGlobal();
+   <section class="mas" aria-labelledby="mash"><h2 class="cap mt" id="mash">Más pedidos</h2><div class="pills" id="pills"></div>
+     <div class="maspanel" id="maspanel" hidden><label class="masq"><svg aria-hidden="true"><use href="#i-lupa"/></svg><input id="masq" type="search" autocomplete="off" placeholder="Agregar un trago" aria-label="Buscar un trago para agregar"></label><div id="masres"></div><button class="masok" id="masok" type="button">Listo</button></div></section>
+   <nav class="arches" aria-label="Secciones principales">${PRI.map(id=>{const s=S(id);return `<a class="arch" href="#${id}"><span class="aw"><img src="../assets/carta/${id}.jpg" alt="" loading="lazy"${IMG_POS[id]?` style="object-position:center ${IMG_POS[id]}"`:''}></span><span class="n">${s.n}</span></a>`}).join('')}</nav>
+   <h2 class="cap mt">Servicio</h2><nav class="srv" aria-label="Servicio">${SRV.map(id=>{const s=S(id);return `<a class="mini" href="#${id}"><span class="aw"><img src="../assets/carta/${id}.jpg" alt="" loading="lazy"${IMG_POS[id]?` style="object-position:center ${IMG_POS[id]}"`:''}></span><span class="n">${s.n}</span></a>`}).join('')}</nav>
+   <h2 class="cap mt">En botella</h2><nav class="rows" aria-label="En botella"><a class="srow" href="#bases"><span class="aw"><img src="../assets/carta/bases.jpg" alt="" loading="lazy" style="object-position:center 80%"></span><span class="tx"><b>Preparaciones de barra</b><small>Bases que se dejan listas en botella</small></span><i>›</i></a></nav>
+  </div><button class="bvolver" id="bvolver">Ver recetario</button></div>`;
+  buscadorGlobal();masPedidos();
   document.getElementById('hRight').innerHTML=`<button class="hlupa" type="button" aria-label="Buscar un trago">${ic('i-lupa')}</button>`;
   document.querySelector('#hRight .hlupa').addEventListener('click',e=>{e.stopPropagation();document.getElementById('blupa').click()});
   if(abrirBusq){abrirBusq=false;if(volverA)back.setAttribute('href',volverA);setTimeout(()=>document.getElementById('blupa').click(),30)}else volverA=null;
