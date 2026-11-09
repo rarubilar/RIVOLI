@@ -94,8 +94,9 @@ main{padding-block:var(--s4) var(--s6)}
 .bcaja input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
 .buscando .bcaja{width:100%;opacity:1;pointer-events:auto}
 .buscando .blupa{opacity:0;pointer-events:none}
-.rec{transition:transform .55s cubic-bezier(.3,.7,.2,1),opacity .4s ease}
-.buscando .rec{transform:translateY(70vh);opacity:0;pointer-events:none}
+.rec{transition:transform .32s cubic-bezier(.2,.85,.25,1),opacity .22s ease-out;will-change:transform}
+.buscando .rec{transform:translateY(45vh);opacity:0;pointer-events:none;transition:transform .45s cubic-bezier(.3,.7,.2,1),opacity .3s ease}
+.rec.arrastre{transition:none!important}
 .rec.fuera{display:none}
 .buscando .bhero{margin-bottom:var(--s3)}
 #bres{display:none}
@@ -260,8 +261,18 @@ function buscadorGlobal(){
   let y0=null;
   /* deslizar el dedo hacia arriba, cuando ya no queda lista por recorrer, trae el recetario desde abajo */
   const alFondo=()=>innerHeight+scrollY>=document.documentElement.scrollHeight-4;
-  document.addEventListener('touchstart',e=>{y0=v.isConnected&&v.classList.contains('buscando')?e.touches[0].clientY:null},{passive:true});
-  document.addEventListener('touchmove',e=>{if(y0===null)return;if(y0-e.touches[0].clientY>50&&alFondo()){y0=null;cerrar()}},{passive:true});
+  /* el recetario sigue al dedo mientras se desliza; al soltar termina de subir o vuelve a esconderse */
+  let tira=false,dy=0;
+  const H=()=>innerHeight*.45;
+  const pinta=d=>{const k=Math.min(d/H(),1);rec.style.transform=`translateY(${(1-k)*H()}px)`;rec.style.opacity=Math.min(1,k*1.6)};
+  document.addEventListener('touchstart',e=>{tira=false;dy=0;y0=v.isConnected&&v.classList.contains('buscando')?e.touches[0].clientY:null},{passive:true});
+  document.addEventListener('touchmove',e=>{if(y0===null)return;
+    if(!tira){if(!alFondo())return;y0=e.touches[0].clientY;tira=true;clearTimeout(tOculta);rec.classList.remove('fuera');rec.classList.add('arrastre');q.blur();return}
+    dy=Math.max(0,(y0-e.touches[0].clientY)*1.4);pinta(dy)},{passive:true});
+  const suelta=()=>{if(!tira){y0=null;return}tira=false;y0=null;rec.classList.remove('arrastre');void rec.offsetHeight;
+    if(dy>36){cerrar();void rec.offsetHeight;rec.style.transform='';rec.style.opacity=''}
+    else{rec.style.transform='';rec.style.opacity='';tOculta=setTimeout(()=>{if(v.classList.contains('buscando'))rec.classList.add('fuera')},460)}};
+  document.addEventListener('touchend',suelta,{passive:true});document.addEventListener('touchcancel',suelta,{passive:true});
   addEventListener('wheel',e=>{if(v.isConnected&&v.classList.contains('buscando')&&e.deltaY>30&&alFondo())cerrar()},{passive:true});
 }
 function renderSeccion(s){
