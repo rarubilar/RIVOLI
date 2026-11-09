@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#e3c99b">
+<title>Rivoli · Idea categorías v01</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Cinzel:wght@400;500&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap">
+<style>
+/* Layout: portada ilustrada a pantalla completa → índice en arcos → sección con categorías deslizables. Fondo blanco, un solo tema claro. */
+:root{
+  --bg:#ffffff; --ink:#1f262d; --muted:#6b737a; --gold:#8a6a32; --gold-soft:#c9b48a;
+  --line:#e7e4de; --tint:#faf7f1; --sand:#e7cf9f;
+  --f-name:"Instrument Serif","Times New Roman",serif;
+  --f-cap:"Cinzel","Trajan Pro",serif;
+  --f-body:"Cormorant Garamond",Garamond,Georgia,serif;
+  --r:.5rem; color-scheme:light;
+  /* Escala de espacios (8 pt): s1 4 · s2 8 · s3 16 · s4 24 · s5 32 · s6 48. --m = margen lateral */
+  --s1:4px;--s2:8px;--s3:16px;--s4:24px;--s5:32px;--s6:48px;--m:20px;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:18px;line-height:1.45;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:4px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ---------- Portada ---------- */
+#portada{position:fixed;inset:0;background:#e9d8b4 url("../../assets/ilustraciones/portada-massimo.jpg?v=3") center/cover no-repeat}
+#portada::before{content:"";position:absolute;inset:0 0 auto 0;height:calc(150px + env(safe-area-inset-top,0px));background:linear-gradient(to bottom,var(--sand) 45%,rgba(227,201,155,0))}
+#portada .logo{position:absolute;left:50%;transform:translateX(-50%);top:calc(var(--s5) + env(safe-area-inset-top,0px));height:64px;width:auto;z-index:1}
+#portada .ctas{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(56px + env(safe-area-inset-bottom,0px));
+  display:flex;gap:var(--s2);align-items:stretch;z-index:1}
+#portada .cta{width:160px;height:44px;display:grid;place-items:center;font-family:var(--f-name);font-size:24px;letter-spacing:.02em;
+  background:#fff;color:var(--gold);border-radius:6px;box-shadow:0 0 0 1px #c9a96e inset, 0 6px 18px rgba(31,38,45,.25);transition:transform .2s}
+#portada .tres{height:44px;padding:0 12px 0 var(--s2);display:flex;align-items:center;gap:var(--s2);background:#fff;color:var(--ink);border-radius:6px;
+  box-shadow:0 0 0 1px #c9a96e inset, 0 6px 18px rgba(31,38,45,.25);transition:transform .2s;white-space:nowrap}
+#portada .tres .n3{font-family:var(--f-name);font-size:44px;line-height:.72;color:var(--gold);padding-top:2px}
+#portada .tres .tx{font-family:var(--f-name);font-size:12px;line-height:1.02;letter-spacing:.01em}
+#portada .cta:active,#portada .tres:active{transform:scale(.97)}
+
+/* ---------- Vistas interiores ---------- */
+.shell{max-width:480px;margin-inline:auto;min-height:100%;
+  padding-left:max(var(--m),env(safe-area-inset-left,0px));padding-right:max(var(--m),env(safe-area-inset-right,0px))}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);height:64px;
+  display:grid;grid-template-columns:44px 1fr 44px;align-items:center;border-bottom:1px solid #eee9e0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+header .back{font-family:var(--f-name);font-size:2rem;color:var(--gold);display:grid;place-items:center;min-height:44px}
+header .home{display:grid;place-items:center}
+header .home img{height:40px;width:auto}
+header .hlupa{display:grid;place-items:center;width:44px;height:44px;color:var(--gold)}
+header .hlupa svg{width:22px;height:22px}
+main{padding-block:var(--s4) var(--s6)}
+.view{animation:rise .4s cubic-bezier(.2,.7,.2,1)}
+@keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.cap{font-family:var(--f-cap);font-size:.68rem;letter-spacing:.22em;color:var(--gold);text-transform:uppercase}
+.h{font-family:var(--f-name);font-weight:400;font-size:2.6rem;line-height:1;margin:0}
+.intro{text-align:center;display:grid;gap:var(--s2);margin-bottom:var(--s3)}
+.intro .icono{width:22px;height:auto;justify-self:center;margin:0}
+/* sello: Recetas · águila · N tragos, un paso más chico que el rótulo normal */
+.sello{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:var(--s3);margin-bottom:calc(var(--s1) - var(--s2))}
+.sello .cap{font-size:.5rem;letter-spacing:.26em;margin-right:-.26em}
+.sello .cap:first-child{justify-self:end}.sello .cap:last-child{justify-self:start}
+.sello .icono{width:14px}
+.buscar{display:grid;justify-items:center;margin:0 0 var(--s3)}
+.lupa{width:44px;height:44px;display:grid;place-items:center;color:var(--gold);transition:opacity .2s}
+.lupa svg{width:24px;height:24px}
+.lupa[aria-expanded="true"]{opacity:.55}
+.caja{width:100%;max-height:0;overflow:hidden;opacity:0;transition:max-height .3s ease,opacity .25s ease,margin .3s}
+.caja.on{max-height:72px;opacity:1;margin-top:var(--s2)}
+.caja label{display:flex;align-items:center;gap:var(--s2);border-bottom:1px solid var(--gold);padding:var(--s2) var(--s1)}
+.caja svg{width:16px;height:16px;color:var(--gold);flex:none}
+.caja input{flex:1;min-width:0;border:0;outline:0;background:none;font-family:var(--f-name);font-size:1.35rem;color:var(--ink);padding:0}
+.caja input::placeholder{color:#b8bcc0}
+.caja input::-webkit-search-cancel-button,.caja input::-webkit-search-decoration{-webkit-appearance:none;appearance:none}
+.caja .x{font-size:1.3rem;color:#a39a8a;width:44px;height:44px;margin:-10px -12px -10px 0;display:grid;place-items:center}
+.row mark{background:linear-gradient(transparent 58%,#f1e3c4 58%);color:inherit}
+.row .cat{font-family:var(--f-cap);font-size:.58rem;letter-spacing:.16em;color:var(--gold);text-transform:uppercase;display:block;margin-bottom:var(--s1)}
+.cats.dim{opacity:.35}
+.nada{text-align:center;color:#8a8f94;font-style:italic;padding:var(--s4) 0}
+.intro p{margin:.6rem auto 0;font-size:1.05rem;color:#58616a;max-width:39ch;line-height:1.4}
+
+/* buscador del recetario */
+.bhero{position:relative;display:grid;justify-items:center;gap:var(--s3);text-align:center;padding:var(--s4) 0 0;margin-bottom:var(--s5)}
+.bhero .marco{display:grid;grid-template-columns:38px minmax(0,auto) 38px;align-items:center;gap:var(--s3);justify-content:center}
+.bhero .laurel{width:38px;height:104px;color:var(--gold);opacity:.75;pointer-events:none}
+.bhero .laurel.r{transform:scaleX(-1)}
+.bhero .q{font-family:var(--f-name);font-weight:400;font-size:2rem;line-height:1.05;margin:0;max-width:15ch;text-wrap:balance}
+.bzona{justify-self:stretch;display:grid;justify-items:center;min-height:56px;align-items:center}
+.blupa{width:48px;height:48px;display:grid;place-items:center;color:var(--gold);transition:opacity .2s,transform .3s}
+.blupa svg{width:30px;height:30px}
+.blupa:active{transform:scale(.92)}
+.bcaja{grid-area:1/1;width:44px;height:56px;opacity:0;pointer-events:none;border:1px solid var(--gold);border-radius:999px;background:#fff;box-shadow:0 6px 22px rgba(138,106,50,.16);
+  transition:width .45s cubic-bezier(.3,.7,.2,1),opacity .25s;display:flex;align-items:center;padding:0 var(--s4);overflow:hidden}
+.bzona .blupa{grid-area:1/1}
+.bcaja input{flex:1;min-width:0;border:0;outline:0;background:none;font-family:var(--f-name);font-size:1.45rem;color:var(--ink);padding:0;caret-color:var(--gold)}
+.bcaja input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
+.buscando .bcaja{width:100%;opacity:1;pointer-events:auto}
+.buscando .blupa{opacity:0;pointer-events:none}
+.rec{transition:transform .32s cubic-bezier(.2,.85,.25,1),opacity .22s ease-out;will-change:transform}
+#vrec:not(.buscando) .bhero{display:none}
+.buscando .bhero{animation:rise .3s ease}
+.buscando .rec{transform:translateY(45vh);opacity:0;pointer-events:none;transition:transform .45s cubic-bezier(.3,.7,.2,1),opacity .3s ease}
+.rec.arrastre{transition:none!important}
+.rec.fuera{display:none}
+.buscando .bhero{margin-bottom:var(--s3)}
+#bres{display:none}
+.buscando #bres{display:block;padding-bottom:96px}
+#bres .row{color:inherit}
+.bvolver{position:fixed;left:50%;bottom:calc(var(--s3) + env(safe-area-inset-bottom,0px));transform:translate(-50%,24px);opacity:0;pointer-events:none;display:grid;justify-items:center;gap:var(--s1);
+  font-family:var(--f-cap);font-size:.6rem;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;background:rgba(255,255,255,.92);padding:var(--s2) var(--s3);border-radius:999px;transition:opacity .3s,transform .3s;z-index:15;min-height:44px}
+.bvolver::before{content:"";width:10px;height:10px;border-left:1.5px solid var(--gold);border-top:1.5px solid var(--gold);transform:rotate(45deg);animation:sube 1.6s ease-in-out infinite}
+@keyframes sube{50%{transform:translateY(-4px) rotate(45deg)}}
+.buscando .bvolver{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+
+/* tarjetas de trago: texto sobre blanco a la izquierda, la escena del trago aparece hacia la derecha */
+.tarjs{display:grid;gap:var(--s3);margin-top:var(--s4)}
+.tarj{position:relative;display:block;height:128px;border:1px solid #ece3d1;border-radius:12px;overflow:hidden;background:#fff;box-shadow:0 4px 14px rgba(31,38,45,.05);transition:transform .2s,border-color .2s}
+.tarj:active{transform:scale(.985);border-color:var(--gold-soft)}
+.tarj .foto{position:absolute;top:0;bottom:0;right:calc(-1 * var(--s3));width:66%;height:100%;object-fit:cover;-webkit-mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.35) 22%,#000 50%);mask-image:linear-gradient(90deg,transparent 0%,rgba(0,0,0,.35) 22%,#000 50%)}
+.tarj.sin .foto{display:grid;place-items:center;background:linear-gradient(90deg,#fff 0%,#f6f0e4 55%,#efe5d2 100%)}
+.tarj.sin .foto svg{width:46px;height:46px;color:var(--gold-soft);margin-left:30%}
+.tarj .tx{position:relative;z-index:1;height:100%;width:57%;padding:var(--s3) 0 var(--s3) var(--s3);display:flex;flex-direction:column;justify-content:center;gap:var(--s1)}
+.tarj .cat{font-family:var(--f-cap);font-size:.58rem;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+.tarj .n{font-family:var(--f-name);font-size:1.45rem;line-height:1;text-wrap:balance}
+.tarj small{font-size:.9rem;color:#7d848a;line-height:1.2;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tarj .top{display:flex;gap:var(--s2);align-items:baseline;white-space:nowrap}
+.tarj .top .pend{font-size:.5rem}
+.tarj .n{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.tarj.largo small{-webkit-line-clamp:1}
+
+/* ficha de trago (mismo diseño que los 3 tragos nuevos) */
+.trago .hero{border-radius:var(--r);overflow:hidden;aspect-ratio:4/5;max-height:58dvh;width:100%;background:var(--tint);border:1px solid var(--line)}
+.trago .hero img,.trago .hero svg{width:100%;height:100%;object-fit:cover;display:block}
+.trago .title{text-align:center;margin-top:var(--s4);display:grid;gap:var(--s2)}
+.trago .title .ro{font-family:var(--f-cap);font-size:.72rem;letter-spacing:.34em;color:var(--gold)}
+.trago .title h1{font-family:var(--f-name);font-weight:400;font-size:clamp(3rem,15vw,4.2rem);line-height:.95;margin:0;letter-spacing:.005em}
+.trago .title .alias{font-style:italic;color:var(--muted);font-size:1.15rem}
+.trago .facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-block:1px solid var(--line);margin-top:var(--s3)}
+.trago .facts div{padding:var(--s3) var(--s1);text-align:center;display:grid;gap:var(--s1);align-content:start}
+.trago .facts div+div{border-left:1px solid var(--line)}
+.trago .cap{font-family:var(--f-cap);font-size:.6rem;letter-spacing:.24em;color:var(--muted);text-transform:uppercase}
+.trago .facts b{font-weight:500;font-size:1.02rem;line-height:1.2}
+.trago .blk{margin-top:var(--s5);display:grid;gap:var(--s3)}
+.trago .blk>.cap{display:flex;align-items:center;gap:var(--s3)}
+.trago .blk>.cap::before,.trago .blk>.cap::after{content:"";flex:1;height:1px;background:var(--line)}
+.trago .tintro{margin:0;font-size:1.18rem;line-height:1.45}
+.trago .why{list-style:none;margin:0;padding:0;display:grid;gap:var(--s3)}
+.trago .why li{display:grid;grid-template-columns:32px minmax(0,1fr);gap:var(--s3);align-items:center;font-size:1.08rem;line-height:1.3}
+.trago .why svg{width:28px;height:28px;color:var(--gold)}
+.trago .recipe{display:grid;gap:var(--s4);background:var(--tint);border:1px solid var(--gold-soft);border-radius:var(--r);padding:var(--s4) var(--s3)}
+.trago .rblk{margin-top:var(--s6);display:grid;gap:var(--s3)}
+.trago .rhead{font-family:var(--f-name);font-weight:400;font-size:calc(clamp(3rem,15vw,4.2rem) * .85);line-height:1;text-align:center;margin:0}
+.trago .rtop{display:flex;justify-content:space-between;align-items:center}
+.trago .mult{display:flex;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.trago .mult button{font-family:var(--f-cap);font-size:.72rem;letter-spacing:.1em;padding:var(--s2) 12px;color:var(--muted);min-width:44px;min-height:44px}
+.trago .mult button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.trago .serv{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s2)}
+.trago .serv div{display:grid;justify-items:center;text-align:center;gap:var(--s1);font-size:.86rem;line-height:1.15;color:var(--muted)}
+.trago .serv svg{width:34px;height:34px;color:var(--gold)}
+.trago .ing{width:100%;border-collapse:collapse;table-layout:fixed}
+.trago .ing td{padding:12px 0;border-bottom:1px solid var(--line);vertical-align:middle}
+.trago .ing td.n{font-size:1.68rem;line-height:1.15;padding-right:var(--s2)}
+.trago .ing td.n small{display:block;font-size:.9rem;color:var(--muted);font-style:italic}
+.trago .ing td.oz{font-family:var(--f-name);font-size:1.75rem;line-height:1;white-space:nowrap;text-align:center}
+.trago .ing td.oz small{display:block;font-family:var(--f-body);font-size:.8rem;color:var(--muted)}
+.trago .ing col.c-n{width:46%}.trago .ing col.c-o,.trago .ing col.c-f{width:27%}
+.trago .ing td.f .fing{justify-content:flex-end}
+.trago .fing{display:flex;align-items:flex-end;gap:2px;height:28px}
+.trago .fing i{width:7px;height:24px;border:1px solid var(--gold);border-radius:4px 4px 2px 2px;position:relative;overflow:hidden;display:block}
+.trago .fing i::after{content:"";position:absolute;inset:auto 0 0 0;height:var(--f,100%);background:var(--gold)}
+.trago .fing em{font-style:normal;font-family:var(--f-cap);font-size:.72rem;color:var(--gold);margin-left:var(--s1);white-space:nowrap}
+.trago .steps{list-style:none;margin:0;padding:0;display:grid;gap:var(--s2);counter-reset:s}
+.trago .steps li{display:grid;grid-template-columns:32px minmax(0,1fr);gap:var(--s2);font-size:1.12rem;line-height:1.35;counter-increment:s}
+.trago .steps li::before{content:counter(s,upper-roman);font-family:var(--f-cap);font-size:.78rem;color:var(--gold);padding-top:var(--s1)}
+.trago .note{font-size:.88rem;color:var(--muted);font-style:italic;text-align:center;margin:0}
+.trago .qty{font-family:var(--f-name);font-size:1.6rem;line-height:1;white-space:nowrap;text-align:right}
+.trago .qty small{display:block;font-family:var(--f-body);font-size:.8rem;color:var(--muted);margin-top:var(--s1)}
+.trago .qty.pd{font-family:var(--f-cap);font-size:.6rem;letter-spacing:.14em;color:#a39a8a}
+.trago .ing col.c-n{width:62%}.trago .ing col.c-q{width:38%}
+.trago .hero{margin-top:0}
+.trago .build{margin-top:var(--s5);display:grid;gap:var(--s3)}
+.trago .build>.cap{display:flex;align-items:center;gap:var(--s3)}
+.trago .build>.cap::before,.trago .build>.cap::after{content:"";flex:1;height:1px;background:var(--line)}
+.trago .build svg{width:100%;height:auto;display:block}
+.trago .qty .qx{display:block;font-family:var(--f-cap);font-style:normal;font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);line-height:1.6}
+.trago .vsel{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s2);margin-top:var(--s4)}
+.trago .vsel button{border:1px solid var(--line);border-radius:4px;padding:var(--s3) var(--s1);font-family:var(--f-name);font-size:1.2rem;line-height:1.05;min-height:56px;transition:background .2s,color .2s,border-color .2s}
+.trago .vsel button[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:#fff}
+.trago .pendr{border:1px dashed var(--gold-soft);border-radius:var(--r);padding:var(--s4) var(--s3);text-align:center;display:grid;gap:var(--s2)}
+.trago .pendr p{margin:0;color:var(--muted);font-style:italic}
+.trago .serv{grid-template-columns:repeat(3,minmax(0,1fr))}
+.trago .title h1{position:relative;display:inline-block;justify-self:center;font-size:clamp(2.2rem,10.5vw,2.9rem)!important}
+.trago .rtop.sut{justify-content:flex-end;gap:var(--s2);margin:calc(-1*var(--s2)) 0 calc(-1*var(--s2))}
+.trago .rtop.sut .cap{font-size:.55rem;color:var(--muted)}
+.trago .rtop.sut .mult{border:0;border-radius:0;gap:0}
+.trago .rtop.sut .mult button{min-width:36px;min-height:40px;padding:0 var(--s1);font-size:.62rem;color:#a39a8a;background:none;border-bottom:1px solid transparent}
+.trago .rtop.sut .mult button[aria-pressed="true"]{background:none;color:var(--ink);border-bottom-color:var(--gold)}
+.trago .title .corona{position:absolute;top:-2px;right:-22px;width:20px;height:20px;color:var(--gold);opacity:.85}
+.trago .badge{display:flex;align-items:center;justify-content:center;gap:var(--s2);margin:var(--s4) 0 0;font-family:var(--f-cap);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
+.trago .badge svg{width:30px;height:30px;color:var(--gold)}
+.trago .rblk .build{margin-top:0}
+.trago .rblk>.steps{margin-top:var(--s2);padding-top:var(--s4);border-top:1px solid var(--line)}
+.tarj .ver{margin-top:auto;font-family:var(--f-cap);font-size:.58rem;letter-spacing:.16em;color:var(--gold)}
+.tarj .top .ok{font-family:var(--f-cap);font-size:.5rem;letter-spacing:.14em;color:var(--gold)}
+
+.mt{display:block;text-align:center;margin:var(--s5) 0 var(--s3)}
+.mas .mt{margin-top:0}
+.pills{display:flex;flex-wrap:wrap;gap:var(--s2);justify-content:center}
+.pillw{position:relative;display:inline-flex}
+.pill{min-height:44px;display:inline-flex;align-items:center;padding:0 var(--s3);border:1px solid var(--gold-soft);border-radius:999px;font-family:var(--f-name);font-size:1.15rem;background:#fff;color:var(--ink)}
+.pill.mas-add{width:44px;padding:0;justify-content:center;color:var(--gold);font-size:1.4rem;border-style:dashed}
+.pillx{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-size:.9rem;line-height:1;display:grid;place-items:center}
+.pillx::after{content:"";position:absolute;inset:-11px}
+.maspanel{margin-top:var(--s3);border:1px solid var(--gold-soft);border-radius:12px;padding:var(--s2) var(--s3);background:#fbf8f1;display:grid;gap:0}
+.maspanel #masres{margin-top:var(--s1)}
+.masq{display:flex;align-items:center;gap:var(--s2);border-bottom:1px solid var(--gold);padding:0}
+.masq svg{width:16px;height:16px;color:var(--gold)}
+.masq input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
+.masq input{flex:1;min-width:0;border:0;outline:0;background:none;font-family:var(--f-name);font-size:1.25rem;color:var(--ink)}
+.masr{width:100%;min-height:48px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px dotted var(--line);font-family:var(--f-name);font-size:1.15rem;text-align:left}
+.masr:last-child{border-bottom:0}
+.masr i{font-style:normal;color:var(--gold);font-size:1.3rem;width:44px;text-align:center;flex:none}
+.masx{width:44px;height:44px;flex:none;display:grid;place-items:center;font-family:var(--f-body);font-weight:300;font-size:1.7rem;line-height:1;color:var(--ink)}
+.masok{justify-self:end;width:44px;height:44px;display:grid;place-items:center;color:var(--ink);font-family:var(--f-name);font-size:2rem;line-height:1;padding-bottom:4px}
+#vrec .arches{margin-top:var(--s5)}
+#vrec .arch .aw{height:178px}
+.srv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s3)}
+.mini{display:grid;justify-items:center;gap:var(--s1)}
+.mini .aw{width:100%;height:96px;border-radius:999px 999px 6px 6px;overflow:hidden;border:1px solid #c9b48a;padding:3px;background:#fff;display:block}
+.mini img{width:100%;height:100%;object-fit:cover;border-radius:999px 999px 4px 4px;display:block}
+.mini .n{font-family:var(--f-name);font-size:1.1rem}
+.rows{display:grid;gap:var(--s2)}
+.srow{display:grid;grid-template-columns:64px minmax(0,1fr) 20px;gap:var(--s3);align-items:center;padding:var(--s2) 0;border-bottom:1px solid var(--line)}
+.srow .aw{width:64px;height:80px;border-radius:999px 999px 4px 4px;overflow:hidden;border:1px solid #c9b48a;padding:2px;background:#fff;display:block}
+.srow .aw img{width:100%;height:100%;object-fit:cover;border-radius:999px 999px 3px 3px;display:block}
+.srow b{display:block;font-family:var(--f-name);font-weight:400;font-size:1.45rem;line-height:1.05}
+.srow small{color:var(--muted);font-size:.92rem;line-height:1.2}
+.srow i{font-style:normal;font-family:var(--f-name);font-size:1.5rem;color:var(--gold)}
+/* arcos */
+.arches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s4) var(--s3)}
+.arch{display:grid;justify-items:center;align-content:start;text-align:center;gap:var(--s1);min-width:0}
+.arch .aw{box-sizing:border-box;display:block}
+.arch .aw{width:100%;height:216px;border-radius:999px 999px 6px 6px;overflow:hidden;border:1px solid #c9b48a;padding:var(--s1);background:#fff;transition:border-color .2s,transform .2s}
+.arch .aw img{width:100%;height:100%;object-fit:cover;object-position:center 30%;border-radius:999px 999px 4px 4px;display:block}
+.arch:active .aw,.arch:hover .aw{border-color:var(--gold);transform:translateY(-2px)}
+.arch .n{font-family:var(--f-name);font-size:1.38rem;line-height:1;margin-top:var(--s1)}
+.arch .d{font-size:.86rem;color:#6b737a;line-height:1.2}
+.arch.solo{grid-column:1 / -1;width:calc(50% - var(--s2));justify-self:center;position:relative}
+.arch.solo::before,.arch.solo::after{content:"";position:absolute;top:66px;width:83px;height:135px;background:url(../../assets/logo/rama.png) center/contain no-repeat;opacity:.55;pointer-events:none}
+.arch.solo::before{right:calc(100% + var(--s2));transform:rotate(-18deg) scaleX(-1)}
+.arch.solo::after{left:calc(100% + var(--s2));transform:rotate(18deg)}
+.arch.grande{grid-column:1 / -1;width:75%;justify-self:center;margin-top:var(--s2)}
+.arch.grande .aw{height:232px}
+.arch.grande .n{font-size:1.75rem}
+.arch.grande .d{font-size:.95rem;max-width:30ch}
+.arch.falta .aw{border-style:dashed}.arch.falta .aw img{filter:grayscale(1) opacity(.35)}
+
+/* categorías deslizables */
+.rowwrap{position:relative;margin:0 calc(-1 * max(var(--m),env(safe-area-inset-left,0px))) 0}
+.cats{display:flex;gap:0;overflow-x:auto;overscroll-behavior-x:contain;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity;padding:0;scrollbar-width:none;border-bottom:1px solid #eee9e0}
+.cats::-webkit-scrollbar{display:none}
+.cats button{scroll-snap-align:center;flex:0 0 33.3333%;min-width:0;display:grid;justify-items:center;gap:var(--s1);padding:var(--s1) var(--s1) var(--s2);background:none;border:0;border-bottom:2px solid transparent;margin-bottom:-1px;cursor:pointer;transition:border-color .2s}
+.cats button .r{font-family:var(--f-cap);font-size:.66rem;letter-spacing:.2em;color:#c9b48a;line-height:1}
+.cats button .t{font-family:var(--f-name);font-size:clamp(1.15rem,5.6vw,1.45rem);line-height:1;color:#a3a7ab;transition:color .2s;white-space:nowrap}
+.cats button[aria-selected="true"]{border-bottom-color:var(--gold)}
+.cats button[aria-selected="true"] .t{color:var(--ink)}
+.cats button[aria-selected="true"] .r{color:var(--gold)}
+.rowwrap.pocas .cats{justify-content:center}.rowwrap.pocas .fade{display:none}
+.fade{position:absolute;right:0;top:0;bottom:1px;width:40px;background:linear-gradient(to right,rgba(255,255,255,0),#fff);pointer-events:none}
+.fade.l{right:auto;left:0;background:linear-gradient(to left,rgba(255,255,255,0),#fff)}
+.sub{border-left:2px solid var(--gold-soft);padding-left:10px;margin:1.08rem 0 .48rem}
+.sub .n{font-family:var(--f-name);font-size:1.5rem;line-height:1.1}
+.sub .d{font-style:italic;color:#58616a;font-size:1rem}
+.list{animation:rise .3s ease;margin-top:var(--s2)}
+.row{display:flex;justify-content:space-between;align-items:center;border-bottom:1px dotted var(--line);padding:var(--s3) 0;gap:var(--s3)}
+.row .n{font-family:var(--f-name);font-size:1.3rem;line-height:1.1}
+.row small{display:block;font-family:var(--f-body);font-size:.95rem;color:#8a8f94;margin-top:var(--s1)}
+.row .go{font-family:var(--f-name);color:var(--gold);font-size:1.4rem}
+.pend{font-family:var(--f-cap);font-size:.6rem;letter-spacing:.14em;color:#a39a8a;white-space:nowrap}
+.empty{border:1px dashed #e2d6bd;border-radius:var(--r);padding:var(--s4) var(--s3);text-align:center;color:#6b737a;font-style:italic}
+.hint{font-size:.85rem;color:#a39a8a;text-align:center;font-style:italic;margin-top:var(--s3)}
+.srv4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s2);margin-top:var(--s5)}
+.srv4 .mini .aw{height:84px}.srv4 .mini .n{font-size:1rem}
+#vrec .arch .d{font-family:var(--f-cap);font-size:.58rem;letter-spacing:.16em;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<section id="portada" aria-label="Portada">
+  <img class="logo" src="../../assets/logo/rivoli-oscuro.png" alt="Rivoli">
+  <div class="ctas">
+    <a class="cta" href="#carta">Recetario</a>
+    <a class="tres" href="../../tragos-verano/" aria-label="3 tragos nuevos para el verano"><span class="n3" aria-hidden="true">3</span><span class="tx" aria-hidden="true">tragos nuevos<br>para el<br>verano</span></a>
+  </div>
+</section>
+
+<div class="shell" id="interior" hidden>
+  <header>
+    <a class="back" id="back" href="#" aria-label="Volver">‹</a>
+    <a class="home" href="#" aria-label="Volver a la portada"><img src="../../assets/logo/rivoli-oscuro.png" alt="Rivoli"></a>
+    <span id="hRight"></span>
+  </header>
+  <main id="app"></main>
+</div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="copa" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 5c-2 14 4 20 10 20s12-6 10-20M20 25v9M13 35h14"/></g></symbol>
+  <symbol id="coupe" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 10c1 9 7 13 14 13s13-4 14-13zM20 23v11M13 35h14"/></g></symbol>
+  <symbol id="alto" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 4h16l-1 32H13z"/></g></symbol>
+  <symbol id="birra" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 8h16v26H10zM26 13h5v14h-5M10 13h16"/></g></symbol>
+  <symbol id="vino" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 4h14c0 12-3 16-7 16s-7-4-7-16zM20 20v13M14 35h12"/></g></symbol>
+  <symbol id="cafe" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 14h18v10a7 7 0 0 1-7 7h-4a7 7 0 0 1-7-7zM27 17h3a3 3 0 0 1 0 6h-3M15 6v4M20 5v5"/></g></symbol>
+  <symbol id="digest" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 6h10M16 6v8l-3 4v16h14V18l-3-4V6"/></g></symbol>
+<symbol id="i-laurel" viewBox="0 0 44 124"><path d="M30 118 C12 92 8 48 26 6" fill="none" stroke="currentColor" stroke-width="1.1"/><g fill="currentColor" fill-opacity=".28" stroke="currentColor" stroke-width=".9" stroke-linejoin="round"><path d="M-8.0 0 Q0 -4.0 8.0 0 Q0 4.0 -8.0 0Z" transform="translate(18.0 105.8) rotate(-151)"/><path d="M-8.0 0 Q0 -4.0 8.0 0 Q0 4.0 -8.0 0Z" transform="translate(26.0 101.7) rotate(-83)"/><path d="M-7.4 0 Q0 -3.7 7.4 0 Q0 3.7 -7.4 0Z" transform="translate(13.3 89.7) rotate(-140)"/><path d="M-7.4 0 Q0 -3.7 7.4 0 Q0 3.7 -7.4 0Z" transform="translate(21.2 87.4) rotate(-72)"/><path d="M-6.7 0 Q0 -3.4 6.7 0 Q0 3.4 -6.7 0Z" transform="translate(10.9 72.1) rotate(-131)"/><path d="M-6.7 0 Q0 -3.4 6.7 0 Q0 3.4 -6.7 0Z" transform="translate(18.4 71.2) rotate(-63)"/><path d="M-6.1 0 Q0 -3.0 6.1 0 Q0 3.0 -6.1 0Z" transform="translate(11.1 53.4) rotate(-122)"/><path d="M-6.1 0 Q0 -3.0 6.1 0 Q0 3.0 -6.1 0Z" transform="translate(17.9 53.6) rotate(-54)"/><path d="M-5.4 0 Q0 -2.7 5.4 0 Q0 2.7 -5.4 0Z" transform="translate(14.1 33.8) rotate(-114)"/><path d="M-5.4 0 Q0 -2.7 5.4 0 Q0 2.7 -5.4 0Z" transform="translate(20.1 34.9) rotate(-46)"/><path d="M-4.8 0 Q0 -2.4 4.8 0 Q0 2.4 -4.8 0Z" transform="translate(19.9 14.0) rotate(-106)"/><path d="M-4.8 0 Q0 -2.4 4.8 0 Q0 2.4 -4.8 0Z" transform="translate(25.0 15.7) rotate(-38)"/><path d="M-5 0 Q0 -2.6 5 0 Q0 2.6 -5 0Z" transform="translate(26.5 3.0) rotate(-68)"/></g></symbol>
+  <symbol id="i-lupa" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></g></symbol>
+<symbol id="kero" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 7h22l-3 23H12z"/><path d="M12 30h16l-.3 5H12.3z"/></g></symbol><symbol id="noice" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 14l10-5 10 5v12l-10 5-10-5z"/><path d="M6 34L32 6"/></g></symbol><symbol id="blender" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M11 6h18l-3 20H14z"/><path d="M9 4h22M13 28h14v7H13z"/><circle cx="20" cy="31.5" r="1.4"/></g></symbol><symbol id="clock" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M10 4h20M10 36h20M12 4c0 10 16 10 16 16S12 26 12 36M28 4c0 10-16 10-16 16s16 6 16 16"/></g></symbol><symbol id="star" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 5l4.5 9.5 10.5 1.3-7.7 7.2 2 10.4L20 28.3l-9.3 5.1 2-10.4L5 15.8l10.5-1.3z"/></g></symbol><symbol id="amphora" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M16 4h8M17 4v5c-7 3-9 10-7 17 1 4 5 8 10 10 5-2 9-6 10-10 2-7 0-14-7-17V4"/><path d="M17 9c-5 0-6 6-3 8M23 9c5 0 6 6 3 8M13 20h14"/></g></symbol><symbol id="gotas" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6c-4 6-6 9-6 12a6 6 0 0 0 12 0c0-3-2-6-6-12z"/><path d="M27 18c-3 4-4 6-4 8a4 4 0 0 0 8 0c0-2-1-4-4-8z"/><path d="M8 35h24"/></g></symbol>
+<symbol id="laurea" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round"><g><path d="M17 34C6 28 5 14 13 5" fill="none"/><path d="M-3.1 0Q0 -2.4 3.1 0Q0 2.4 -3.1 0Z" transform="translate(10.4 31.4) rotate(-178)"/><path d="M-3.1 0Q0 -2.4 3.1 0Q0 2.4 -3.1 0Z" transform="translate(13.1 28.4) rotate(-98)"/><path d="M-2.9 0Q0 -2.2 2.9 0Q0 2.2 -2.9 0Z" transform="translate(7.0 25.3) rotate(-156)"/><path d="M-2.9 0Q0 -2.2 2.9 0Q0 2.2 -2.9 0Z" transform="translate(10.3 23.7) rotate(-76)"/><path d="M-2.7 0Q0 -2.1 2.7 0Q0 2.1 -2.7 0Z" transform="translate(5.9 18.7) rotate(-136)"/><path d="M-2.7 0Q0 -2.1 2.7 0Q0 2.1 -2.7 0Z" transform="translate(9.4 18.4) rotate(-56)"/><path d="M-2.5 0Q0 -1.9 2.5 0Q0 1.9 -2.5 0Z" transform="translate(7.0 12.2) rotate(-117)"/><path d="M-2.5 0Q0 -1.9 2.5 0Q0 1.9 -2.5 0Z" transform="translate(10.2 12.9) rotate(-37)"/><path d="M-2.3 0Q0 -1.8 2.3 0Q0 1.8 -2.3 0Z" transform="translate(10.1 6.1) rotate(-99)"/><path d="M-2.3 0Q0 -1.8 2.3 0Q0 1.8 -2.3 0Z" transform="translate(12.7 7.7) rotate(-19)"/></g><g transform="translate(40 0) scale(-1 1)"><path d="M17 34C6 28 5 14 13 5" fill="none"/><path d="M-3.1 0Q0 -2.4 3.1 0Q0 2.4 -3.1 0Z" transform="translate(10.4 31.4) rotate(-178)"/><path d="M-3.1 0Q0 -2.4 3.1 0Q0 2.4 -3.1 0Z" transform="translate(13.1 28.4) rotate(-98)"/><path d="M-2.9 0Q0 -2.2 2.9 0Q0 2.2 -2.9 0Z" transform="translate(7.0 25.3) rotate(-156)"/><path d="M-2.9 0Q0 -2.2 2.9 0Q0 2.2 -2.9 0Z" transform="translate(10.3 23.7) rotate(-76)"/><path d="M-2.7 0Q0 -2.1 2.7 0Q0 2.1 -2.7 0Z" transform="translate(5.9 18.7) rotate(-136)"/><path d="M-2.7 0Q0 -2.1 2.7 0Q0 2.1 -2.7 0Z" transform="translate(9.4 18.4) rotate(-56)"/><path d="M-2.5 0Q0 -1.9 2.5 0Q0 1.9 -2.5 0Z" transform="translate(7.0 12.2) rotate(-117)"/><path d="M-2.5 0Q0 -1.9 2.5 0Q0 1.9 -2.5 0Z" transform="translate(10.2 12.9) rotate(-37)"/><path d="M-2.3 0Q0 -1.8 2.3 0Q0 1.8 -2.3 0Z" transform="translate(10.1 6.1) rotate(-99)"/><path d="M-2.3 0Q0 -1.8 2.3 0Q0 1.8 -2.3 0Z" transform="translate(12.7 7.7) rotate(-19)"/></g><path d="M20 30v6"/></g></symbol>
+  <symbol id="cero" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 12h20l-3 22H13zM14 20h12"/></g></symbol>
+</defs></svg>
+
+<script>
+(function(){
+const ic=id=>`<svg aria-hidden="true"><use href="#${id}"/></svg>`;
+/* Secciones = índices reales de la carta de Rivoli. Ingredientes según carta digital (nov. 2026). */
+const SECCIONES=[
+ {id:'aperitivi',n:'Aperitivi',icono:'aguila',i:'copa',d:'Para abrir la comida: spritz, sours y amargos.',
+  intro:'Para abrir la comida: spritz burbujeantes, sours cítricos y amargos italianos, antes o con los antipasti.',
+  cats:[
+   ['Spritz','Burbujeantes y bajos en alcohol. Para la tarde y el aperitivo.',[['Aperol Spritz','Aperol · Cinzano To Spritz · soda'],['Limoncello Spritz','Limoncello · prosecco · soda'],['Orange Spritz','St-Germain · Aperol · maracuyá · soda'],['Lambrusco Spritz','Lambrusco · ginger ale · Aperol'],['Saint Germain Spritz','St-Germain · prosecco · soda'],['Strawberry Limoncello Spritz','Limoncello · frutilla · prosecco'],['Ramazzotti Tradicional','Ramazzotti · prosecco · soda']]],
+   ['Sour','Cítricos y sedosos. El pisco sour es el más pedido de la casa.',[['Pisco Sour','Preparado de pisco sour · clara · angostura'],['Pisco Sour Catedral','Pisco peruano · limón · goma'],['Amaretto Sour','Amaretto · limón · goma'],['Whisky Sour','Whisky · limón · goma'],['Campari Sour','Gin · Cinzano · Campari · limón · goma'],['Penicillin Rivoli','Whisky · limón · miel · jengibre']]],
+   ['Negroni','Amargos italianos, para antes de comer.',[['Negroni','Gin · vermouth rosso · Campari'],['Negroni Sbagliato','Espumoso · Campari · vermouth rosso'],['Negroni Frenchie','Gin · Campari · vermouth · St-Germain'],['Negroni Rivoli','Gin · Campari · Cynar'],['Negroni Ristretto','Gin · Campari · vermouth · café'],['Campari Tónica','Campari · tónica'],['Campari Naranja','Campari · jugo de naranja']]],
+   ['Mojitos','Frescos, con menta y lima. Ideales para la terraza.',[['Mojito Tradicional','Ron · limón · azúcar · menta · soda'],['Mojito Maracuyá','Ron · limón · goma · maracuyá'],['Mojito Frutilla','Ron · limón · goma · frutilla'],['Caipirinha','Cachaza · limón · goma'],['Caipiroska','Vodka · limón · goma'],['Fresco Pasión','Ron · maracuyá · limón'],['Cynar Julep','Gin · Cynar · pomelo · limón · menta']]],
+   ['Tónicas','Largos y secos, con tónica o soda.',[['Gin Tonic','Gin Bombay · tónica'],['Gin Tonic Vesuvio','Gin Bombay · limoncello · tónica'],['Vodkatonic','Vodka · tónica'],['Vodka Tonic Grey Goose','Vodka Grey Goose · tónica'],['Disaronno Fizz','Disaronno · limón · tónica'],['Tom Collins','Gin · limón · azúcar · soda']]],
+   ['Clásicos','Cócteles de siempre, cortos y potentes.',[['Martini Dry','Gin · vermouth dry'],['Manhattan','Bourbon · vermouth rosso'],['Clavo Oxidado','Whisky · Drambuie'],['French 75','Gin · limón · prosecco'],['Espresso Martini Rivoli','Vodka · espresso · licor de naranja'],['Bloody Mary','Vodka · tomate · limón · especias'],['Bellini','Conserva de durazno · prosecco'],['Venni Julet Rivoli','Vino tinto · St-Germain · vodka · ginger beer'],['Vaina','Oporto · cognac · yema · cacao · canela'],['Carajillo','Café · Licor 43']]],
+   ['Margaritas','Tequila con cítricos.',[['Tequila Margarita','Tequila · limón · licor de naranja'],['Saint Germain Margarita','St-Germain · tequila · limón'],['Aperol Coconut Margarita','Tequila · Aperol · limón · coco']]],
+   ['Sangrías','Para compartir, en copa o jarra.',[['Copa Sangría Vino Tinto','Vino tinto · frutas · azúcar · pisco'],['Copa Sangría Vino Blanco','Vino blanco · frutas · goma · maracuyá · pisco'],['Jarra Sangría Vino Tinto','Para la mesa'],['Jarra Sangría Vino Blanco','Para la mesa']]],
+   ['Piscos','Solos o con bebida.',[['Alto del Carmen','Solo o con bebida'],['Pisco Republicano 40','Solo o con bebida']]]
+  ]},
+ {id:'mocktails',n:'Mocktails',i:'cero',d:'Sin alcohol, frutales y frescos.',
+  intro:'Tragos sin alcohol para quien no bebe o maneja. Frutales, frescos y con la misma presentación que un cóctel.',
+  cats:[
+   ['Spritz 0°','Burbujeantes, sin alcohol.',[['Bellini sin alcohol','Durazno · goma · espumante sin alcohol'],['Copa Spritz sin alcohol','Espumante rosé sin alcohol · fruta · limón']]],
+   ['Mojitos 0°','Menta, lima y soda.',[['Mojito Tradicional sin alcohol','Lima · azúcar · menta · soda'],['Mojito de Berries','Berries · menta · lima'],['Caipirina sin alcohol','Tónica · mandarina · limón · goma']]],
+   ['Hibisco','Florales y frutales.',[['Fiore di Hibisco','Flor de hibisco · naranja · miel · lima · tónica'],['Dolce Rosso','Hibisco · maracuyá · limón · naranja · miel']]],
+   ['Sangría 0°','Para compartir.',[['Copa Sangría sin alcohol','Vino sin alcohol · frutas · maracuyá · limón']]]
+  ]},
+ {id:'birre',n:'Birre',i:'birra',d:'Cervezas para pizzas y antipasti.',intro:'Cervezas para acompañar pizzas, antipasti y la terraza.',cats:[]},
+ {id:'jugos',n:'Jugos y aguas',i:'alto',d:'Jugos naturales y aguas para la mesa.',intro:'Jugos naturales, bebidas y aguas para la mesa.',cats:[
+   ['Limonadas','Naturales, con variantes de fruta y hierbas.',[['Limonada','Limón · azúcar · agua · versiones de fruta']]]
+  ]},
+ {id:'digestivi',n:'Digestivi',i:'digest',d:'Licores y amari para cerrar.',intro:'Licores y amari italianos para cerrar la comida.',cats:[]},
+ {id:'vinos',n:'Vinos',i:'vino',d:'Tintos, blancos y espumantes.',intro:'Tintos, blancos y espumantes chilenos e italianos para maridar.',cats:[]},
+ {id:'caffe',n:'Caffè',i:'cafe',d:'Espresso y cafés para el final.',intro:'Espresso y cafés a la italiana, para el final.',cats:[],cls:'solo'},
+ {id:'bases',n:'Preparaciones de barra',i:'alto',d:'Las bases que preparamos para armar los tragos: limonada, jamaicano, jengibre, maracuyá y más.',intro:'Recetas de las preparaciones que se hacen en la barra y se usan como base de otros tragos.',cats:[],cls:'grande'}
+];
+const count=s=>s.cats.reduce((a,c)=>a+c[2].length,0);
+
+const portada=document.getElementById('portada'),interior=document.getElementById('interior'),app=document.getElementById('app'),back=document.getElementById('back');
+let cat=0;
+
+const ROM=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+/* recetas cargadas (clave = nombre exacto en la carta) */
+const RECETAS={
+ 'Pisco Sour':{id:'pisco-sour',sec:'aperitivi',cat:1,name:'Pisco Sour',
+  hero:'../../assets/tragos/pisco-sour-hero.jpg?v=2',
+  facts:[['Sabor','Ácido, sedoso, espumoso'],['Familia','Sour'],['Estilo','Corto, clásico']],
+  badge:['laurea','Trago popular'],
+  serv:[['kero','Vaso Gran Cruz 300 ml'],['blender','Licuar'],['gotas','Angostura al final']],
+  ing:[
+   {n:'Hielo',sub:m=>'cubos, en la licuadora',q:3},
+   {n:'Preparado de pisco sour',q:250,u:'ml',pre:'hasta',post:'marca'},
+   {n:'Clara de huevo',q:.5,u:'cda',sub:m=>'cuchara de té'},
+   {n:'Amargo de angostura',q:2,u:'gotas',fixed:1,sub:m=>'por vaso, ya servido'}],
+  steps:['En la licuadora: 3 hielos, preparado de pisco sour y ½ cuchara de clara de huevo.','Licuar 1 minuto.','Servir en el vaso.','Agregar 2 gotas de amargo de angostura.']},
+ 'Limonada':{id:'limonada',sec:'jugos',cat:0,name:'Limonada',
+  hero:'../../assets/carta/jugos.jpg',heroPos:'center 70%',
+  facts:[['Sabor','Ácida, fresca'],['Familia','Limonadas'],['Estilo','Largo, sin alcohol']],
+  badge:['laurea','Trago popular'],
+  /* receta en construcción: se completa con la barra */
+  variants:[{k:'Tradicional'},{k:'Menta jengibre'},{k:'Frutilla'}],
+  serv:[],ing:[],steps:[]}
+};
+const REC_ID=Object.fromEntries(Object.values(RECETAS).map(r=>[r.id,r]));
+/* fotos por trago (nombre exacto → archivo en assets/tragos). Las que faltan muestran la copa dibujada */
+const FOTOS={'Aperol Spritz':'aperol-spritz.jpg','Orange Spritz':'orange-spritz.jpg','Pisco Sour':'pisco-sour.jpg?v=2','Limonada':'limonada.jpg'};
+const IMG_LISTA=['aperitivi','mocktails','birre','jugos','digestivi','vinos','caffe','bases'];
+const IMG_POS={mocktails:'100%',jugos:'100%',digestivi:'100%',caffe:'35%',bases:'80%'};
+
+/* ---------- índice del Recetario ---------- */
+const PRI=['aperitivi','mocktails','digestivi','caffe'],SRV=['birre','jugos','vinos'];
+const S=id=>SECCIONES.find(x=>x.id===id);
+const MAS_DEF=['Pisco Sour','Limonada','Aperol Spritz','Mojito Tradicional','Negroni','Gin Tonic','Espresso Martini Rivoli'];
+const findT=n=>{for(const s of SECCIONES)for(let i=0;i<s.cats.length;i++)if(s.cats[i][2].some(d=>d[0]===n))return {s,i};return null};
+const TODOS=()=>SECCIONES.flatMap(s=>s.cats.flatMap(c=>c[2].map(d=>d[0])));
+const getMas=()=>{try{const v=JSON.parse(localStorage.getItem('rivoli-mas'));if(Array.isArray(v))return v.filter(n=>findT(n))}catch(e){}return MAS_DEF.slice()};
+const setMas=v=>{try{localStorage.setItem('rivoli-mas',JSON.stringify(v))}catch(e){}};
+function masPedidos(){
+  const pills=document.getElementById('pills'),panel=document.getElementById('maspanel'),q=document.getElementById('masq'),res=document.getElementById('masres');
+  let edit=false;
+  const norm=t=>t.normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+  const pinta=()=>{const L=getMas();
+    pills.innerHTML=L.map(n=>{const R=RECETAS[n],f=findT(n);return `<span class="pillw"><a class="pill" href="#${R?R.id:f.s.id}" data-n="${n}">${n.replace(' Rivoli','')}</a>${edit?`<button class="pillx" type="button" data-x="${n}" aria-label="Quitar ${n}">×</button>`:''}</span>`}).join('')
+      +(edit?'':`<button class="pill mas-add" id="masadd" type="button" aria-label="Agregar un trago a más pedidos">+</button>`);
+    const add=document.getElementById('masadd');if(add)add.addEventListener('click',abrir)};
+  const lista=()=>{const k=norm(q.value.trim()),L=getMas();
+    const r=TODOS().filter(n=>!L.includes(n)&&(!k||norm(n).includes(k))).slice(0,8);
+    res.innerHTML=r.length?r.map(n=>`<button class="masr" type="button" data-a="${n}"><span>${n}</span><i>+</i></button>`).join(''):'<p class="nada">No encontramos ese trago</p>'};
+  const abrir=()=>{edit=true;panel.hidden=false;q.value='';lista();pinta();setTimeout(()=>q.focus(),40)};
+  const cerrar=()=>{edit=false;panel.hidden=true;q.blur();pinta()};
+  pills.addEventListener('click',e=>{const x=e.target.closest('[data-x]');if(x){setMas(getMas().filter(n=>n!==x.dataset.x));pinta();lista();return}
+    const a=e.target.closest('a.pill');if(a){if(edit){e.preventDefault();return}desdeMenu=true;const f=findT(a.dataset.n);if(f&&!RECETAS[a.dataset.n])irCat=f.i}});
+  res.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;setMas([...getMas(),b.dataset.a]);q.value='';pinta();lista();q.focus()});
+  q.addEventListener('input',lista);
+  document.getElementById('masx').addEventListener('click',()=>{q.value='';lista();q.focus()});
+  document.getElementById('masok').addEventListener('click',cerrar);
+  /* tocar fuera del panel (y de los botones) cierra la edición */
+  const fuera=e=>{if(!panel.isConnected){document.removeEventListener('click',fuera,true);return}
+    if(edit&&!e.target.closest('#maspanel,#pills')){e.preventDefault();e.stopPropagation();cerrar()}};
+  document.addEventListener('click',fuera,true);
+  pinta();
+}
+
+/* IDEA categorías v01 (no aplicada): reglas — café con alcohol → Bajativos; café → Café; birra sin alcohol → Birra y Sin alcohol; Limonada → Refrescantes y Sin alcohol; el resto, una sola categoría */
+const NCAT=[
+ {id:'refrescantes',n:'Refrescantes',img:'../../assets/carta/aperitivi.jpg',t:['Aperol Spritz','Limoncello Spritz','Orange Spritz','Lambrusco Spritz','Saint Germain Spritz','Strawberry Limoncello Spritz','Ramazzotti Tradicional','Bellini','French 75','Mojito Tradicional','Mojito Maracuyá','Mojito Frutilla','Caipirinha','Caipiroska','Fresco Pasión','Cynar Julep','Gin Tonic','Gin Tonic Vesuvio','Vodkatonic','Vodka Tonic Grey Goose','Disaronno Fizz','Tom Collins','Tequila Margarita','Saint Germain Margarita','Aperol Coconut Margarita','Venni Julet Rivoli','Copa Sangría Vino Tinto','Copa Sangría Vino Blanco','Jarra Sangría Vino Tinto','Jarra Sangría Vino Blanco','Limonada']},
+ {id:'sour',n:'Sour',img:'../../assets/tragos/pisco-sour-hero.jpg?v=2',pos:'60%',t:['Pisco Sour','Pisco Sour Catedral','Amaretto Sour','Whisky Sour','Campari Sour','Penicillin Rivoli']},
+ {id:'aperitivos',n:'Aperitivos',img:'../../assets/carta/digestivi-prov.jpg',falta:1,t:['Negroni','Negroni Sbagliato','Negroni Frenchie','Negroni Rivoli','Negroni Ristretto','Campari Tónica','Campari Naranja','Martini Dry','Manhattan','Bloody Mary']},
+ {id:'sinalcohol',n:'Sin alcohol',img:'../../assets/carta/mocktails.jpg',pos:'100%',t:['Limonada','Bellini sin alcohol','Copa Spritz sin alcohol','Mojito Tradicional sin alcohol','Mojito de Berries','Caipirina sin alcohol','Fiore di Hibisco','Dolce Rosso','Copa Sangría sin alcohol']},
+ {id:'cafe',n:'Café',img:'../../assets/carta/caffe.jpg',pos:'35%',t:[]},
+ {id:'bajativos',n:'Bajativos',img:'../../assets/carta/digestivi.jpg',pos:'100%',t:['Clavo Oxidado','Vaina','Espresso Martini Rivoli','Carajillo','Alto del Carmen','Pisco Republicano 40']},
+ {id:'birra',n:'Birra',img:'../../assets/carta/birre.jpg',t:[]},
+ {id:'vinos2',n:'Vinos',img:'../../assets/carta/vinos.jpg',t:[]}];
+const NC=id=>NCAT.find(c=>c.id===id);
+function renderCarta(){
+  back.setAttribute('href','#');
+  app.innerHTML=`<div class="view" id="vrec"><section class="bhero" aria-label="Buscar un trago"><span class="cap">Buscador</span><div class="marco"><svg class="laurel l" aria-hidden="true"><use href="#i-laurel"/></svg><h2 class="q">¿Qué trago quieres hacer?</h2><svg class="laurel r" aria-hidden="true"><use href="#i-laurel"/></svg></div>
+   <div class="bzona"><div class="bcaja"><input id="bq" type="search" autocomplete="off" enterkeyhint="search" aria-label="Nombre del trago" tabindex="-1"></div><button class="blupa" id="blupa" aria-label="Buscar un trago">${ic('i-lupa')}</button></div></section>
+   <div id="bres" aria-live="polite"></div>
+   <div class="rec"><div class="intro" style="margin-bottom:var(--s4)"><h1 class="h">Recetario</h1></div>
+   <section class="mas" aria-labelledby="mash"><h2 class="cap mt" id="mash">Más pedidos</h2><div class="pills" id="pills"></div>
+     <div class="maspanel" id="maspanel" hidden><label class="masq"><svg aria-hidden="true"><use href="#i-lupa"/></svg><input id="masq" type="search" autocomplete="off" placeholder="Agregar un trago" aria-label="Buscar un trago para agregar"><button class="masx" id="masx" type="button" aria-label="Borrar búsqueda">×</button></label><div id="masres"></div><button class="masok" id="masok" type="button" aria-label="Listo">›</button></div></section>
+   <nav class="arches" aria-label="Categorías principales">${['refrescantes','sour','aperitivos','sinalcohol'].map(id=>{const c=NC(id);return `<a class="arch${c.falta?' falta':''}" href="#carta"><span class="aw"><img src="${c.img}" alt=""${c.pos?` style="object-position:center ${c.pos}"`:''}></span><span class="n">${c.n}</span><span class="d">${c.t.length} tragos</span></a>`}).join('')}</nav>
+   <nav class="srv4" aria-label="Más categorías">${['cafe','bajativos','birra','vinos2'].map(id=>{const c=NC(id);return `<a class="mini" href="#carta"><span class="aw"><img src="${c.img}" alt=""${c.pos?` style="object-position:center ${c.pos}"`:''}></span><span class="n">${c.n}</span></a>`}).join('')}</nav>
+   <h2 class="cap mt">En botella</h2><nav class="rows" aria-label="En botella"><a class="srow" href="#carta"><span class="aw"><img src="../../assets/carta/bases.jpg" alt="" style="object-position:center 80%"></span><span class="tx"><b>Preparaciones de barra</b><small>Bases que se dejan listas en botella</small></span><i>›</i></a></nav>
+  </div><button class="bvolver" id="bvolver">Ver recetario</button></div>`;
+  buscadorGlobal();masPedidos();
+  document.getElementById('hRight').innerHTML=`<button class="hlupa" type="button" aria-label="Buscar un trago">${ic('i-lupa')}</button>`;
+  document.querySelector('#hRight .hlupa').addEventListener('click',e=>{e.stopPropagation();document.getElementById('blupa').click()});
+  if(abrirBusq){abrirBusq=false;if(volverA)back.setAttribute('href',volverA);setTimeout(()=>document.getElementById('blupa').click(),30)}else volverA=null;
+}
+let irCat=null;
+function buscadorGlobal(){
+  const v=document.getElementById('vrec'),q=document.getElementById('bq'),res=document.getElementById('bres');
+  const norm=t=>t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  const esc=t=>t.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const marca=(t,k)=>{const i=norm(t).indexOf(k);return i<0?esc(t):esc(t.slice(0,i))+'<mark>'+esc(t.slice(i,i+k.length))+'</mark>'+esc(t.slice(i+k.length))};
+  const rec=v.querySelector('.rec');let tOculta=null;
+  /* el recetario baja animado y luego se saca del flujo, para que la página no quede con alto vacío */
+  const abrir=()=>{if(v.classList.contains('buscando'))return;v.classList.add('buscando');q.tabIndex=0;scrollTo({top:0,behavior:'smooth'});pintar();
+    clearTimeout(tOculta);tOculta=setTimeout(()=>{if(v.classList.contains('buscando'))rec.classList.add('fuera')},560)};
+  const cerrar=()=>{if(!v.classList.contains('buscando'))return;
+    if(volverA&&!q.value.trim()){const t=volverA;volverA=null;if(irVolverCat!=null){irCat=irVolverCat;irVolverCat=null}location.hash=t;return}clearTimeout(tOculta);rec.classList.remove('fuera');void rec.offsetHeight;v.classList.remove('buscando');q.tabIndex=-1;q.value='';q.blur();res.innerHTML=''};
+  const pintar=()=>{const k=norm(q.value.trim());
+    if(!k){res.innerHTML='';return}
+    const r=[];SECCIONES.forEach(s=>s.cats.forEach((c,ci)=>c[2].forEach(d=>{if(norm(d[0]).includes(k))r.push([s,ci,c[0],d])})));
+    res.innerHTML=r.length?`<div class="list">${r.map(([s,ci,cn,d])=>`<a class="row" href="#${RECETAS[d[0]]?RECETAS[d[0]].id:s.id}" data-c="${ci}"><div><span class="cat">${s.n} · ${cn}</span><span class="n">${marca(d[0],k)}</span><small>${d[1]}</small></div><span class="go">›</span></a>`).join('')}</div>`:`<p class="nada">No encontramos “${esc(q.value.trim())}”</p>`};
+  q.addEventListener('input',pintar);
+  document.getElementById('blupa').addEventListener('click',()=>{abrir();q.focus()});
+  document.getElementById('bvolver').addEventListener('click',cerrar);
+  /* tocar fuera de la caja (y fuera de un resultado) cierra el buscador y vuelve al inicio del recetario */
+  document.addEventListener('click',e=>{if(!v.isConnected||!v.classList.contains('buscando'))return;
+    if(conTexto()||e.target.closest('.bcaja,#blupa,a[data-c],header'))return;cerrar();scrollTo({top:0,behavior:'smooth'})});
+  res.addEventListener('click',e=>{const a=e.target.closest('a[data-c]');if(a){irCat=+a.dataset.c;volverA=null}});
+  let y0=null;
+  /* deslizar el dedo hacia arriba, cuando ya no queda lista por recorrer, trae el recetario desde abajo */
+  const alFondo=()=>innerHeight+scrollY>=document.documentElement.scrollHeight-4;
+  const conTexto=()=>q.value.trim()!=='';  /* con algo escrito, los resultados se quedan: no vuelve el recetario */
+  /* el recetario sigue al dedo mientras se desliza; al soltar termina de subir o vuelve a esconderse */
+  let tira=false,dy=0;
+  const H=()=>innerHeight*.45;
+  const pinta=d=>{const k=Math.min(d/H(),1);rec.style.transform=`translateY(${(1-k)*H()}px)`;rec.style.opacity=Math.min(1,k*1.6)};
+  document.addEventListener('touchstart',e=>{tira=false;dy=0;y0=v.isConnected&&v.classList.contains('buscando')&&!conTexto()?e.touches[0].clientY:null},{passive:true});
+  document.addEventListener('touchmove',e=>{if(y0===null)return;
+    if(!tira){if(!alFondo())return;y0=e.touches[0].clientY;tira=true;clearTimeout(tOculta);rec.classList.remove('fuera');rec.classList.add('arrastre');q.blur();return}
+    dy=Math.max(0,(y0-e.touches[0].clientY)*1.4);pinta(dy)},{passive:true});
+  const suelta=()=>{if(!tira){y0=null;return}tira=false;y0=null;rec.classList.remove('arrastre');void rec.offsetHeight;
+    if(dy>36){cerrar();void rec.offsetHeight;rec.style.transform='';rec.style.opacity=''}
+    else{rec.style.transform='';rec.style.opacity='';tOculta=setTimeout(()=>{if(v.classList.contains('buscando'))rec.classList.add('fuera')},460)}};
+  document.addEventListener('touchend',suelta,{passive:true});document.addEventListener('touchcancel',suelta,{passive:true});
+  addEventListener('wheel',e=>{if(v.isConnected&&v.classList.contains('buscando')&&e.deltaY>30&&!conTexto()&&alFondo())cerrar()},{passive:true});
+}
+function hLupa(desde){
+  document.getElementById('hRight').innerHTML=`<a class="hlupa" href="#carta" aria-label="Buscar un trago">${ic('i-lupa')}</a>`;
+  document.querySelector('#hRight .hlupa').addEventListener('click',()=>{abrirBusq=true;volverA=desde;if(desde.startsWith('#')&&SECCIONES.some(x=>'#'+x.id===desde))irVolverCat=cat});
+}
+let irVolverCat=null;
+function renderSeccion(s){
+  back.setAttribute('href','#carta');
+  hLupa('#'+s.id);
+  const n=count(s);
+  app.innerHTML=`<div class="view"><div class="intro"><div class="sello"><span class="cap">Recetas</span>${s.icono?`<img class="icono" src="../../assets/iconos/${s.icono}.png" alt="">`:'<span class="cap" aria-hidden="true">·</span>'}<span class="cap">${n} ${n===1?'trago':'tragos'}</span></div><h1 class="h">${s.n}</h1></div>
+   ${s.cats.length?`<div class="rowwrap${s.cats.length<3?' pocas':''}"><div class="cats" id="cats" role="tablist" aria-label="Categorías">${s.cats.map((c,i)=>`<button role="tab" data-i="${i}" aria-selected="${i===cat}" aria-label="${c[0]}, ${c[2].length} tragos"><span class="r">${ROM[i]}</span><span class="t">${c[0]}</span></button>`).join('')}</div><div class="fade"></div><div class="fade l"></div></div>
+   <div id="lista"></div>${s.cats.length>3?'<p class="hint">Desliza las categorías hacia el lado</p>':''}`
+   :`<div class="empty">Aún no cargamos el detalle de esta sección.</div>`}</div>`;
+  if(!s.cats.length)return;
+  const cats=document.getElementById('cats');
+  const show=i=>{cat=i;const c=s.cats[i];
+    cats.querySelectorAll('button').forEach((b,j)=>b.setAttribute('aria-selected',j===i));
+    document.getElementById('lista').innerHTML=`<div class="list tarjs">${c[2].map(r=>{const f=FOTOS[r[0]],R=RECETAS[r[0]];return `<${R?`a href="#${R.id}"`:'div'} class="tarj${f?'':' sin'}">${f?`<img class="foto" src="../../assets/tragos/${f}" alt="" loading="lazy">`:`<span class="foto">${ic(s.i)}</span>`}<div class="tx"><span class="top"><span class="cat">${c[0]}</span>${R?'<span class="ok">Receta ›</span>':'<span class="pend">receta pendiente</span>'}</span><span class="n">${r[0]}</span><small>${r[1]}</small></div></${R?'a':'div'}>`}).join('')}</div>`;
+    /* si el nombre usa dos líneas, los ingredientes quedan en una para que todas las tarjetas midan lo mismo */
+    document.querySelectorAll('.tarj').forEach(t=>t.classList.toggle('largo',t.querySelector('.n').offsetHeight>30));
+    cats.querySelector(`[data-i="${i}"]`).scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
+  };
+  cats.addEventListener('click',e=>{const b=e.target.closest('button');if(b)show(+b.dataset.i)});
+  let x0=null,y0=null;const lista=document.getElementById('lista');
+  lista.addEventListener('touchstart',e=>{x0=e.touches[0].clientX;y0=e.touches[0].clientY},{passive:true});
+  lista.addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;
+    if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5)show((cat+(dx<0?1:-1)+s.cats.length)%s.cats.length);x0=null},{passive:true});
+  show(cat);
+}
+const DEDO=.75;
+/* ---------- cómo se arma: diagrama de capas ---------- */
+const BC={gin:'#e3e9ec',mara:'#e9b13c',limon:'#e6e98f',jeng:'#d8b47e',esp:'#f2e09a',ape:'#d9542b',pisco:'#efe7d2',goma:'#f1ece2',clara:'#ddd3bd',ron:'#ece6d4',mango:'#f0a43a',frut:'#e0566b'};
+const BUILD={
+ 'pisco-sour':()=>({tool:'jug',g:'kero',gl:'EL VASO',unit:'MEDIDA',ice:0,noIce:1,vIce:3,how:['Licuar 1 minuto','y servir'],
+  cap:5.2,extra:[['Clara de huevo','½ cda']],v:[['Preparado\nPisco Sour',5.5,BC.pisco,1.3,'hasta 250 ml']],
+  glass:[['Pisco sour',4.55,'#efe7d2',null,'≈ 250 ml'],['Angostura',.1,'drops',.45,'2 gotas']]})
+};
+const BPX=20,BGAP=32,BNX=136,BW=300;
+function bFingers(oz,yc){
+ const n=oz/DEDO,full=Math.floor(n+1e-6),part=n-full,cnt=Math.min(full+(part>.05?1:0),8);
+ let s='',x=BW-38-cnt*9;
+ for(let i=0;i<cnt;i++){const f=i<full?1:part,h=16;
+  s+=`<rect x="${x}" y="${yc-h/2}" width="6" height="${h}" rx="3" fill="none" stroke="#8a6a32" stroke-width="1"/><rect x="${x}" y="${yc+h/2-h*f}" width="6" height="${h*f}" rx="${f>.9?3:1}" fill="#8a6a32"/>`;x+=9}
+ return s+`<text x="${BW}" y="${yc}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="13" fill="#8a6a32">${frac(Math.round(n*3)/3)}</text>`;
+}
+let bid=0;
+function bVessel(kind,layers,ice,cap){
+ const id='bv'+(bid++),tot=layers.reduce((a,l)=>a+(l[3]||l[1]),0),H=cap?cap*BPX:tot*BPX+(kind==='kero'||kind==='balloon'||kind==='coupe'?0:26),bot=H;
+ let shape,outline,extra='',foot,top,rx,rxAt=null;
+ if(kind==='jug'){
+  shape=`M22 0 L106 0 L98 ${bot} L30 ${bot} Z`;outline=shape;foot=34;top=20;rx=102;
+  extra=`<rect x="14" y="-12" width="100" height="12" rx="3" fill="#1f262d"/><rect x="57" y="-20" width="14" height="8" rx="2" fill="#1f262d"/>
+   <path d="M22 18 h-8 a7 7 0 0 0 -7 7 v${H*0.45} a7 7 0 0 0 7 7 h11" fill="none" stroke="#1f262d" stroke-width="2"/>
+   <rect x="22" y="${bot+2}" width="84" height="30" rx="6" fill="#1f262d"/><circle cx="64" cy="${bot+17}" r="6" fill="none" stroke="#c9b48a" stroke-width="1.5"/>`;
+ }else if(kind==='shaker'){
+  shape=`M28 0 L100 0 L92 ${bot} L36 ${bot} Z`;outline=shape;foot=6;top=44;rx=96;
+  extra=`<path d="M30 -3 L98 -3 L84 -30 L44 -30 Z" fill="none" stroke="#1f262d" stroke-width="2"/><rect x="54" y="-42" width="20" height="12" rx="4" fill="none" stroke="#1f262d" stroke-width="2"/>`;
+ }else if(kind==='balloon'){
+  shape=`M17 0 C10 ${H*.75} 40 ${bot} 64 ${bot+2} C88 ${bot} 118 ${H*.75} 111 0 Z`;
+  outline=`M17 -2 C8 ${H*.8} 38 ${bot+4} 64 ${bot+5} C90 ${bot+4} 120 ${H*.8} 111 -2`;foot=46;top=8;rx=116;
+  extra=`<path d="M64 ${bot+5} V${bot+40} M42 ${bot+44} H86" stroke="#1f262d" stroke-width="2"/>`;
+ }else if(kind==='kero'){
+  shape=`M12 0 L116 0 L100 ${bot} L28 ${bot} Z`;outline=`M12 0 L28 ${bot} M116 0 L100 ${bot}`;foot=16;top=6;rx=110;rxAt=y=>116-16*(y/bot);
+  extra=`<path d="M28 ${bot} L100 ${bot} L99 ${bot+14} L29 ${bot+14} Z" fill="#e8edef" stroke="#1f262d" stroke-width="2"/>`;
+ }else{
+  shape=`M5 0 C8 ${H*.8} 38 ${bot} 64 ${bot} C90 ${bot} 120 ${H*.8} 123 0 Z`;
+  outline=`M4 -2 C6 ${H*.85} 36 ${bot+4} 64 ${bot+4} C92 ${bot+4} 122 ${H*.85} 124 -2`;foot=46;top=6;rx=118;
+  extra=`<path d="M64 ${bot+4} V${bot+40} M42 ${bot+44} H86" stroke="#1f262d" stroke-width="2"/>`;
+ }
+ let y=bot,fills='',lines='',mids=[];
+ layers.forEach(([nm,oz,col,vz],i)=>{const h=(vz||oz)*BPX;y-=h;fills+=col==='blob'?`<path d="M64 ${y+h*.5-10} c-5 6 -8 10 -8 13 a8 8 0 0 0 16 0 c0 -3 -3 -7 -8 -13z" fill="#f4efe2" stroke="#c9bfa6" stroke-width="1"/>`:col==='drops'?`<rect x="0" y="${y}" width="130" height="${h}" fill="#f7f1e4"/><g fill="#9b3b2a"><ellipse cx="54" cy="${y+h*.6}" rx="4.5" ry="2"/><ellipse cx="76" cy="${y+h*.5}" rx="3.8" ry="1.7"/></g>`:`<rect x="0" y="${y}" width="130" height="${h}" fill="${col}"/>`;
+  if(i<layers.length-1)lines+=`<line x1="0" x2="130" y1="${y}" y2="${y}" stroke="#1f262d" stroke-width="1" stroke-dasharray="3 2"/>`;mids.push(y+h/2)});
+ const IP=[[30,26,12],[64,30,-10],[44,52,18],[74,56,0],[24,58,0],[54,80,-14],[84,84,8]];
+ const capMk=cap?`<g font-family="Cinzel,serif" font-size="11" fill="#a39a8a"><line x1="30" x2="42" y1="14" y2="14" stroke="#a39a8a"/><text x="46" y="14" dominant-baseline="central">2 L</text></g>`:'';
+ const iceSvg=ice&&cap?`<g fill="#fff" fill-opacity=".55" stroke="#b9c6cc" stroke-width="1">${[[34,-6],[56,8],[78,-4]].slice(0,ice).map(([x,r])=>`<rect x="${x}" y="${bot-20}" width="16" height="16" rx="2.5" transform="rotate(${r} ${x+8} ${bot-12})"/>`).join('')}</g>`:ice?`<g fill="#fff" fill-opacity=".5" stroke="#b9c6cc" stroke-width="1">${IP.slice(0,ice).map(([x,d,r])=>`<rect x="${x}" y="${bot-d-22}" width="22" height="22" rx="3" transform="rotate(${r} ${x+11} ${bot-d-11})"/>`).join('')}</g>`:'';
+ return {svg:`<defs><clipPath id="${id}"><path d="${shape}"/></clipPath></defs><g clip-path="url(#${id})">${fills}${lines}${iceSvg}</g><path d="${outline}" fill="none" stroke="#1f262d" stroke-width="2"/>${extra}${capMk}`,H,foot,top,mids,fillTop:bot-tot*BPX,bot,rx,rxAt};
+}
+function bBlock(kind,layers,Y,s,ice,inline,cap){
+ const v=bVessel(kind,layers,ice,cap),n=layers.length,LH=(n-1)*BGAP;
+ const vTop=s*v.top,vSpan=vTop+s*(v.H+v.foot);
+ const span=inline?vSpan:Math.max(vSpan,LH+20);
+ const ty=Y+(span-vSpan)/2+vTop,tx=(120-120*s)/2+12,cy=ty+s*(v.fillTop+v.bot)/2;
+ let lt=Math.max(Y+10,cy-LH/2);if(lt+LH>Y+span-10)lt=Y+span-10-LH;
+ let out=`<g transform="translate(${tx} ${ty}) scale(${s})">${v.svg}</g>`;
+ let maxLy=0;const iy=[];layers.forEach((l,i)=>{let y=ty+s*v.mids[i];if(i&&y>iy[i-1]-18)y=iy[i-1]-18;iy.push(y)});
+ layers.forEach(([nm,oz,,,lab],i)=>{
+  const my=ty+s*v.mids[i],mx=tx+s*(v.rxAt?v.rxAt(v.mids[i]):v.rx),ly=inline?iy[i]:lt+(n-1-i)*BGAP;
+  const lead=`<line x1="${mx}" y1="${my}" x2="${BNX-8}" y2="${ly}" stroke="#c9b48a" stroke-width=".9"/>`;
+  const nl=nm.split('\n');maxLy=Math.max(maxLy,ly+(nl.length-1)*21);
+  out+=`<circle cx="${mx}" cy="${my}" r="2" fill="#8a6a32"/>${lead}<text dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${nl.map((t,k)=>`<tspan x="${BNX}" y="${ly+k*21}">${t}</tspan>`).join('')}</text>${lab?`<text x="${BW}" y="${ly}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="12" fill="#8a6a32">${lab}</text>`:bFingers(oz,ly)}`;
+ });
+ return {out,end:Math.max(Y+span,maxLy+16),maxLy,top:ty-s*20,bot:ty+s*(v.bot+v.foot)};
+}
+function iceRow(y,n){
+ let s=`<text x="${BNX}" y="${y}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="${n?'#1f262d':'#8a8f94'}" ${n?'':'font-style="italic"'}>${n?'Hielo':'Sin hielo'}</text>`;
+ if(n){let x=BW-14-n*9;for(let i=0;i<n;i++){s+=`<rect x="${x}" y="${y-4}" width="7" height="7" rx="1.5" fill="#fff" stroke="#8aa3ad" stroke-width="1.2" transform="rotate(${i%2?8:-8} ${x+3.5} ${y-.5})"/>`;x+=9}
+  s+=`<text x="${BW}" y="${y}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="13" fill="#5f7a85">${n}</text>`;}
+ return s;
+}
+function buildSVG(id,k){
+ if(!BUILD[id])return '';
+ const b=BUILD[id](k),tool=b.tool==='jug'?'LICUADORA':'COCTELERA';
+ let out=`<text x="0" y="14" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">I · EN LA ${tool}</text><text x="${BW}" y="14" text-anchor="end" font-family="Cinzel,serif" font-size="10" letter-spacing="1.5" fill="#a39a8a">${b.unit||'DEDOS'}</text>`;
+ const a=bBlock(b.tool,b.v,30,.65,b.vIce,true,b.cap);out+=a.out;
+ const clRow=(ey,nm,val)=>`<text x="${BNX}" y="${ey}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${nm}</text><text x="${BW}" y="${ey}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="12" fill="#8a6a32">${val}</text>`;
+ if(b.cap){ /* licuadora: hielo y clara arriba, alineados con el borde superior; preparado abajo */
+  const rows=[];if(b.vIce)rows.push(y=>iceRow(y,b.vIce));(b.extra||[]).forEach(([nm,val])=>rows.push(y=>clRow(y,nm,val)));
+  const y0=a.top+10,yp=a.maxLy-21,st=(yp-y0)/rows.length;
+  rows.forEach((f,i)=>{out+=f(y0+st*i)});
+  a.end=Math.max(a.end,a.bot+8);
+ }else{
+ if(b.vIce){const iy=Math.max(a.maxLy+34,a.end-6);out+=iceRow(iy,b.vIce);a.end=iy+16;}
+ (b.extra||[]).forEach(([nm,val])=>{const ey=a.end+20;out+=clRow(ey,nm,val);a.end=ey+16;});
+ }
+ let y=a.end+22;out+=`<line x1="${BNX-80}" y1="${y}" x2="${BW}" y2="${y}" stroke="#eee9e0"/>`;y+=18;
+ out+=`<line x1="64" y1="${y+2}" x2="64" y2="${y+36}" stroke="#8a6a32" stroke-width="1.4"/><path d="M58 ${y+30} L64 ${y+38} L70 ${y+30}" fill="none" stroke="#8a6a32" stroke-width="1.4"/>
+  <text font-family="'Instrument Serif',serif" font-style="italic" font-size="16" fill="#6b737a">${b.how[1]?`<tspan x="${BNX}" y="${y+19-9.5}" dominant-baseline="central">${b.how[0]}</tspan><tspan x="${BNX}" y="${y+19+9.5}" dominant-baseline="central">${b.how[1]}</tspan>`:`<tspan x="${BNX}" y="${y+19}" dominant-baseline="central">${b.how[0]}</tspan>`}</text>`;
+ y+=56;out+=`<line x1="${BNX-80}" y1="${y}" x2="${BW}" y2="${y}" stroke="#eee9e0"/>`;y+=28;
+ out+=`<text x="0" y="${y}" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">II · EN ${b.gl||'LA COPA'}</text>`;
+ const c=bBlock(b.g,b.glass,y+16,.75,b.ice,true);out+=c.out;
+ if(!b.noIce){const iy=c.maxLy+36;out+=iceRow(iy,b.ice);c.end=Math.max(c.end,iy+16);}
+ return `<section class="build" aria-label="Cómo se arma"><svg viewBox="0 0 ${BW} ${c.end+6}" role="img" aria-label="Diagrama: ingredientes en la ${tool.toLowerCase()} y capas en el vaso">${out}</svg></section>`;
+}
+
+const ozTxt=x=>{const w=Math.floor(x+1e-6),f=+(x-w).toFixed(3);const m={0.25:'¼',0.5:'½',0.75:'¾'};return ((w?w:'')+(m[f]||''))||'0'};
+const frac=x=>{const w=Math.floor(x+1e-6),f=x-w;let s='';if(Math.abs(f-1/3)<.05)s='⅓';else if(Math.abs(f-2/3)<.05)s='⅔';return (w?w:'')+(s||(w?'':'0'))};
+let multT=1;
+const fmtQ=q=>{const w=Math.floor(q),f=q-w,fr=f>.6?'¾':f>.4?'½':f>.2?'¼':'';return (w?w:'')+(fr||(w?'':'0'))};
+let varT=0;
+function renderTrago(r){
+  const R0=r;
+  back.setAttribute('href','#'+r.sec);irCat=r.cat;
+  hLupa('#'+r.id);
+  const V=r.variants?r.variants[Math.min(varT,r.variants.length-1)]:null,rr=Object.assign({},r,V&&V.ing?{ing:V.ing,serv:V.serv||r.serv,steps:V.steps||r.steps}:{});
+  r=rr;
+  const rows=r.ing.map(x=>{const q=x.fixed?x.q:x.q*multT;
+    return `<tr><td class="n">${x.n}${x.sub?`<small>${x.sub(multT)}</small>`:''}</td><td class="qty">${x.pre?`<i class="qx">${x.pre}</i>`:''}${fmtQ(q)}${x.u?' '+x.u:''}${x.post?`<i class="qx">${x.post}</i>`:''}</td></tr>`}).join('');
+  app.innerHTML=`<article class="view trago" aria-labelledby="dn">
+    <div class="hero"><img src="${r.hero}" alt="${r.name}"${r.heroPos?` style="object-position:${r.heroPos}"`:''}></div>
+    <div class="title"><h1 id="dn">${r.name}${r.badge?`<svg class="corona" viewBox="0 0 40 40" role="img" aria-label="Trago popular"><use href="#${r.badge[0]}"/></svg>`:''}</h1></div>
+    <div class="facts">${r.facts.map(f=>`<div><span class="cap">${f[0]}</span><b>${f[1]}</b></div>`).join('')}</div>
+    ${r.variants?`<div class="vsel" role="group" aria-label="Versión">${r.variants.map((x,k)=>`<button data-v="${k}" aria-pressed="${k===varT}">${x.k}</button>`).join('')}</div>`:''}
+    <section class="rblk" aria-labelledby="rh"><h2 class="rhead" id="rh">Receta</h2>
+      ${!r.ing.length?`<div class="pendr"><span class="cap">Receta por cargar</span><p>Estamos armando esta receta con la barra.</p></div></section>`:''}
+      ${r.ing.length?`<div class="recipe">
+        <div class="rtop sut"><span class="cap">${multT} ${multT>1?'tragos':'trago'}</span><div class="mult" role="group" aria-label="Cantidad">${[1,2,4].map(m=>`<button data-m="${m}" aria-pressed="${m===multT}">×${m}</button>`).join('')}</div></div>
+        <div class="serv">${r.serv.map(x=>`<div><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#${x[0]}"/></svg><span>${x[1]}</span></div>`).join('')}</div>
+        <table class="ing"><colgroup><col class="c-n"><col class="c-q"></colgroup><tbody>${rows}</tbody></table>
+      </div></section>
+    `:''}${r.ing.length?`    <section class="rblk" aria-labelledby="ph"><h2 class="rhead" id="ph">Pasos</h2>
+      ${buildSVG(r.id)}
+      <ol class="steps">${r.steps.map(x=>`<li><span>${x}</span></li>`).join('')}</ol>
+    </section>`:''}
+  </article>`;
+  app.querySelectorAll('.vsel button').forEach(b=>b.addEventListener('click',()=>{varT=+b.dataset.v;const y=scrollY;renderTrago(R0);scrollTo(0,y)}));
+  app.querySelectorAll('.mult button').forEach(b=>b.addEventListener('click',()=>{multT=+b.dataset.m;const y=scrollY;renderTrago(R0);scrollTo(0,y);app.querySelector(`.mult button[data-m="${multT}"]`).focus()}));
+}
+let abrirBusq=false,volverA=null,desdeMenu=false;
+function route(){
+  const h=location.hash.slice(1);
+  document.getElementById('hRight').innerHTML='';
+  if(h!=='carta')volverA=null;
+  if(!h){portada.hidden=false;interior.hidden=true;document.title='Rivoli · Carta';return}
+  portada.hidden=true;interior.hidden=false;
+  const s=SECCIONES.find(x=>x.id===h);
+  if(s){cat=irCat??irVolverCat??0;irCat=null;irVolverCat=null;renderSeccion(s);document.title='Rivoli · '+s.n}else if(REC_ID[h]){multT=1;varT=0;renderTrago(REC_ID[h]);document.title='Rivoli · '+REC_ID[h].name}else{irCat=null;renderCarta();document.title='Rivoli · Recetario'}
+  if(desdeMenu&&(s||REC_ID[h]))back.setAttribute('href','#carta');
+  desdeMenu=false;
+  scrollTo(0,0);
+}
+addEventListener('hashchange',route);route();
+})();
+</script>
+</body>
+</html>
