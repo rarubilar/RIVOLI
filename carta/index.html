@@ -52,6 +52,8 @@ body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset
 header .back{font-family:var(--f-name);font-size:2rem;color:var(--gold);display:grid;place-items:center;min-height:44px}
 header .home{display:grid;place-items:center}
 header .home img{height:40px;width:auto}
+header .hlupa{display:grid;place-items:center;width:44px;height:44px;color:var(--gold)}
+header .hlupa svg{width:22px;height:22px}
 main{padding-block:var(--s4) var(--s6)}
 .view{animation:rise .4s cubic-bezier(.2,.7,.2,1)}
 @keyframes rise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
@@ -250,7 +252,7 @@ main{padding-block:var(--s4) var(--s6)}
   <header>
     <a class="back" id="back" href="#" aria-label="Volver">‹</a>
     <a class="home" href="#" aria-label="Volver a la portada"><img src="../assets/logo/rivoli-oscuro.png" alt="Rivoli"></a>
-    <span></span>
+    <span id="hRight"></span>
   </header>
   <main id="app"></main>
 </div>
@@ -338,6 +340,7 @@ function renderCarta(){
    ${SECCIONES.map(s=>{const ok=IMG_LISTA.includes(s.id);return `<a class="arch${s.cls?' '+s.cls:''}${ok?'':' falta'}" href="#${s.id}"><span class="aw"><img src="../assets/carta/${s.id}${ok?'':'-prov'}.jpg" alt="" loading="lazy"${IMG_POS[s.id]?` style="object-position:center ${IMG_POS[s.id]}"`:''}></span><span class="n">${s.n}</span><span class="d">${s.d}</span></a>`}).join('')}
    </nav></div><button class="bvolver" id="bvolver">Ver recetario</button></div>`;
   buscadorGlobal();
+  if(abrirBusq){abrirBusq=false;setTimeout(()=>document.getElementById('blupa').click(),30)}
 }
 let irCat=null;
 function buscadorGlobal(){
@@ -519,6 +522,8 @@ let multT=1;
 const fmtQ=q=>{const w=Math.floor(q),f=q-w,fr=f>.6?'¾':f>.4?'½':f>.2?'¼':'';return (w?w:'')+(fr||(w?'':'0'))};
 function renderTrago(r){
   back.setAttribute('href','#'+r.sec);irCat=r.cat;
+  document.getElementById('hRight').innerHTML=`<a class="hlupa" href="#carta" aria-label="Buscar otro trago">${ic('i-lupa')}</a>`;
+  document.querySelector('#hRight .hlupa').addEventListener('click',()=>{abrirBusq=true});
   const rows=r.ing.map(x=>{const q=x.fixed?x.q:x.q*multT;
     return `<tr><td class="n">${x.n}${x.sub?`<small>${x.sub(multT)}</small>`:''}</td><td class="qty">${x.pre?`<i class="qx">${x.pre}</i>`:''}${fmtQ(q)}${x.u?' '+x.u:''}${x.post?`<i class="qx">${x.post}</i>`:''}</td></tr>`}).join('');
   app.innerHTML=`<article class="view trago" aria-labelledby="dn">
@@ -540,8 +545,10 @@ function renderTrago(r){
   </article>`;
   app.querySelectorAll('.mult button').forEach(b=>b.addEventListener('click',()=>{multT=+b.dataset.m;const y=scrollY;renderTrago(r);scrollTo(0,y);app.querySelector(`.mult button[data-m="${multT}"]`).focus()}));
 }
+let abrirBusq=false;
 function route(){
   const h=location.hash.slice(1);
+  document.getElementById('hRight').innerHTML='';
   if(!h){portada.hidden=false;interior.hidden=true;document.title='Rivoli · Carta';return}
   portada.hidden=true;interior.hidden=false;
   const s=SECCIONES.find(x=>x.id===h);
