@@ -204,15 +204,17 @@ main{padding-block:var(--s4) var(--s6)}
 .pill.mas-add{width:44px;padding:0;justify-content:center;color:var(--gold);font-size:1.4rem;border-style:dashed}
 .pillx{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-size:.9rem;line-height:1;display:grid;place-items:center}
 .pillx::after{content:"";position:absolute;inset:-11px}
-.maspanel{margin-top:var(--s3);border:1px solid var(--gold-soft);border-radius:12px;padding:var(--s3);background:#fbf8f1;display:grid;gap:var(--s2)}
+.maspanel{margin-top:var(--s3);border:1px solid var(--gold-soft);border-radius:12px;padding:var(--s2) var(--s3);background:#fbf8f1;display:grid;gap:0}
+.maspanel #masres{margin-top:var(--s1)}
 .masq{display:flex;align-items:center;gap:var(--s2);border-bottom:1px solid var(--gold);padding:0}
 .masq svg{width:16px;height:16px;color:var(--gold)}
 .masq input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
 .masq input{flex:1;min-width:0;border:0;outline:0;background:none;font-family:var(--f-name);font-size:1.25rem;color:var(--ink)}
-.masr{width:100%;min-height:44px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px dotted var(--line);font-family:var(--f-name);font-size:1.15rem;text-align:left}
+.masr{width:100%;min-height:48px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px dotted var(--line);font-family:var(--f-name);font-size:1.15rem;text-align:left}
+.masr:last-child{border-bottom:0}
 .masr i{font-style:normal;color:var(--gold);font-size:1.3rem;width:44px;text-align:center;flex:none}
 .masx{width:44px;height:44px;flex:none;display:grid;place-items:center;font-family:var(--f-body);font-weight:300;font-size:1.7rem;line-height:1;color:var(--ink)}
-.masok{justify-self:end;width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;font-family:var(--f-name);font-size:1.6rem;line-height:1;display:grid;place-items:center;padding-bottom:3px}
+.masok{justify-self:end;width:44px;height:44px;display:grid;place-items:center;color:var(--ink);font-family:var(--f-name);font-size:2rem;line-height:1;padding-bottom:4px}
 #vrec .arches{margin-top:var(--s5)}
 #vrec .arch .aw{height:178px}
 .srv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s3)}
