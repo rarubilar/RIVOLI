@@ -205,13 +205,14 @@ main{padding-block:var(--s4) var(--s6)}
 .pillx{position:absolute;top:-6px;right:-6px;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-size:.9rem;line-height:1;display:grid;place-items:center}
 .pillx::after{content:"";position:absolute;inset:-11px}
 .maspanel{margin-top:var(--s3);border:1px solid var(--gold-soft);border-radius:12px;padding:var(--s3);background:#fbf8f1;display:grid;gap:var(--s2)}
-.masq{display:flex;align-items:center;gap:var(--s2);border-bottom:1px solid var(--gold);padding:var(--s1) 0}
+.masq{display:flex;align-items:center;gap:var(--s2);border-bottom:1px solid var(--gold);padding:0}
 .masq svg{width:16px;height:16px;color:var(--gold)}
 .masq input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
 .masq input{flex:1;min-width:0;border:0;outline:0;background:none;font-family:var(--f-name);font-size:1.25rem;color:var(--ink)}
 .masr{width:100%;min-height:44px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px dotted var(--line);font-family:var(--f-name);font-size:1.15rem;text-align:left}
-.masr i{font-style:normal;color:var(--gold);font-size:1.3rem}
-.masok{justify-self:end;min-height:44px;padding:0 var(--s4);border-radius:999px;background:var(--ink);color:#fff;font-family:var(--f-cap);font-size:.68rem;letter-spacing:.18em}
+.masr i{font-style:normal;color:var(--gold);font-size:1.3rem;width:44px;text-align:center;flex:none}
+.masx{width:44px;height:44px;flex:none;display:grid;place-items:center;font-family:var(--f-body);font-weight:300;font-size:1.7rem;line-height:1;color:var(--ink)}
+.masok{justify-self:end;width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;font-family:var(--f-name);font-size:1.6rem;line-height:1;display:grid;place-items:center;padding-bottom:3px}
 #vrec .arches{margin-top:var(--s5)}
 #vrec .arch .aw{height:178px}
 .srv{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s3)}
@@ -388,6 +389,7 @@ function masPedidos(){
     const a=e.target.closest('a.pill');if(a){if(edit){e.preventDefault();return}const f=findT(a.dataset.n);if(f&&!RECETAS[a.dataset.n])irCat=f.i}});
   res.addEventListener('click',e=>{const b=e.target.closest('[data-a]');if(!b)return;setMas([...getMas(),b.dataset.a]);q.value='';pinta();lista();q.focus()});
   q.addEventListener('input',lista);
+  document.getElementById('masx').addEventListener('click',()=>{q.value='';lista();q.focus()});
   document.getElementById('masok').addEventListener('click',cerrar);
   pinta();
 }
@@ -398,7 +400,7 @@ function renderCarta(){
    <div id="bres" aria-live="polite"></div>
    <div class="rec"><div class="intro" style="margin-bottom:var(--s4)"><h1 class="h">Recetario</h1></div>
    <section class="mas" aria-labelledby="mash"><h2 class="cap mt" id="mash">Más pedidos</h2><div class="pills" id="pills"></div>
-     <div class="maspanel" id="maspanel" hidden><label class="masq"><svg aria-hidden="true"><use href="#i-lupa"/></svg><input id="masq" type="search" autocomplete="off" placeholder="Agregar un trago" aria-label="Buscar un trago para agregar"></label><div id="masres"></div><button class="masok" id="masok" type="button">Listo</button></div></section>
+     <div class="maspanel" id="maspanel" hidden><label class="masq"><svg aria-hidden="true"><use href="#i-lupa"/></svg><input id="masq" type="search" autocomplete="off" placeholder="Agregar un trago" aria-label="Buscar un trago para agregar"><button class="masx" id="masx" type="button" aria-label="Borrar búsqueda">×</button></label><div id="masres"></div><button class="masok" id="masok" type="button" aria-label="Listo">›</button></div></section>
    <nav class="arches" aria-label="Secciones principales">${PRI.map(id=>{const s=S(id);return `<a class="arch" href="#${id}"><span class="aw"><img src="../assets/carta/${id}.jpg" alt="" loading="lazy"${IMG_POS[id]?` style="object-position:center ${IMG_POS[id]}"`:''}></span><span class="n">${s.n}</span></a>`}).join('')}</nav>
    <h2 class="cap mt">Servicio</h2><nav class="srv" aria-label="Servicio">${SRV.map(id=>{const s=S(id);return `<a class="mini" href="#${id}"><span class="aw"><img src="../assets/carta/${id}.jpg" alt="" loading="lazy"${IMG_POS[id]?` style="object-position:center ${IMG_POS[id]}"`:''}></span><span class="n">${s.n}</span></a>`}).join('')}</nav>
    <h2 class="cap mt">En botella</h2><nav class="rows" aria-label="En botella"><a class="srow" href="#bases"><span class="aw"><img src="../assets/carta/bases.jpg" alt="" loading="lazy" style="object-position:center 80%"></span><span class="tx"><b>Preparaciones de barra</b><small>Bases que se dejan listas en botella</small></span><i>›</i></a></nav>
