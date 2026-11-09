@@ -129,6 +129,63 @@ main{padding-block:var(--s4) var(--s6)}
 .tarj .n{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .tarj.largo small{-webkit-line-clamp:1}
 
+/* ficha de trago (mismo diseño que los 3 tragos nuevos) */
+.trago .hero{border-radius:var(--r);overflow:hidden;aspect-ratio:4/5;max-height:58dvh;width:100%;background:var(--tint);border:1px solid var(--line)}
+.trago .hero img,.trago .hero svg{width:100%;height:100%;object-fit:cover;display:block}
+.trago .title{text-align:center;margin-top:var(--s4);display:grid;gap:var(--s2)}
+.trago .title .ro{font-family:var(--f-cap);font-size:.72rem;letter-spacing:.34em;color:var(--gold)}
+.trago .title h1{font-family:var(--f-name);font-weight:400;font-size:clamp(3rem,15vw,4.2rem);line-height:.95;margin:0;letter-spacing:.005em}
+.trago .title .alias{font-style:italic;color:var(--muted);font-size:1.15rem}
+.trago .facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-block:1px solid var(--line);margin-top:var(--s3)}
+.trago .facts div{padding:var(--s3) var(--s1);text-align:center;display:grid;gap:var(--s1);align-content:start}
+.trago .facts div+div{border-left:1px solid var(--line)}
+.trago .cap{font-family:var(--f-cap);font-size:.6rem;letter-spacing:.24em;color:var(--muted);text-transform:uppercase}
+.trago .facts b{font-weight:500;font-size:1.02rem;line-height:1.2}
+.trago .blk{margin-top:var(--s5);display:grid;gap:var(--s3)}
+.trago .blk>.cap{display:flex;align-items:center;gap:var(--s3)}
+.trago .blk>.cap::before,.trago .blk>.cap::after{content:"";flex:1;height:1px;background:var(--line)}
+.trago .tintro{margin:0;font-size:1.18rem;line-height:1.45}
+.trago .why{list-style:none;margin:0;padding:0;display:grid;gap:var(--s3)}
+.trago .why li{display:grid;grid-template-columns:32px minmax(0,1fr);gap:var(--s3);align-items:center;font-size:1.08rem;line-height:1.3}
+.trago .why svg{width:28px;height:28px;color:var(--gold)}
+.trago .recipe{display:grid;gap:var(--s4);background:var(--tint);border:1px solid var(--gold-soft);border-radius:var(--r);padding:var(--s4) var(--s3)}
+.trago .rblk{margin-top:var(--s6);display:grid;gap:var(--s3)}
+.trago .rhead{font-family:var(--f-name);font-weight:400;font-size:calc(clamp(3rem,15vw,4.2rem) * .85);line-height:1;text-align:center;margin:0}
+.trago .rtop{display:flex;justify-content:space-between;align-items:center}
+.trago .mult{display:flex;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.trago .mult button{font-family:var(--f-cap);font-size:.72rem;letter-spacing:.1em;padding:var(--s2) 12px;color:var(--muted);min-width:44px;min-height:44px}
+.trago .mult button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.trago .serv{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s2)}
+.trago .serv div{display:grid;justify-items:center;text-align:center;gap:var(--s1);font-size:.86rem;line-height:1.15;color:var(--muted)}
+.trago .serv svg{width:34px;height:34px;color:var(--gold)}
+.trago .ing{width:100%;border-collapse:collapse;table-layout:fixed}
+.trago .ing td{padding:12px 0;border-bottom:1px solid var(--line);vertical-align:middle}
+.trago .ing td.n{font-size:1.68rem;line-height:1.15;padding-right:var(--s2)}
+.trago .ing td.n small{display:block;font-size:.9rem;color:var(--muted);font-style:italic}
+.trago .ing td.oz{font-family:var(--f-name);font-size:1.75rem;line-height:1;white-space:nowrap;text-align:center}
+.trago .ing td.oz small{display:block;font-family:var(--f-body);font-size:.8rem;color:var(--muted)}
+.trago .ing col.c-n{width:46%}.trago .ing col.c-o,.trago .ing col.c-f{width:27%}
+.trago .ing td.f .fing{justify-content:flex-end}
+.trago .fing{display:flex;align-items:flex-end;gap:2px;height:28px}
+.trago .fing i{width:7px;height:24px;border:1px solid var(--gold);border-radius:4px 4px 2px 2px;position:relative;overflow:hidden;display:block}
+.trago .fing i::after{content:"";position:absolute;inset:auto 0 0 0;height:var(--f,100%);background:var(--gold)}
+.trago .fing em{font-style:normal;font-family:var(--f-cap);font-size:.72rem;color:var(--gold);margin-left:var(--s1);white-space:nowrap}
+.trago .steps{list-style:none;margin:0;padding:0;display:grid;gap:var(--s2);counter-reset:s}
+.trago .steps li{display:grid;grid-template-columns:32px minmax(0,1fr);gap:var(--s2);font-size:1.12rem;line-height:1.35;counter-increment:s}
+.trago .steps li::before{content:counter(s,upper-roman);font-family:var(--f-cap);font-size:.78rem;color:var(--gold);padding-top:var(--s1)}
+.trago .note{font-size:.88rem;color:var(--muted);font-style:italic;text-align:center;margin:0}
+.trago .qty{font-family:var(--f-name);font-size:1.6rem;line-height:1;white-space:nowrap;text-align:right}
+.trago .qty small{display:block;font-family:var(--f-body);font-size:.8rem;color:var(--muted);margin-top:var(--s1)}
+.trago .qty.pd{font-family:var(--f-cap);font-size:.6rem;letter-spacing:.14em;color:#a39a8a}
+.trago .ing col.c-n{width:62%}.trago .ing col.c-q{width:38%}
+.trago .hero{margin-top:0}
+.trago .build{margin-top:var(--s5);display:grid;gap:var(--s3)}
+.trago .build>.cap{display:flex;align-items:center;gap:var(--s3)}
+.trago .build>.cap::before,.trago .build>.cap::after{content:"";flex:1;height:1px;background:var(--line)}
+.trago .build svg{width:100%;height:auto;display:block}
+.tarj .ver{margin-top:auto;font-family:var(--f-cap);font-size:.58rem;letter-spacing:.16em;color:var(--gold)}
+.tarj .top .ok{font-family:var(--f-cap);font-size:.5rem;letter-spacing:.14em;color:var(--gold)}
+
 /* arcos */
 .arches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s4) var(--s3)}
 .arch{display:grid;justify-items:center;align-content:start;text-align:center;gap:var(--s1);min-width:0}
@@ -202,6 +259,7 @@ main{padding-block:var(--s4) var(--s6)}
   <symbol id="digest" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 6h10M16 6v8l-3 4v16h14V18l-3-4V6"/></g></symbol>
 <symbol id="i-laurel" viewBox="0 0 44 124"><path d="M30 118 C12 92 8 48 26 6" fill="none" stroke="currentColor" stroke-width="1.1"/><g fill="currentColor" fill-opacity=".28" stroke="currentColor" stroke-width=".9" stroke-linejoin="round"><path d="M-8.0 0 Q0 -4.0 8.0 0 Q0 4.0 -8.0 0Z" transform="translate(18.0 105.8) rotate(-151)"/><path d="M-8.0 0 Q0 -4.0 8.0 0 Q0 4.0 -8.0 0Z" transform="translate(26.0 101.7) rotate(-83)"/><path d="M-7.4 0 Q0 -3.7 7.4 0 Q0 3.7 -7.4 0Z" transform="translate(13.3 89.7) rotate(-140)"/><path d="M-7.4 0 Q0 -3.7 7.4 0 Q0 3.7 -7.4 0Z" transform="translate(21.2 87.4) rotate(-72)"/><path d="M-6.7 0 Q0 -3.4 6.7 0 Q0 3.4 -6.7 0Z" transform="translate(10.9 72.1) rotate(-131)"/><path d="M-6.7 0 Q0 -3.4 6.7 0 Q0 3.4 -6.7 0Z" transform="translate(18.4 71.2) rotate(-63)"/><path d="M-6.1 0 Q0 -3.0 6.1 0 Q0 3.0 -6.1 0Z" transform="translate(11.1 53.4) rotate(-122)"/><path d="M-6.1 0 Q0 -3.0 6.1 0 Q0 3.0 -6.1 0Z" transform="translate(17.9 53.6) rotate(-54)"/><path d="M-5.4 0 Q0 -2.7 5.4 0 Q0 2.7 -5.4 0Z" transform="translate(14.1 33.8) rotate(-114)"/><path d="M-5.4 0 Q0 -2.7 5.4 0 Q0 2.7 -5.4 0Z" transform="translate(20.1 34.9) rotate(-46)"/><path d="M-4.8 0 Q0 -2.4 4.8 0 Q0 2.4 -4.8 0Z" transform="translate(19.9 14.0) rotate(-106)"/><path d="M-4.8 0 Q0 -2.4 4.8 0 Q0 2.4 -4.8 0Z" transform="translate(25.0 15.7) rotate(-38)"/><path d="M-5 0 Q0 -2.6 5 0 Q0 2.6 -5 0Z" transform="translate(26.5 3.0) rotate(-68)"/></g></symbol>
   <symbol id="i-lupa" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></g></symbol>
+<symbol id="kero" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M9 7h22l-3 23H12z"/><path d="M12 30h16l-.3 5H12.3z"/></g></symbol><symbol id="noice" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M8 14l10-5 10 5v12l-10 5-10-5z"/><path d="M6 34L32 6"/></g></symbol><symbol id="blender" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M11 6h18l-3 20H14z"/><path d="M9 4h22M13 28h14v7H13z"/><circle cx="20" cy="31.5" r="1.4"/></g></symbol><symbol id="clock" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M10 4h20M10 36h20M12 4c0 10 16 10 16 16S12 26 12 36M28 4c0 10-16 10-16 16s16 6 16 16"/></g></symbol><symbol id="star" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M20 5l4.5 9.5 10.5 1.3-7.7 7.2 2 10.4L20 28.3l-9.3 5.1 2-10.4L5 15.8l10.5-1.3z"/></g></symbol><symbol id="amphora" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M16 4h8M17 4v5c-7 3-9 10-7 17 1 4 5 8 10 10 5-2 9-6 10-10 2-7 0-14-7-17V4"/><path d="M17 9c-5 0-6 6-3 8M23 9c5 0 6 6 3 8M13 20h14"/></g></symbol><symbol id="gotas" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.4"><path d="M15 6c-4 6-6 9-6 12a6 6 0 0 0 12 0c0-3-2-6-6-12z"/><path d="M27 18c-3 4-4 6-4 8a4 4 0 0 0 8 0c0-2-1-4-4-8z"/><path d="M8 35h24"/></g></symbol>
   <symbol id="cero" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 12h20l-3 22H13zM14 20h12"/></g></symbol>
 </defs></svg>
 
@@ -214,7 +272,7 @@ const SECCIONES=[
   intro:'Para abrir la comida: spritz burbujeantes, sours cítricos y amargos italianos, antes o con los antipasti.',
   cats:[
    ['Spritz','Burbujeantes y bajos en alcohol. Para la tarde y el aperitivo.',[['Aperol Spritz','Aperol · Cinzano To Spritz · soda'],['Limoncello Spritz','Limoncello · prosecco · soda'],['Orange Spritz','St-Germain · Aperol · maracuyá · soda'],['Lambrusco Spritz','Lambrusco · ginger ale · Aperol'],['Saint Germain Spritz','St-Germain · prosecco · soda'],['Strawberry Limoncello Spritz','Limoncello · frutilla · prosecco'],['Ramazzotti Tradicional','Ramazzotti · prosecco · soda']]],
-   ['Sour','Cítricos y sedosos. El pisco sour es el más pedido de la casa.',[['Pisco Sour','Pisco peruano · limón · goma'],['Pisco Sour Catedral','Pisco peruano · limón · goma'],['Amaretto Sour','Amaretto · limón · goma'],['Whisky Sour','Whisky · limón · goma'],['Campari Sour','Gin · Cinzano · Campari · limón · goma'],['Penicillin Rivoli','Whisky · limón · miel · jengibre']]],
+   ['Sour','Cítricos y sedosos. El pisco sour es el más pedido de la casa.',[['Pisco Sour','Preparado de pisco sour · clara · angostura'],['Pisco Sour Catedral','Pisco peruano · limón · goma'],['Amaretto Sour','Amaretto · limón · goma'],['Whisky Sour','Whisky · limón · goma'],['Campari Sour','Gin · Cinzano · Campari · limón · goma'],['Penicillin Rivoli','Whisky · limón · miel · jengibre']]],
    ['Negroni','Amargos italianos, para antes de comer.',[['Negroni','Gin · vermouth rosso · Campari'],['Negroni Sbagliato','Espumoso · Campari · vermouth rosso'],['Negroni Frenchie','Gin · Campari · vermouth · St-Germain'],['Negroni Rivoli','Gin · Campari · Cynar'],['Negroni Ristretto','Gin · Campari · vermouth · café'],['Campari Tónica','Campari · tónica'],['Campari Naranja','Campari · jugo de naranja']]],
    ['Mojitos','Frescos, con menta y lima. Ideales para la terraza.',[['Mojito Tradicional','Ron · limón · azúcar · menta · soda'],['Mojito Maracuyá','Ron · limón · goma · maracuyá'],['Mojito Frutilla','Ron · limón · goma · frutilla'],['Caipirinha','Cachaza · limón · goma'],['Caipiroska','Vodka · limón · goma'],['Fresco Pasión','Ron · maracuyá · limón'],['Cynar Julep','Gin · Cynar · pomelo · limón · menta']]],
    ['Tónicas','Largos y secos, con tónica o soda.',[['Gin Tonic','Gin Bombay · tónica'],['Gin Tonic Vesuvio','Gin Bombay · limoncello · tónica'],['Vodkatonic','Vodka · tónica'],['Vodka Tonic Grey Goose','Vodka Grey Goose · tónica'],['Disaronno Fizz','Disaronno · limón · tónica'],['Tom Collins','Gin · limón · azúcar · soda']]],
@@ -244,8 +302,24 @@ const portada=document.getElementById('portada'),interior=document.getElementByI
 let cat=0;
 
 const ROM=['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII'];
+/* recetas cargadas (clave = nombre exacto en la carta) */
+const RECETAS={
+ 'Pisco Sour':{id:'pisco-sour',sec:'aperitivi',cat:1,name:'Pisco Sour',alias:'El clásico de la casa',style:'Clásico',
+  hero:'../assets/tragos/pisco-sour-hero.jpg',
+  facts:[['Sabor','Ácido, sedoso, espumoso'],['Familia','Sour'],['Estilo','Corto, clásico']],
+  intro:'El trago más pedido de la casa. Se arma con el preparado de pisco sour de la barra: se licúa con hielo y un toque de clara para darle espuma, y se termina con angostura.',
+  why:[['star','El más pedido de la casa'],['clock','Un minuto en la licuadora'],['amphora','Usa el preparado de la barra']],
+  serv:[['kero','Vaso Gran Cruz 300 ml'],['blender','Licuadora'],['clock','Batir 1 minuto'],['gotas','Angostura al final']],
+  ing:[
+   {n:'Hielo',sub:m=>'cubos, en la licuadora',q:3},
+   {n:'Preparado de pisco sour',q:5.5,u:'oz',sub:m=>`≈ ${160*m} ml · hasta la marca de ${250*m} ml con el hielo`},
+   {n:'Clara de huevo',q:.5,u:'cdta',sub:m=>'cucharadita de té'},
+   {n:'Amargo de angostura',q:2,u:'gotas',fixed:1,sub:m=>'por vaso, ya servido'}],
+  steps:['En la licuadora pon 3 hielos.','Agrega el preparado de pisco sour hasta la marca de 250 ml, contando el hielo (≈ 5½ oz).','Suma ½ cucharadita de té de clara de huevo.','Bate 1 minuto, hasta que quede espumoso.','Sirve en el vaso Gran Cruz (≈ 300 ml), con la espuma arriba.','Ya servido, agrega 2 gotas de amargo de angostura sobre la espuma.']}
+};
+const REC_ID=Object.fromEntries(Object.values(RECETAS).map(r=>[r.id,r]));
 /* fotos por trago (nombre exacto → archivo en assets/tragos). Las que faltan muestran la copa dibujada */
-const FOTOS={'Aperol Spritz':'aperol-spritz.jpg','Orange Spritz':'orange-spritz.jpg'};
+const FOTOS={'Aperol Spritz':'aperol-spritz.jpg','Orange Spritz':'orange-spritz.jpg','Pisco Sour':'pisco-sour.jpg'};
 const IMG_LISTA=['aperitivi','mocktails','birre','jugos','digestivi','vinos','caffe','bases'];
 const IMG_POS={mocktails:'100%',jugos:'100%',digestivi:'100%',caffe:'35%',bases:'80%'};
 function renderCarta(){
@@ -273,7 +347,7 @@ function buscadorGlobal(){
   const pintar=()=>{const k=norm(q.value.trim());
     if(!k){res.innerHTML='';return}
     const r=[];SECCIONES.forEach(s=>s.cats.forEach((c,ci)=>c[2].forEach(d=>{if(norm(d[0]).includes(k))r.push([s,ci,c[0],d])})));
-    res.innerHTML=r.length?`<div class="list">${r.map(([s,ci,cn,d])=>`<a class="row" href="#${s.id}" data-c="${ci}"><div><span class="cat">${s.n} · ${cn}</span><span class="n">${marca(d[0],k)}</span><small>${d[1]}</small></div><span class="go">›</span></a>`).join('')}</div>`:`<p class="nada">No encontramos “${esc(q.value.trim())}”</p>`};
+    res.innerHTML=r.length?`<div class="list">${r.map(([s,ci,cn,d])=>`<a class="row" href="#${RECETAS[d[0]]?RECETAS[d[0]].id:s.id}" data-c="${ci}"><div><span class="cat">${s.n} · ${cn}</span><span class="n">${marca(d[0],k)}</span><small>${d[1]}</small></div><span class="go">›</span></a>`).join('')}</div>`:`<p class="nada">No encontramos “${esc(q.value.trim())}”</p>`};
   q.addEventListener('input',pintar);
   document.getElementById('blupa').addEventListener('click',()=>{abrir();q.focus()});
   document.getElementById('bvolver').addEventListener('click',cerrar);
@@ -312,7 +386,7 @@ function renderSeccion(s){
   const show=i=>{cat=i;const c=s.cats[i];
     cats.querySelectorAll('button').forEach((b,j)=>b.setAttribute('aria-selected',j===i));
     q.value='';qx.hidden=true;cats.classList.remove('dim');
-    document.getElementById('lista').innerHTML=`<div class="list tarjs">${c[2].map(r=>{const f=FOTOS[r[0]];return `<div class="tarj${f?'':' sin'}">${f?`<img class="foto" src="../assets/tragos/${f}" alt="" loading="lazy">`:`<span class="foto">${ic(s.i)}</span>`}<div class="tx"><span class="top"><span class="cat">${c[0]}</span><span class="pend">receta pendiente</span></span><span class="n">${r[0]}</span><small>${r[1]}</small></div></div>`}).join('')}</div>`;
+    document.getElementById('lista').innerHTML=`<div class="list tarjs">${c[2].map(r=>{const f=FOTOS[r[0]],R=RECETAS[r[0]];return `<${R?`a href="#${R.id}"`:'div'} class="tarj${f?'':' sin'}">${f?`<img class="foto" src="../assets/tragos/${f}" alt="" loading="lazy">`:`<span class="foto">${ic(s.i)}</span>`}<div class="tx"><span class="top"><span class="cat">${c[0]}</span>${R?'<span class="ok">Receta ›</span>':'<span class="pend">receta pendiente</span>'}</span><span class="n">${r[0]}</span><small>${r[1]}</small></div></${R?'a':'div'}>`}).join('')}</div>`;
     /* si el nombre usa dos líneas, los ingredientes quedan en una para que todas las tarjetas midan lo mismo */
     document.querySelectorAll('.tarj').forEach(t=>t.classList.toggle('largo',t.querySelector('.n').offsetHeight>30));
     cats.querySelector(`[data-i="${i}"]`).scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
@@ -338,12 +412,125 @@ function renderSeccion(s){
     if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.5)show((cat+(dx<0?1:-1)+s.cats.length)%s.cats.length);x0=null},{passive:true});
   show(cat);
 }
+const DEDO=.75;
+/* ---------- cómo se arma: diagrama de capas ---------- */
+const BC={gin:'#e3e9ec',mara:'#e9b13c',limon:'#e6e98f',jeng:'#d8b47e',esp:'#f2e09a',ape:'#d9542b',pisco:'#efe7d2',goma:'#f1ece2',clara:'#ddd3bd',ron:'#ece6d4',mango:'#f0a43a',frut:'#e0566b'};
+const BUILD={
+ 'pisco-sour':()=>({tool:'jug',g:'kero',gl:'EL VASO',unit:'MEDIDA',ice:0,noIce:1,vIce:3,how:['Batir 1 minuto','y servir'],
+  v:[['Preparado\nPisco Sour',5.5,BC.pisco,null,'≈ 5½ oz'],['Clara de huevo',.08,BC.clara,.45,'½ cdta']],
+  glass:[['Pisco sour',6,'#efe7d2',null,'≈ 250 ml'],['Espuma',1.4,'#fbf8f0',null,'arriba'],['Angostura',.1,'#9b3b2a',.35,'2 gotas']]})
+};
+const BPX=20,BGAP=32,BNX=136,BW=300;
+function bFingers(oz,yc){
+ const n=oz/DEDO,full=Math.floor(n+1e-6),part=n-full,cnt=Math.min(full+(part>.05?1:0),8);
+ let s='',x=BW-38-cnt*9;
+ for(let i=0;i<cnt;i++){const f=i<full?1:part,h=16;
+  s+=`<rect x="${x}" y="${yc-h/2}" width="6" height="${h}" rx="3" fill="none" stroke="#8a6a32" stroke-width="1"/><rect x="${x}" y="${yc+h/2-h*f}" width="6" height="${h*f}" rx="${f>.9?3:1}" fill="#8a6a32"/>`;x+=9}
+ return s+`<text x="${BW}" y="${yc}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="13" fill="#8a6a32">${frac(Math.round(n*3)/3)}</text>`;
+}
+let bid=0;
+function bVessel(kind,layers,ice){
+ const id='bv'+(bid++),tot=layers.reduce((a,l)=>a+(l[3]||l[1]),0),H=tot*BPX+(kind==='kero'||kind==='balloon'||kind==='coupe'?0:26),bot=H;
+ let shape,outline,extra='',foot,top,rx,rxAt=null;
+ if(kind==='jug'){
+  shape=`M22 0 L106 0 L98 ${bot} L30 ${bot} Z`;outline=shape;foot=34;top=20;rx=102;
+  extra=`<rect x="14" y="-12" width="100" height="12" rx="3" fill="#1f262d"/><rect x="57" y="-20" width="14" height="8" rx="2" fill="#1f262d"/>
+   <path d="M22 18 h-8 a7 7 0 0 0 -7 7 v${H*0.45} a7 7 0 0 0 7 7 h11" fill="none" stroke="#1f262d" stroke-width="2"/>
+   <rect x="22" y="${bot+2}" width="84" height="30" rx="6" fill="#1f262d"/><circle cx="64" cy="${bot+17}" r="6" fill="none" stroke="#c9b48a" stroke-width="1.5"/>`;
+ }else if(kind==='shaker'){
+  shape=`M28 0 L100 0 L92 ${bot} L36 ${bot} Z`;outline=shape;foot=6;top=44;rx=96;
+  extra=`<path d="M30 -3 L98 -3 L84 -30 L44 -30 Z" fill="none" stroke="#1f262d" stroke-width="2"/><rect x="54" y="-42" width="20" height="12" rx="4" fill="none" stroke="#1f262d" stroke-width="2"/>`;
+ }else if(kind==='balloon'){
+  shape=`M17 0 C10 ${H*.75} 40 ${bot} 64 ${bot+2} C88 ${bot} 118 ${H*.75} 111 0 Z`;
+  outline=`M17 -2 C8 ${H*.8} 38 ${bot+4} 64 ${bot+5} C90 ${bot+4} 120 ${H*.8} 111 -2`;foot=46;top=8;rx=116;
+  extra=`<path d="M64 ${bot+5} V${bot+40} M42 ${bot+44} H86" stroke="#1f262d" stroke-width="2"/>`;
+ }else if(kind==='kero'){
+  shape=`M12 0 L116 0 L100 ${bot} L28 ${bot} Z`;outline=`M10 -4 L28 ${bot} M118 -4 L100 ${bot}`;foot=16;top=6;rx=110;rxAt=y=>116-16*(y/bot);
+  extra=`<path d="M28 ${bot} L100 ${bot} L99 ${bot+14} L29 ${bot+14} Z" fill="#e8edef" stroke="#1f262d" stroke-width="2"/>`;
+ }else{
+  shape=`M5 0 C8 ${H*.8} 38 ${bot} 64 ${bot} C90 ${bot} 120 ${H*.8} 123 0 Z`;
+  outline=`M4 -2 C6 ${H*.85} 36 ${bot+4} 64 ${bot+4} C92 ${bot+4} 122 ${H*.85} 124 -2`;foot=46;top=6;rx=118;
+  extra=`<path d="M64 ${bot+4} V${bot+40} M42 ${bot+44} H86" stroke="#1f262d" stroke-width="2"/>`;
+ }
+ let y=bot,fills='',lines='',mids=[];
+ layers.forEach(([nm,oz,col,vz],i)=>{const h=(vz||oz)*BPX;y-=h;fills+=`<rect x="0" y="${y}" width="130" height="${h}" fill="${col}"/>`;
+  if(i<layers.length-1)lines+=`<line x1="0" x2="130" y1="${y}" y2="${y}" stroke="#1f262d" stroke-width="1" stroke-dasharray="3 2"/>`;mids.push(y+h/2)});
+ const IP=[[30,26,12],[64,30,-10],[44,52,18],[74,56,0],[24,58,0],[54,80,-14],[84,84,8]];
+ const iceSvg=ice?`<g fill="#fff" fill-opacity=".5" stroke="#b9c6cc" stroke-width="1">${IP.slice(0,ice).map(([x,d,r])=>`<rect x="${x}" y="${bot-d-22}" width="22" height="22" rx="3" transform="rotate(${r} ${x+11} ${bot-d-11})"/>`).join('')}</g>`:'';
+ return {svg:`<defs><clipPath id="${id}"><path d="${shape}"/></clipPath></defs><g clip-path="url(#${id})">${fills}${lines}${iceSvg}</g><path d="${outline}" fill="none" stroke="#1f262d" stroke-width="2"/>${extra}`,H,foot,top,mids,fillTop:bot-tot*BPX,bot,rx,rxAt};
+}
+function bBlock(kind,layers,Y,s,ice,inline){
+ const v=bVessel(kind,layers,ice),n=layers.length,LH=(n-1)*BGAP;
+ const vTop=s*v.top,vSpan=vTop+s*(v.H+v.foot);
+ const span=inline?vSpan:Math.max(vSpan,LH+20);
+ const ty=Y+(span-vSpan)/2+vTop,tx=(120-120*s)/2+12,cy=ty+s*(v.fillTop+v.bot)/2;
+ let lt=Math.max(Y+10,cy-LH/2);if(lt+LH>Y+span-10)lt=Y+span-10-LH;
+ let out=`<g transform="translate(${tx} ${ty}) scale(${s})">${v.svg}</g>`;
+ let maxLy=0;const iy=[];layers.forEach((l,i)=>{let y=ty+s*v.mids[i];if(i&&y>iy[i-1]-30)y=iy[i-1]-30;iy.push(y)});
+ layers.forEach(([nm,oz,,,lab],i)=>{
+  const my=ty+s*v.mids[i],mx=tx+s*(v.rxAt?v.rxAt(v.mids[i]):v.rx),ly=inline?iy[i]:lt+(n-1-i)*BGAP;
+  const lead=`<line x1="${mx}" y1="${my}" x2="${BNX-8}" y2="${ly}" stroke="#c9b48a" stroke-width=".9"/>`;
+  const nl=nm.split('\n');maxLy=Math.max(maxLy,ly+(nl.length-1)*21);
+  out+=`<circle cx="${mx}" cy="${my}" r="2" fill="#8a6a32"/>${lead}<text dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${nl.map((t,k)=>`<tspan x="${BNX}" y="${ly+k*21}">${t}</tspan>`).join('')}</text>${lab?`<text x="${BW}" y="${ly}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="12" fill="#8a6a32">${lab}</text>`:bFingers(oz,ly)}`;
+ });
+ return {out,end:Math.max(Y+span,maxLy+16),maxLy};
+}
+function iceRow(y,n){
+ let s=`<g transform="translate(${BNX-28} ${y-9}) scale(.45)"><path d="M8 14l10-5 10 5v12l-10 5-10-5z M8 14l10 5 10-5M18 19v12" fill="none" stroke="#8aa3ad" stroke-width="2.4"/></g>
+  <text x="${BNX}" y="${y}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="${n?'#1f262d':'#8a8f94'}" ${n?'':'font-style="italic"'}>${n?'Hielo':'Sin hielo'}</text>`;
+ if(n){let x=BW-38-n*9;for(let i=0;i<n;i++){s+=`<rect x="${x}" y="${y-4}" width="7" height="7" rx="1.5" fill="#fff" stroke="#8aa3ad" stroke-width="1.2" transform="rotate(${i%2?8:-8} ${x+3.5} ${y-.5})"/>`;x+=9}
+  s+=`<text x="${BW}" y="${y}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="13" fill="#5f7a85">${n}</text>`;}
+ return s;
+}
+function buildSVG(id,k){
+ if(!BUILD[id])return '';
+ const b=BUILD[id](k),tool=b.tool==='jug'?'LICUADORA':'COCTELERA';
+ let out=`<text x="0" y="14" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">I · EN LA ${tool}</text><text x="${BW}" y="14" text-anchor="end" font-family="Cinzel,serif" font-size="10" letter-spacing="1.5" fill="#a39a8a">${b.unit||'DEDOS'}</text>`;
+ const a=bBlock(b.tool,b.v,30,.65,b.vIce,false);out+=a.out;
+ if(b.vIce){const iy=Math.max(a.maxLy+34,a.end-6);out+=iceRow(iy,b.vIce);a.end=iy+16;}
+ let y=a.end+22;out+=`<line x1="${BNX-80}" y1="${y}" x2="${BW}" y2="${y}" stroke="#eee9e0"/>`;y+=18;
+ out+=`<line x1="64" y1="${y+2}" x2="64" y2="${y+36}" stroke="#8a6a32" stroke-width="1.4"/><path d="M58 ${y+30} L64 ${y+38} L70 ${y+30}" fill="none" stroke="#8a6a32" stroke-width="1.4"/>
+  <text font-family="'Instrument Serif',serif" font-style="italic" font-size="16" fill="#6b737a">${b.how[1]?`<tspan x="${BNX}" y="${y+19-9.5}" dominant-baseline="central">${b.how[0]}</tspan><tspan x="${BNX}" y="${y+19+9.5}" dominant-baseline="central">${b.how[1]}</tspan>`:`<tspan x="${BNX}" y="${y+19}" dominant-baseline="central">${b.how[0]}</tspan>`}</text>`;
+ y+=56;out+=`<line x1="${BNX-80}" y1="${y}" x2="${BW}" y2="${y}" stroke="#eee9e0"/>`;y+=28;
+ out+=`<text x="0" y="${y}" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">II · EN ${b.gl||'LA COPA'}</text>`;
+ const c=bBlock(b.g,b.glass,y+16,.8,b.ice,true);out+=c.out;
+ if(!b.noIce){const iy=c.maxLy+36;out+=iceRow(iy,b.ice);c.end=Math.max(c.end,iy+16);}
+ return `<section class="build" aria-label="Cómo se arma"><span class="cap">Cómo se arma · 1 trago</span><svg viewBox="0 0 ${BW} ${c.end+6}" role="img" aria-label="Diagrama: ingredientes en la ${tool.toLowerCase()} y capas en el vaso">${out}</svg></section>`;
+}
+
+const ozTxt=x=>{const w=Math.floor(x+1e-6),f=+(x-w).toFixed(3);const m={0.25:'¼',0.5:'½',0.75:'¾'};return ((w?w:'')+(m[f]||''))||'0'};
+const frac=x=>{const w=Math.floor(x+1e-6),f=x-w;let s='';if(Math.abs(f-1/3)<.05)s='⅓';else if(Math.abs(f-2/3)<.05)s='⅔';return (w?w:'')+(s||(w?'':'0'))};
+let multT=1;
+const fmtQ=q=>{const w=Math.floor(q),f=q-w,fr=f>.6?'¾':f>.4?'½':f>.2?'¼':'';return (w?w:'')+(fr||(w?'':'0'))};
+function renderTrago(r){
+  back.setAttribute('href','#'+r.sec);irCat=r.cat;
+  const rows=r.ing.map(x=>{const q=x.fixed?x.q:x.q*multT;
+    return `<tr><td class="n">${x.n}<small>${x.sub(multT)}</small></td><td class="qty">${fmtQ(q)}${x.u?' '+x.u:''}</td></tr>`}).join('');
+  app.innerHTML=`<article class="view trago" aria-labelledby="dn">
+    <div class="hero"><img src="${r.hero}" alt="${r.name} en vaso de pisco sour Gran Cruz, con espuma y gotas de angostura"></div>
+    <div class="title"><span class="ro">${r.style}</span><h1 id="dn">${r.name}</h1><span class="alias">${r.alias}</span></div>
+    <div class="facts">${r.facts.map(f=>`<div><span class="cap">${f[0]}</span><b>${f[1]}</b></div>`).join('')}</div>
+    <section class="blk"><span class="cap">Por qué</span><p class="tintro">${r.intro}</p>
+      <ul class="why">${r.why.map(w=>`<li><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#${w[0]}"/></svg><span>${w[1]}</span></li>`).join('')}</ul></section>
+    <section class="rblk" aria-labelledby="rh"><h2 class="rhead" id="rh">Receta</h2>
+      <div class="recipe">
+        <div class="rtop"><span class="cap" style="color:var(--ink)">${multT} ${multT>1?'tragos':'trago'}</span>
+          <div class="mult" role="group" aria-label="Cantidad">${[1,2,4].map(m=>`<button data-m="${m}" aria-pressed="${m===multT}">×${m}</button>`).join('')}</div></div>
+        <div class="serv">${r.serv.map(x=>`<div><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#${x[0]}"/></svg><span>${x[1]}</span></div>`).join('')}</div>
+        <table class="ing"><colgroup><col class="c-n"><col class="c-q"></colgroup><tbody>${rows}</tbody></table>
+        <ol class="steps">${r.steps.map(x=>`<li><span>${x}</span></li>`).join('')}</ol>
+        <p class="note">Medidas estimadas desde la marca de 250 ml · 3 cubos ≈ 90 ml</p>
+      </div></section>
+    ${buildSVG(r.id)}
+  </article>`;
+  app.querySelectorAll('.mult button').forEach(b=>b.addEventListener('click',()=>{multT=+b.dataset.m;const y=scrollY;renderTrago(r);scrollTo(0,y);app.querySelector(`.mult button[data-m="${multT}"]`).focus()}));
+}
 function route(){
   const h=location.hash.slice(1);
   if(!h){portada.hidden=false;interior.hidden=true;document.title='Rivoli · Carta';return}
   portada.hidden=true;interior.hidden=false;
   const s=SECCIONES.find(x=>x.id===h);
-  if(s){cat=irCat??0;irCat=null;renderSeccion(s);document.title='Rivoli · '+s.n}else{renderCarta();document.title='Rivoli · Recetario'}
+  if(s){cat=irCat??0;irCat=null;renderSeccion(s);document.title='Rivoli · '+s.n}else if(REC_ID[h]){multT=1;renderTrago(REC_ID[h]);document.title='Rivoli · '+REC_ID[h].name}else{irCat=null;renderCarta();document.title='Rivoli · Recetario'}
   scrollTo(0,0);
 }
 addEventListener('hashchange',route);route();
