@@ -188,7 +188,7 @@ main{padding-block:var(--s4) var(--s6)}
 .trago .badge{display:flex;align-items:center;justify-content:center;gap:var(--s2);margin:var(--s4) 0 0;font-family:var(--f-cap);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
 .trago .badge svg{width:30px;height:30px;color:var(--gold)}
 .trago .rblk .build{margin-top:0}
-.trago .rblk>.steps{margin-top:var(--s3)}
+.trago .rblk>.steps{margin-top:var(--s2);padding-top:var(--s4);border-top:1px solid var(--line)}
 .tarj .ver{margin-top:auto;font-family:var(--f-cap);font-size:.58rem;letter-spacing:.16em;color:var(--gold)}
 .tarj .top .ok{font-family:var(--f-cap);font-size:.5rem;letter-spacing:.14em;color:var(--gold)}
 
@@ -483,8 +483,7 @@ function bBlock(kind,layers,Y,s,ice,inline,cap){
  return {out,end:Math.max(Y+span,maxLy+16),maxLy,top:ty-s*20,bot:ty+s*(v.bot+v.foot)};
 }
 function iceRow(y,n){
- let s=`<g transform="translate(${BNX-28} ${y-9}) scale(.45)"><path d="M8 14l10-5 10 5v12l-10 5-10-5z M8 14l10 5 10-5M18 19v12" fill="none" stroke="#8aa3ad" stroke-width="2.4"/></g>
-  <text x="${BNX}" y="${y}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="${n?'#1f262d':'#8a8f94'}" ${n?'':'font-style="italic"'}>${n?'Hielo':'Sin hielo'}</text>`;
+ let s=`<text x="${BNX}" y="${y}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="${n?'#1f262d':'#8a8f94'}" ${n?'':'font-style="italic"'}>${n?'Hielo':'Sin hielo'}</text>`;
  if(n){let x=BW-14-n*9;for(let i=0;i<n;i++){s+=`<rect x="${x}" y="${y-4}" width="7" height="7" rx="1.5" fill="#fff" stroke="#8aa3ad" stroke-width="1.2" transform="rotate(${i%2?8:-8} ${x+3.5} ${y-.5})"/>`;x+=9}
   s+=`<text x="${BW}" y="${y}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="13" fill="#5f7a85">${n}</text>`;}
  return s;
@@ -494,7 +493,7 @@ function buildSVG(id,k){
  const b=BUILD[id](k),tool=b.tool==='jug'?'LICUADORA':'COCTELERA';
  let out=`<text x="0" y="14" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">I · EN LA ${tool}</text><text x="${BW}" y="14" text-anchor="end" font-family="Cinzel,serif" font-size="10" letter-spacing="1.5" fill="#a39a8a">${b.unit||'DEDOS'}</text>`;
  const a=bBlock(b.tool,b.v,30,.65,b.vIce,true,b.cap);out+=a.out;
- const clRow=(ey,nm,val)=>`<g transform="translate(${BNX-28} ${ey-9})"><ellipse cx="7" cy="9" rx="5.5" ry="7" fill="none" stroke="#c9b48a" stroke-width="1.2"/></g><text x="${BNX}" y="${ey}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${nm}</text><text x="${BW}" y="${ey}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="12" fill="#8a6a32">${val}</text>`;
+ const clRow=(ey,nm,val)=>`<text x="${BNX}" y="${ey}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${nm}</text><text x="${BW}" y="${ey}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="12" fill="#8a6a32">${val}</text>`;
  if(b.cap){ /* licuadora: hielo y clara arriba, alineados con el borde superior; preparado abajo */
   const rows=[];if(b.vIce)rows.push(y=>iceRow(y,b.vIce));(b.extra||[]).forEach(([nm,val])=>rows.push(y=>clRow(y,nm,val)));
   const y0=a.top+10,yp=a.maxLy-21,st=(yp-y0)/rows.length;
