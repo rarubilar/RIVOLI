@@ -332,7 +332,7 @@ const IMG_LISTA=['aperitivi','mocktails','birre','jugos','digestivi','vinos','ca
 const IMG_POS={mocktails:'100%',jugos:'100%',digestivi:'100%',caffe:'35%',bases:'80%'};
 function renderCarta(){
   back.setAttribute('href','#');
-  app.innerHTML=`<div class="view" id="vrec"><section class="bhero" aria-label="Buscar un trago"><span class="cap">Buscador</span><div class="marco"><svg class="laurel l" aria-hidden="true"><use href="#i-laurel"/></svg><h2 class="q">¿Qué tragos quieres realizar?</h2><svg class="laurel r" aria-hidden="true"><use href="#i-laurel"/></svg></div>
+  app.innerHTML=`<div class="view" id="vrec"><section class="bhero" aria-label="Buscar un trago"><span class="cap">Buscador</span><div class="marco"><svg class="laurel l" aria-hidden="true"><use href="#i-laurel"/></svg><h2 class="q">¿Qué trago quieres hacer?</h2><svg class="laurel r" aria-hidden="true"><use href="#i-laurel"/></svg></div>
    <div class="bzona"><div class="bcaja"><input id="bq" type="search" autocomplete="off" enterkeyhint="search" aria-label="Nombre del trago" tabindex="-1"></div><button class="blupa" id="blupa" aria-label="Buscar un trago">${ic('i-lupa')}</button></div></section>
    <div id="bres" aria-live="polite"></div>
    <div class="rec"><div class="intro" style="margin-bottom:var(--s4)"><h1 class="h">Recetario</h1></div>
@@ -340,7 +340,7 @@ function renderCarta(){
    ${SECCIONES.map(s=>{const ok=IMG_LISTA.includes(s.id);return `<a class="arch${s.cls?' '+s.cls:''}${ok?'':' falta'}" href="#${s.id}"><span class="aw"><img src="../assets/carta/${s.id}${ok?'':'-prov'}.jpg" alt="" loading="lazy"${IMG_POS[s.id]?` style="object-position:center ${IMG_POS[s.id]}"`:''}></span><span class="n">${s.n}</span><span class="d">${s.d}</span></a>`}).join('')}
    </nav></div><button class="bvolver" id="bvolver">Ver recetario</button></div>`;
   buscadorGlobal();
-  if(abrirBusq){abrirBusq=false;setTimeout(()=>document.getElementById('blupa').click(),30)}
+  if(abrirBusq){abrirBusq=false;if(volverA)back.setAttribute('href',volverA);setTimeout(()=>document.getElementById('blupa').click(),30)}else volverA=null;
 }
 let irCat=null;
 function buscadorGlobal(){
@@ -352,7 +352,8 @@ function buscadorGlobal(){
   /* el recetario baja animado y luego se saca del flujo, para que la página no quede con alto vacío */
   const abrir=()=>{if(v.classList.contains('buscando'))return;v.classList.add('buscando');q.tabIndex=0;scrollTo({top:0,behavior:'smooth'});pintar();
     clearTimeout(tOculta);tOculta=setTimeout(()=>{if(v.classList.contains('buscando'))rec.classList.add('fuera')},560)};
-  const cerrar=()=>{if(!v.classList.contains('buscando'))return;clearTimeout(tOculta);rec.classList.remove('fuera');void rec.offsetHeight;v.classList.remove('buscando');q.tabIndex=-1;q.value='';q.blur();res.innerHTML=''};
+  const cerrar=()=>{if(!v.classList.contains('buscando'))return;
+    if(volverA&&!q.value.trim()){const t=volverA;volverA=null;location.hash=t;return}clearTimeout(tOculta);rec.classList.remove('fuera');void rec.offsetHeight;v.classList.remove('buscando');q.tabIndex=-1;q.value='';q.blur();res.innerHTML=''};
   const pintar=()=>{const k=norm(q.value.trim());
     if(!k){res.innerHTML='';return}
     const r=[];SECCIONES.forEach(s=>s.cats.forEach((c,ci)=>c[2].forEach(d=>{if(norm(d[0]).includes(k))r.push([s,ci,c[0],d])})));
@@ -363,7 +364,7 @@ function buscadorGlobal(){
   /* tocar fuera de la caja (y fuera de un resultado) cierra el buscador y vuelve al inicio del recetario */
   document.addEventListener('click',e=>{if(!v.isConnected||!v.classList.contains('buscando'))return;
     if(conTexto()||e.target.closest('.bcaja,#blupa,a[data-c],header'))return;cerrar();scrollTo({top:0,behavior:'smooth'})});
-  res.addEventListener('click',e=>{const a=e.target.closest('a[data-c]');if(a)irCat=+a.dataset.c});
+  res.addEventListener('click',e=>{const a=e.target.closest('a[data-c]');if(a){irCat=+a.dataset.c;volverA=null}});
   let y0=null;
   /* deslizar el dedo hacia arriba, cuando ya no queda lista por recorrer, trae el recetario desde abajo */
   const alFondo=()=>innerHeight+scrollY>=document.documentElement.scrollHeight-4;
@@ -523,7 +524,7 @@ const fmtQ=q=>{const w=Math.floor(q),f=q-w,fr=f>.6?'¾':f>.4?'½':f>.2?'¼':'';r
 function renderTrago(r){
   back.setAttribute('href','#'+r.sec);irCat=r.cat;
   document.getElementById('hRight').innerHTML=`<a class="hlupa" href="#carta" aria-label="Buscar otro trago">${ic('i-lupa')}</a>`;
-  document.querySelector('#hRight .hlupa').addEventListener('click',()=>{abrirBusq=true});
+  document.querySelector('#hRight .hlupa').addEventListener('click',()=>{abrirBusq=true;volverA='#'+r.id});
   const rows=r.ing.map(x=>{const q=x.fixed?x.q:x.q*multT;
     return `<tr><td class="n">${x.n}${x.sub?`<small>${x.sub(multT)}</small>`:''}</td><td class="qty">${x.pre?`<i class="qx">${x.pre}</i>`:''}${fmtQ(q)}${x.u?' '+x.u:''}${x.post?`<i class="qx">${x.post}</i>`:''}</td></tr>`}).join('');
   app.innerHTML=`<article class="view trago" aria-labelledby="dn">
@@ -545,10 +546,11 @@ function renderTrago(r){
   </article>`;
   app.querySelectorAll('.mult button').forEach(b=>b.addEventListener('click',()=>{multT=+b.dataset.m;const y=scrollY;renderTrago(r);scrollTo(0,y);app.querySelector(`.mult button[data-m="${multT}"]`).focus()}));
 }
-let abrirBusq=false;
+let abrirBusq=false,volverA=null;
 function route(){
   const h=location.hash.slice(1);
   document.getElementById('hRight').innerHTML='';
+  if(h!=='carta')volverA=null;
   if(!h){portada.hidden=false;interior.hidden=true;document.title='Rivoli · Carta';return}
   portada.hidden=true;interior.hidden=false;
   const s=SECCIONES.find(x=>x.id===h);
