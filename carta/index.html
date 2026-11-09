@@ -77,6 +77,35 @@ main{padding-block:var(--s4) var(--s6)}
 .nada{text-align:center;color:#8a8f94;font-style:italic;padding:var(--s4) 0}
 .intro p{margin:.6rem auto 0;font-size:1.05rem;color:#58616a;max-width:39ch;line-height:1.4}
 
+/* buscador del recetario */
+.bhero{position:relative;display:grid;justify-items:center;gap:var(--s3);text-align:center;padding:var(--s4) 0 0;margin-bottom:var(--s5)}
+.bhero .marco{display:grid;grid-template-columns:38px minmax(0,auto) 38px;align-items:center;gap:var(--s3);justify-content:center}
+.bhero .laurel{width:38px;height:104px;color:var(--gold);opacity:.75;pointer-events:none}
+.bhero .laurel.r{transform:scaleX(-1)}
+.bhero .q{font-family:var(--f-name);font-weight:400;font-size:2rem;line-height:1.05;margin:0;max-width:15ch;text-wrap:balance}
+.bzona{justify-self:stretch;display:grid;justify-items:center;min-height:56px;align-items:center}
+.blupa{width:48px;height:48px;display:grid;place-items:center;color:var(--gold);transition:opacity .2s,transform .3s}
+.blupa svg{width:30px;height:30px}
+.blupa:active{transform:scale(.92)}
+.bcaja{grid-area:1/1;width:44px;height:56px;opacity:0;pointer-events:none;border:1px solid var(--gold);border-radius:999px;background:#fff;box-shadow:0 6px 22px rgba(138,106,50,.16);
+  transition:width .45s cubic-bezier(.3,.7,.2,1),opacity .25s;display:flex;align-items:center;padding:0 var(--s4);overflow:hidden}
+.bzona .blupa{grid-area:1/1}
+.bcaja input{flex:1;min-width:0;border:0;outline:0;background:none;font-family:var(--f-name);font-size:1.45rem;color:var(--ink);padding:0;caret-color:var(--gold)}
+.bcaja input::-webkit-search-cancel-button{-webkit-appearance:none;appearance:none}
+.buscando .bcaja{width:100%;opacity:1;pointer-events:auto}
+.buscando .blupa{opacity:0;pointer-events:none}
+.rec{transition:transform .55s cubic-bezier(.3,.7,.2,1),opacity .4s ease}
+.buscando .rec{transform:translateY(70vh);opacity:0;pointer-events:none}
+.buscando .bhero{margin-bottom:var(--s3)}
+#bres{display:none}
+.buscando #bres{display:block;padding-bottom:96px}
+#bres .row{color:inherit}
+.bvolver{position:fixed;left:50%;bottom:calc(var(--s3) + env(safe-area-inset-bottom,0px));transform:translate(-50%,24px);opacity:0;pointer-events:none;display:grid;justify-items:center;gap:var(--s1);
+  font-family:var(--f-cap);font-size:.6rem;letter-spacing:.2em;color:var(--gold);text-transform:uppercase;background:rgba(255,255,255,.92);padding:var(--s2) var(--s3);border-radius:999px;transition:opacity .3s,transform .3s;z-index:15;min-height:44px}
+.bvolver::before{content:"";width:10px;height:10px;border-left:1.5px solid var(--gold);border-top:1.5px solid var(--gold);transform:rotate(45deg);animation:sube 1.6s ease-in-out infinite}
+@keyframes sube{50%{transform:translateY(-4px) rotate(45deg)}}
+.buscando .bvolver{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+
 /* arcos */
 .arches{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s4) var(--s3)}
 .arch{display:grid;justify-items:center;align-content:start;text-align:center;gap:var(--s1);min-width:0}
@@ -148,6 +177,7 @@ main{padding-block:var(--s4) var(--s6)}
   <symbol id="vino" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 4h14c0 12-3 16-7 16s-7-4-7-16zM20 20v13M14 35h12"/></g></symbol>
   <symbol id="cafe" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 14h18v10a7 7 0 0 1-7 7h-4a7 7 0 0 1-7-7zM27 17h3a3 3 0 0 1 0 6h-3M15 6v4M20 5v5"/></g></symbol>
   <symbol id="digest" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 6h10M16 6v8l-3 4v16h14V18l-3-4V6"/></g></symbol>
+<symbol id="i-laurel" viewBox="0 0 44 124"><path d="M30 118 C12 92 8 48 26 6" fill="none" stroke="currentColor" stroke-width="1.1"/><g fill="currentColor" fill-opacity=".28" stroke="currentColor" stroke-width=".9" stroke-linejoin="round"><path d="M-8.0 0 Q0 -4.0 8.0 0 Q0 4.0 -8.0 0Z" transform="translate(18.0 105.8) rotate(-151)"/><path d="M-8.0 0 Q0 -4.0 8.0 0 Q0 4.0 -8.0 0Z" transform="translate(26.0 101.7) rotate(-83)"/><path d="M-7.4 0 Q0 -3.7 7.4 0 Q0 3.7 -7.4 0Z" transform="translate(13.3 89.7) rotate(-140)"/><path d="M-7.4 0 Q0 -3.7 7.4 0 Q0 3.7 -7.4 0Z" transform="translate(21.2 87.4) rotate(-72)"/><path d="M-6.7 0 Q0 -3.4 6.7 0 Q0 3.4 -6.7 0Z" transform="translate(10.9 72.1) rotate(-131)"/><path d="M-6.7 0 Q0 -3.4 6.7 0 Q0 3.4 -6.7 0Z" transform="translate(18.4 71.2) rotate(-63)"/><path d="M-6.1 0 Q0 -3.0 6.1 0 Q0 3.0 -6.1 0Z" transform="translate(11.1 53.4) rotate(-122)"/><path d="M-6.1 0 Q0 -3.0 6.1 0 Q0 3.0 -6.1 0Z" transform="translate(17.9 53.6) rotate(-54)"/><path d="M-5.4 0 Q0 -2.7 5.4 0 Q0 2.7 -5.4 0Z" transform="translate(14.1 33.8) rotate(-114)"/><path d="M-5.4 0 Q0 -2.7 5.4 0 Q0 2.7 -5.4 0Z" transform="translate(20.1 34.9) rotate(-46)"/><path d="M-4.8 0 Q0 -2.4 4.8 0 Q0 2.4 -4.8 0Z" transform="translate(19.9 14.0) rotate(-106)"/><path d="M-4.8 0 Q0 -2.4 4.8 0 Q0 2.4 -4.8 0Z" transform="translate(25.0 15.7) rotate(-38)"/><path d="M-5 0 Q0 -2.6 5 0 Q0 2.6 -5 0Z" transform="translate(26.5 3.0) rotate(-68)"/></g></symbol>
   <symbol id="i-lupa" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L21 21"/></g></symbol>
   <symbol id="cero" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 12h20l-3 22H13zM14 20h12"/></g></symbol>
 </defs></svg>
@@ -195,10 +225,37 @@ const IMG_LISTA=['aperitivi','mocktails','birre','jugos','digestivi','vinos','ca
 const IMG_POS={mocktails:'100%',jugos:'100%',digestivi:'100%',caffe:'35%',bases:'80%'};
 function renderCarta(){
   back.setAttribute('href','#');
-  app.innerHTML=`<div class="view"><div class="intro" style="margin-bottom:var(--s4)"><h1 class="h">Recetario</h1></div>
+  app.innerHTML=`<div class="view" id="vrec"><section class="bhero" aria-label="Buscar un trago"><span class="cap">Buscador</span><div class="marco"><svg class="laurel l" aria-hidden="true"><use href="#i-laurel"/></svg><h2 class="q">¿Qué tragos quieres realizar?</h2><svg class="laurel r" aria-hidden="true"><use href="#i-laurel"/></svg></div>
+   <div class="bzona"><div class="bcaja"><input id="bq" type="search" autocomplete="off" enterkeyhint="search" aria-label="Nombre del trago" tabindex="-1"></div><button class="blupa" id="blupa" aria-label="Buscar un trago">${ic('i-lupa')}</button></div></section>
+   <div id="bres" aria-live="polite"></div>
+   <div class="rec"><div class="intro" style="margin-bottom:var(--s4)"><h1 class="h">Recetario</h1></div>
    <nav class="arches" aria-label="Secciones de la carta">
    ${SECCIONES.map(s=>{const ok=IMG_LISTA.includes(s.id);return `<a class="arch${s.cls?' '+s.cls:''}${ok?'':' falta'}" href="#${s.id}"><span class="aw"><img src="../assets/carta/${s.id}${ok?'':'-prov'}.jpg" alt="" loading="lazy"${IMG_POS[s.id]?` style="object-position:center ${IMG_POS[s.id]}"`:''}></span><span class="n">${s.n}</span><span class="d">${s.d}</span></a>`}).join('')}
-   </nav></div>`;
+   </nav></div><button class="bvolver" id="bvolver">Ver recetario</button></div>`;
+  buscadorGlobal();
+}
+let irCat=null;
+function buscadorGlobal(){
+  const v=document.getElementById('vrec'),q=document.getElementById('bq'),res=document.getElementById('bres');
+  const norm=t=>t.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  const esc=t=>t.replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  const marca=(t,k)=>{const i=norm(t).indexOf(k);return i<0?esc(t):esc(t.slice(0,i))+'<mark>'+esc(t.slice(i,i+k.length))+'</mark>'+esc(t.slice(i+k.length))};
+  const abrir=()=>{if(v.classList.contains('buscando'))return;v.classList.add('buscando');q.tabIndex=0;scrollTo({top:0,behavior:'smooth'});pintar()};
+  const cerrar=()=>{v.classList.remove('buscando');q.tabIndex=-1;q.value='';q.blur();res.innerHTML=''};
+  const pintar=()=>{const k=norm(q.value.trim());
+    if(!k){res.innerHTML='';return}
+    const r=[];SECCIONES.forEach(s=>s.cats.forEach((c,ci)=>c[2].forEach(d=>{if(norm(d[0]).includes(k))r.push([s,ci,c[0],d])})));
+    res.innerHTML=r.length?`<div class="list">${r.map(([s,ci,cn,d])=>`<a class="row" href="#${s.id}" data-c="${ci}"><div><span class="cat">${s.n} · ${cn}</span><span class="n">${marca(d[0],k)}</span><small>${d[1]}</small></div><span class="go">›</span></a>`).join('')}</div>`:`<p class="nada">No encontramos “${esc(q.value.trim())}”</p>`};
+  q.addEventListener('input',pintar);
+  document.getElementById('blupa').addEventListener('click',()=>{abrir();q.focus()});
+  document.getElementById('bvolver').addEventListener('click',cerrar);
+  res.addEventListener('click',e=>{const a=e.target.closest('a[data-c]');if(a)irCat=+a.dataset.c});
+  /* deslizar hacia arriba desde la mitad inferior de la pantalla devuelve el recetario */
+  let y0=null;
+  v.addEventListener('touchstart',e=>{y0=v.classList.contains('buscando')&&e.touches[0].clientY>innerHeight/2?e.touches[0].clientY:null},{passive:true});
+  v.addEventListener('touchmove',e=>{if(y0===null)return;const alFondo=innerHeight+scrollY>=document.documentElement.scrollHeight-4;
+    if(y0-e.touches[0].clientY>60&&alFondo){y0=null;cerrar()}},{passive:true});
+  addEventListener('wheel',e=>{if(v.isConnected&&v.classList.contains('buscando')&&e.deltaY>30&&innerHeight+scrollY>=document.documentElement.scrollHeight-4)cerrar()},{passive:true});
 }
 function renderSeccion(s){
   back.setAttribute('href','#carta');
@@ -242,7 +299,7 @@ function route(){
   if(!h){portada.hidden=false;interior.hidden=true;document.title='Rivoli · Carta';return}
   portada.hidden=true;interior.hidden=false;
   const s=SECCIONES.find(x=>x.id===h);
-  if(s){cat=0;renderSeccion(s);document.title='Rivoli · '+s.n}else{renderCarta();document.title='Rivoli · Recetario'}
+  if(s){cat=irCat??0;irCat=null;renderSeccion(s);document.title='Rivoli · '+s.n}else{renderCarta();document.title='Rivoli · Recetario'}
   scrollTo(0,0);
 }
 addEventListener('hashchange',route);route();
