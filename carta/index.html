@@ -256,16 +256,17 @@ function buscadorGlobal(){
   document.getElementById('bvolver').addEventListener('click',cerrar);
   /* tocar fuera de la caja (y fuera de un resultado) cierra el buscador y vuelve al inicio del recetario */
   document.addEventListener('click',e=>{if(!v.isConnected||!v.classList.contains('buscando'))return;
-    if(e.target.closest('.bcaja,#blupa,a[data-c],header'))return;cerrar();scrollTo({top:0,behavior:'smooth'})});
+    if(conTexto()||e.target.closest('.bcaja,#blupa,a[data-c],header'))return;cerrar();scrollTo({top:0,behavior:'smooth'})});
   res.addEventListener('click',e=>{const a=e.target.closest('a[data-c]');if(a)irCat=+a.dataset.c});
   let y0=null;
   /* deslizar el dedo hacia arriba, cuando ya no queda lista por recorrer, trae el recetario desde abajo */
   const alFondo=()=>innerHeight+scrollY>=document.documentElement.scrollHeight-4;
+  const conTexto=()=>q.value.trim()!=='';  /* con algo escrito, los resultados se quedan: no vuelve el recetario */
   /* el recetario sigue al dedo mientras se desliza; al soltar termina de subir o vuelve a esconderse */
   let tira=false,dy=0;
   const H=()=>innerHeight*.45;
   const pinta=d=>{const k=Math.min(d/H(),1);rec.style.transform=`translateY(${(1-k)*H()}px)`;rec.style.opacity=Math.min(1,k*1.6)};
-  document.addEventListener('touchstart',e=>{tira=false;dy=0;y0=v.isConnected&&v.classList.contains('buscando')?e.touches[0].clientY:null},{passive:true});
+  document.addEventListener('touchstart',e=>{tira=false;dy=0;y0=v.isConnected&&v.classList.contains('buscando')&&!conTexto()?e.touches[0].clientY:null},{passive:true});
   document.addEventListener('touchmove',e=>{if(y0===null)return;
     if(!tira){if(!alFondo())return;y0=e.touches[0].clientY;tira=true;clearTimeout(tOculta);rec.classList.remove('fuera');rec.classList.add('arrastre');q.blur();return}
     dy=Math.max(0,(y0-e.touches[0].clientY)*1.4);pinta(dy)},{passive:true});
@@ -273,7 +274,7 @@ function buscadorGlobal(){
     if(dy>36){cerrar();void rec.offsetHeight;rec.style.transform='';rec.style.opacity=''}
     else{rec.style.transform='';rec.style.opacity='';tOculta=setTimeout(()=>{if(v.classList.contains('buscando'))rec.classList.add('fuera')},460)}};
   document.addEventListener('touchend',suelta,{passive:true});document.addEventListener('touchcancel',suelta,{passive:true});
-  addEventListener('wheel',e=>{if(v.isConnected&&v.classList.contains('buscando')&&e.deltaY>30&&alFondo())cerrar()},{passive:true});
+  addEventListener('wheel',e=>{if(v.isConnected&&v.classList.contains('buscando')&&e.deltaY>30&&!conTexto()&&alFondo())cerrar()},{passive:true});
 }
 function renderSeccion(s){
   back.setAttribute('href','#carta');
