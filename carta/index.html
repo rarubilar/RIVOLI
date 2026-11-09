@@ -194,6 +194,8 @@ main{padding-block:var(--s4) var(--s6)}
 .trago .pendr{border:1px dashed var(--gold-soft);border-radius:var(--r);padding:var(--s4) var(--s3);text-align:center;display:grid;gap:var(--s2)}
 .trago .pendr p{margin:0;color:var(--muted);font-style:italic}
 .trago .serv{grid-template-columns:repeat(3,minmax(0,1fr))}
+.trago .title h1{position:relative;display:inline-block;justify-self:center}
+.trago .title .corona{position:absolute;top:-2px;right:-22px;width:20px;height:20px;color:var(--gold);opacity:.85}
 .trago .badge{display:flex;align-items:center;justify-content:center;gap:var(--s2);margin:var(--s4) 0 0;font-family:var(--f-cap);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--gold)}
 .trago .badge svg{width:30px;height:30px;color:var(--gold)}
 .trago .rblk .build{margin-top:0}
@@ -611,9 +613,8 @@ function renderTrago(r){
     return `<tr><td class="n">${x.n}${x.sub?`<small>${x.sub(multT)}</small>`:''}</td><td class="qty">${x.pre?`<i class="qx">${x.pre}</i>`:''}${fmtQ(q)}${x.u?' '+x.u:''}${x.post?`<i class="qx">${x.post}</i>`:''}</td></tr>`}).join('');
   app.innerHTML=`<article class="view trago" aria-labelledby="dn">
     <div class="hero"><img src="${r.hero}" alt="${r.name}"${r.heroPos?` style="object-position:${r.heroPos}"`:''}></div>
-    <div class="title"><h1 id="dn">${r.name}</h1></div>
+    <div class="title"><h1 id="dn">${r.name}${r.badge?`<svg class="corona" viewBox="0 0 40 40" role="img" aria-label="Trago popular"><use href="#${r.badge[0]}"/></svg>`:''}</h1></div>
     <div class="facts">${r.facts.map(f=>`<div><span class="cap">${f[0]}</span><b>${f[1]}</b></div>`).join('')}</div>
-    ${r.badge?`<p class="badge"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#${r.badge[0]}"/></svg><span>${r.badge[1]}</span></p>`:''}
     ${r.variants?`<div class="vsel" role="group" aria-label="Versión">${r.variants.map((x,k)=>`<button data-v="${k}" aria-pressed="${k===varT}">${x.k}</button>`).join('')}</div>`:''}
     <section class="rblk" aria-labelledby="rh"><h2 class="rhead" id="rh">Receta</h2>
       ${!r.ing.length?`<div class="pendr"><span class="cap">Receta por cargar</span><p>Estamos armando esta receta con la barra.</p></div></section>`:''}
