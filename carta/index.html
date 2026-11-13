@@ -716,7 +716,7 @@ function renderTrago(r){
   const V=r.variants?r.variants[Math.min(varT,r.variants.length-1)]:null,rr=Object.assign({},r,V&&V.ing?{ing:V.ing,serv:V.serv||r.serv,steps:V.steps||r.steps}:{});
   r=rr;
   const fd=r.fotoDir||'',L=+(new URLSearchParams(location.search).get('l'))||(fd?1:0);
-  const ph=(f,lab)=>f?`<span class="ph"><img src="${fd}${f}.jpg?v=6" alt="" loading="lazy"></span>`:`<span class="ph pend">foto<br>pendiente</span>`;
+  const ph=(f,lab)=>f?`<span class="ph"><img src="${fd}${f}.jpg?v=7" alt="" loading="lazy"></span>`:`<span class="ph pend">foto<br>pendiente</span>`;
   const rows=r.ing.map(x=>{const q=x.fixed?x.q:x.q*multT;
     const tc=L===1&&fd?`<td class="t">${x.f===undefined?`<span class="ph ico"><svg viewBox="0 0 40 40"><use href="#${x.ico||'hielo'}"/></svg></span>`:ph(x.f)}</td>`:'';
     if(x.oz){const o=x.oz*multT,n=o/DEDO,fl=Math.floor(n+1e-6),pt=n-fl,cnt=Math.min(fl+(pt>.05?1:0),8);let fi='';for(let i=0;i<cnt;i++)fi+=`<i style="--f:${i<fl?100:Math.round(pt*100)}%"></i>`;
