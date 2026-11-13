@@ -338,6 +338,7 @@ main{padding-block:var(--s4) var(--s6)}
   <symbol id="coupe" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 10c1 9 7 13 14 13s13-4 14-13zM20 23v11M13 35h14"/></g></symbol>
   <symbol id="alto" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 4h16l-1 32H13z"/></g></symbol>
   <symbol id="birra" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 8h16v26H10zM26 13h5v14h-5M10 13h16"/></g></symbol>
+  <symbol id="coctelera" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 15h16l-2 21H14z"/><path d="M13 15l2-5h10l2 5"/><rect x="17" y="4" width="6" height="6" rx="2"/></g></symbol>
   <symbol id="hielo" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><rect x="7" y="17" width="13" height="13" rx="2" transform="rotate(-10 13 23)"/><rect x="20" y="12" width="13" height="13" rx="2" transform="rotate(12 26 18)"/><rect x="15" y="4" width="10" height="10" rx="2" transform="rotate(4 20 9)"/></g></symbol>
   <symbol id="cuchara" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 4l18 24"/><path d="M11 8l2-1M14 12l2-1M17 16l2-1M20 20l2-1" stroke-width="1"/><ellipse cx="29" cy="32" rx="4" ry="6" transform="rotate(-37 29 32)"/></g></symbol>
   <symbol id="vino" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 4h14c0 12-3 16-7 16s-7-4-7-16zM20 20v13M14 35h12"/></g></symbol>
@@ -418,6 +419,32 @@ const RECETAS={
    {n:'Bombilla negra',q:1,f:'bombilla',fn:'Bombilla'}],
   fotoDir:'../assets/tragos/ramazzotti/',
   steps:[['Llenar la copa con hielo hasta arriba.',['copa']],['Agregar Ramazzotti hasta un cuarto de la copa.',['ramazzotti']],['Agregar espumante brut (30%).',['brut']],['Agregar 2 cucharas largas de mezcla de frutos rojos.',['frutos','cuchara']],['Completar hasta arriba con agua con gas y un chorrito del jugo de frutos rojos para el color.',['agua']],['Decorar con una rodaja de limón deshidratada, poner la bombilla negra y servir.',['limon','bombilla']]]},
+ 'Tequila Margarita':{id:'margarita',sec:'aperitivi',cat:6,name:'Tequila Margarita',
+  hero:'../assets/tragos/margarita-hero.jpg',
+  facts:[['Sabor','Cítrico'],['Familia','Margarita'],['Estilo','Corto, en copa']],
+  fotoDir:'../assets/ingredientes/',
+  serv:[['coupe','Copa de abanico',null,'copa-abanico'],['coctelera','Coctelera: batir'],['hielo','Hielo en la coctelera']],
+  ing:[
+   {n:'Tequila El Jimador',sub:m=>'blanco',t:'?',f:'tequila-jimador'},
+   {n:'Triple sec Mitjans',t:'?',f:''},
+   {n:'Goma',sub:m=>'botella de tapa blanca',t:'?',f:'goma'},
+   {n:'Hielo',sub:m=>'en la coctelera',t:'?'}],
+  steps:[['En la coctelera: hielo, tequila El Jimador, triple sec Mitjans y goma.',[]],['Batir.',[]],['Servir en la copa de abanico.',[]]]},
+ 'Fresco Pasión':{id:'fresco-pasion',sec:'aperitivi',cat:3,name:'Fresco Pasión',
+  hero:'../assets/tragos/fresco-pasion-hero.jpg',
+  facts:[['Sabor','Tropical, ácido'],['Familia','Mojitos'],['Estilo','Largo, con frappé']],
+  fotoDir:'../assets/ingredientes/',
+  serv:[['birra','Copa de cerveza',null,'copa-cerveza'],['coctelera','Coctelera: batir'],['hielo','Frappé arriba']],
+  ing:[
+   {n:'Ron añejo',q:60,u:'ml',sub:m=>(2*m)+' onzas',f:'ron-anejo'},
+   {n:'Jugo de limón',sub:m=>'exprimido · botella de tapa roja',t:'?',f:'jugo-limon'},
+   {n:'Goma',sub:m=>'botella de tapa blanca',t:'?',f:'goma'},
+   {n:'Maracuyá',t:'?',f:''},
+   {n:'Jengibre',t:'?',f:''},
+   {n:'Hielo frappé',sub:m=>'arriba, al final',t:'2 dedos'},
+   {n:'Hoja de menta',q:1,u:'hoja',f:''},
+   {n:'Bombilla negra',q:1,f:'bombilla'}],
+  steps:[['En la coctelera: jugo de limón, goma, maracuyá, jengibre y 2 onzas de ron añejo.',[]],['Batir.',[]],['Servir en la copa de cerveza.',[]],['Rellenar los 2 últimos dedos con hielo frappé.',[]],['Decorar con una hoja de menta y poner la bombilla negra.',[]]]},
  'Limonada':{id:'limonada',sec:'jugos',cat:0,name:'Limonada',
   hero:'../assets/carta/jugos.jpg',heroPos:'center 70%',
   facts:[['Sabor','Ácida, fresca'],['Familia','Limonadas'],['Estilo','Largo, sin alcohol']],
@@ -689,7 +716,9 @@ function renderTrago(r){
   const fd=r.fotoDir||'',L=+(new URLSearchParams(location.search).get('l'))||(fd?1:0);
   const ph=(f,lab)=>f?`<span class="ph"><img src="${fd}${f}.jpg" alt="" loading="lazy"></span>`:`<span class="ph pend">foto<br>pendiente</span>`;
   const rows=r.ing.map(x=>{const q=x.fixed?x.q:x.q*multT;
-    if(x.t)return `<tr>${L===1&&fd?`<td class="t">${x.f===undefined?'<span class="ph ico"><svg viewBox="0 0 40 40"><use href="#hielo"/></svg></span>':ph(x.f)}</td>`:''}<td class="n">${x.n}${x.sub?`<small>${x.sub(multT)}</small>`:''}</td><td class="qty${/\d/.test(x.t)?'':' w'}">${x.t}</td></tr>`;
+    const tc=L===1&&fd?`<td class="t">${x.f===undefined?`<span class="ph ico"><svg viewBox="0 0 40 40"><use href="#${x.ico||'hielo'}"/></svg></span>`:ph(x.f)}</td>`:'';
+    if(x.t==='?')return `<tr>${tc}<td class="n">${x.n}${x.sub?`<small>${x.sub(multT)}</small>`:''}</td><td class="qty pd">medida<br>pendiente</td></tr>`;
+    if(x.t)return `<tr>${tc}<td class="n">${x.n}${x.sub?`<small>${x.sub(multT)}</small>`:''}</td><td class="qty${/\d/.test(x.t)?'':' w'}">${x.t}</td></tr>`;
     return `<tr>${L===1&&fd?`<td class="t">${x.f===undefined?`<span class="ph pend">foto<br>pendiente</span>`:ph(x.f)}</td>`:''}<td class="n">${x.n}${x.sub?`<small>${x.sub(multT)}</small>`:''}</td><td class="qty">${x.pre?`<i class="qx">${x.pre}</i>`:''}${fmtQ(q)}${x.u?' '+x.u:''}${x.post?`<i class="qx">${x.post}</i>`:''}</td></tr>`}).join('');
   app.innerHTML=`<article class="view trago" aria-labelledby="dn">
     <div class="hero"><img src="${r.hero}" alt="${r.name}"${r.heroPos?` style="object-position:${r.heroPos}"`:''}></div>
