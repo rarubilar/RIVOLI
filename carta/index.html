@@ -405,19 +405,19 @@ const RECETAS={
    {n:'Amargo de angostura',q:2,u:'gotas',fixed:1,sub:m=>'por vaso, ya servido'}],
   steps:['En la licuadora: 3 hielos, preparado de pisco sour y ½ cuchara de clara de huevo.','Licuar 1 minuto.','Servir en el vaso.','Agregar 2 gotas de amargo de angostura.']},
  'Ramazzotti Tradicional':{id:'ramazzotti',sec:'aperitivi',cat:0,name:'Ramazzotti',
-  hero:'../assets/tragos/ramazzotti/copa.jpg',heroPos:'center 30%',
+  hero:'../assets/tragos/ramazzotti/hero.jpg',
   facts:[['Sabor','Frutal, burbujeante'],['Familia','Spritz'],['Estilo','Largo, en copa']],
   serv:[['vino','Copa Ramazzotti',null,'copa'],['hielo','Hielo hasta arriba'],['cuchara','Cuchara larga',null,'cuchara']],
   ing:[
    {n:'Hielo',sub:m=>'hasta arriba de la copa',t:'llena'},
-   {n:'Ramazzotti Rosato',sub:m=>'un cuarto de la copa',t:'25%',f:'',fn:'Ramazzotti'},
+   {n:'Ramazzotti Rosato',sub:m=>'un cuarto de la copa',t:'25%',f:'ramazzotti',fn:'Ramazzotti'},
    {n:'Espumante brut',sub:m=>'Undurraga Brut',t:'30%',f:'brut',fn:'Brut'},
    {n:'Mezcla de frutos rojos',q:2,u:'cdas',sub:m=>'cuchara larga',f:'frutos',fn:'Frutos rojos'},
    {n:'Agua con gas',sub:m=>'+ jugo de frutos rojos, para el color',t:'completar',f:'agua',fn:'Agua con gas'},
-   {n:'Limón deshidratado',q:1,u:'rodaja',f:'',fn:'Limón'},
-   {n:'Bombilla negra',q:1,f:'',fn:'Bombilla'}],
+   {n:'Limón deshidratado',q:1,u:'rodaja',f:'limon',fn:'Limón'},
+   {n:'Bombilla negra',q:1,f:'bombilla',fn:'Bombilla'}],
   fotoDir:'../assets/tragos/ramazzotti/',
-  steps:[['Llenar la copa con hielo hasta arriba.',['copa']],['Agregar Ramazzotti hasta un cuarto de la copa.',['']],['Agregar espumante brut (30%).',['brut']],['Agregar 2 cucharas largas de mezcla de frutos rojos.',['frutos','cuchara']],['Completar hasta arriba con agua con gas y un chorrito del jugo de frutos rojos para el color.',['agua']],['Decorar con una rodaja de limón deshidratada, poner la bombilla negra y servir.',['','']]]},
+  steps:[['Llenar la copa con hielo hasta arriba.',['copa']],['Agregar Ramazzotti hasta un cuarto de la copa.',['ramazzotti']],['Agregar espumante brut (30%).',['brut']],['Agregar 2 cucharas largas de mezcla de frutos rojos.',['frutos','cuchara']],['Completar hasta arriba con agua con gas y un chorrito del jugo de frutos rojos para el color.',['agua']],['Decorar con una rodaja de limón deshidratada, poner la bombilla negra y servir.',['limon','bombilla']]]},
  'Limonada':{id:'limonada',sec:'jugos',cat:0,name:'Limonada',
   hero:'../assets/carta/jugos.jpg',heroPos:'center 70%',
   facts:[['Sabor','Ácida, fresca'],['Familia','Limonadas'],['Estilo','Largo, sin alcohol']],
@@ -428,7 +428,7 @@ const RECETAS={
 };
 const REC_ID=Object.fromEntries(Object.values(RECETAS).map(r=>[r.id,r]));
 /* fotos por trago (nombre exacto → archivo en assets/tragos). Las que faltan muestran la copa dibujada */
-const FOTOS={'Ramazzotti Tradicional':'ramazzotti/copa.jpg','Aperol Spritz':'aperol-spritz.jpg','Orange Spritz':'orange-spritz.jpg','Pisco Sour':'pisco-sour.jpg?v=2','Limonada':'limonada.jpg'};
+const FOTOS={'Ramazzotti Tradicional':'ramazzotti/card.jpg','Aperol Spritz':'aperol-spritz.jpg','Orange Spritz':'orange-spritz.jpg','Pisco Sour':'pisco-sour.jpg?v=2','Limonada':'limonada.jpg'};
 const IMG_LISTA=['aperitivi','mocktails','birre','jugos','digestivi','vinos','caffe','bases'];
 const IMG_POS={mocktails:'100%',jugos:'100%',digestivi:'100%',caffe:'35%',bases:'80%'};
 
