@@ -412,14 +412,14 @@ const RECETAS={
   serv:[['vino','Copa Ramazzotti',null,'copa'],['hielo','Hielo hasta arriba'],['cuchara','Cuchara larga',null,'cuchara']],
   ing:[
    {n:'Hielo',sub:m=>'hasta arriba de la copa',t:'llena'},
-   {n:'Ramazzotti Rosato',sub:m=>'≈ un cuarto de la copa',oz:1.5,f:'ramazzotti',fn:'Ramazzotti'},
+   {n:'Ramazzotti Rosato',oz:2,f:'ramazzotti',fn:'Ramazzotti'},
    {n:'Espumante brut',sub:m=>'Undurraga Brut',oz:2,f:'brut',fn:'Brut'},
    {n:'Mezcla de frutos rojos',q:2,u:'cdas',sub:m=>'cuchara larga',f:'frutos',fn:'Frutos rojos'},
    {n:'Agua con gas',sub:m=>'+ jugo de frutos rojos, para el color',t:'completar',f:'agua',fn:'Agua con gas'},
    {n:'Limón deshidratado',q:1,u:'rodaja',f:'limon',fn:'Limón'},
    {n:'Bombilla negra',q:1,f:'bombilla',fn:'Bombilla'}],
   fotoDir:'../assets/tragos/ramazzotti/',
-  steps:[['Llenar la copa con hielo hasta arriba.',['copa']],['Agregar 1½ oz de Ramazzotti (2 dedos).',['ramazzotti']],['Agregar 2 oz de espumante brut (2⅔ dedos).',['brut']],['Agregar 2 cucharas largas de mezcla de frutos rojos.',['frutos','cuchara']],['Completar hasta arriba con agua con gas y un chorrito del jugo de frutos rojos para el color.',['agua']],['Decorar con una rodaja de limón deshidratada, poner la bombilla negra y servir.',['limon','bombilla']]]},
+  steps:[['Llenar la copa con hielo hasta arriba.',['copa']],['Agregar 2 oz de Ramazzotti (2⅔ dedos).',['ramazzotti']],['Agregar 2 oz de espumante (2⅔ dedos).',['brut']],['Agregar 2 cucharas largas de mezcla de frutos rojos.',['frutos','cuchara']],['Completar hasta arriba con agua con gas y un chorrito del jugo de frutos rojos para el color.',['agua']],['Decorar con una rodaja de limón deshidratada, poner la bombilla negra y servir.',['limon','bombilla']]]},
  'Tequila Margarita':{id:'margarita',sec:'aperitivi',cat:6,name:'Tequila Margarita',
   hero:'../assets/tragos/margarita-hero.jpg',
   facts:[['Sabor','Cítrico'],['Familia','Margarita'],['Estilo','Corto, en copa']],
@@ -598,7 +598,7 @@ const DEDO=.75;
 const BC={gin:'#e3e9ec',mara:'#e9b13c',limon:'#e6e98f',jeng:'#d8b47e',esp:'#f2e09a',ape:'#d9542b',pisco:'#efe7d2',goma:'#f1ece2',clara:'#ddd3bd',ron:'#ece6d4',mango:'#f0a43a',frut:'#e0566b'};
 const BUILD={
  'ramazzotti':()=>({only:1,g:'wine',gl:'LA COPA',unit:'DEDOS',ice:7,how:['Decorar','y servir'],
-  cap:6.4,glass:[['Ramazzotti',1.5,'#e7a0a6'],['Brut',2,'#f2e6b8'],['Frutos rojos',.45,'#8e2436',.8,'2 cdas'],['Agua con gas',2.1,'#f7d9dc',null,'completar']],
+  cap:6.9,glass:[['Ramazzotti',2,'#e7a0a6'],['Espumante',2,'#f2e6b8'],['Frutos rojos',.45,'#8e2436',.8,'2 cdas'],['Agua con gas',2.1,'#f7d9dc',null,'completar']],
   extra:[['Rodaja de limón','1'],['Bombilla negra','1']]}),
  'pisco-sour':()=>({tool:'jug',g:'kero',gl:'EL VASO',unit:'MEDIDA',ice:0,noIce:1,vIce:3,how:['Licuar 1 minuto','y servir'],
   cap:5.2,extra:[['Clara de huevo','½ cda']],v:[['Preparado\nPisco Sour',5.5,BC.pisco,1.3,'hasta 250 ml']],
