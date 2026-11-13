@@ -289,6 +289,29 @@ main{padding-block:var(--s4) var(--s6)}
 .pend{font-family:var(--f-cap);font-size:.6rem;letter-spacing:.14em;color:#a39a8a;white-space:nowrap}
 .empty{border:1px dashed #e2d6bd;border-radius:var(--r);padding:var(--s4) var(--s3);text-align:center;color:#6b737a;font-style:italic}
 .hint{font-size:.85rem;color:#a39a8a;text-align:center;font-style:italic;margin-top:var(--s3)}
+/* fotos de ingredientes (3 formas en prueba: ?l=1|2|3) */
+.trago .ph{display:block;border-radius:6px;overflow:hidden;background:var(--tint);border:1px solid var(--line);position:relative}
+.trago .ph img{width:100%;height:100%;object-fit:cover;display:block}
+.trago .ph.pend{border-style:dashed;border-color:var(--gold-soft);display:grid;place-items:center;font-family:var(--f-cap);font-size:.48rem;letter-spacing:.14em;color:#a39a8a;text-align:center;line-height:1.4;text-transform:uppercase}
+/* forma 1: foto en cada fila */
+.trago .ing.cf col.c-t{width:64px}.trago .ing.cf col.c-n{width:auto}.trago .ing.cf col.c-q{width:30%}.trago .ing.cf td.t{padding-right:12px}
+.trago .qty.w{font-size:1.15rem}
+.trago .ing.cf .ph{width:48px;height:60px}
+.trago .cf .ph.pend{font-size:.4rem;letter-spacing:.06em}
+.trago .ph.ico{display:grid;place-items:center;color:var(--gold)}.trago .ph.ico svg{width:30px;height:30px}
+.trago .dos .ph.pend{font-size:0}.trago .dos .ph.pend::after{content:"—";font-size:.8rem}
+.trago .serv.cf div .ph{width:48px;height:60px}.trago .serv.cf svg{height:60px}
+/* forma 2: mise en place */
+.trago .mise{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--s2)}
+.trago .mise figure{margin:0;display:grid;gap:var(--s1)}
+.trago .mise .ph{aspect-ratio:4/5}
+.trago .mise figcaption{font-size:.78rem;line-height:1.15;text-align:center;color:var(--muted)}
+/* forma 3: pasos con foto */
+.trago .steps.cf{gap:var(--s3)}
+.trago .steps.cf li{grid-template-columns:32px minmax(0,1fr) 72px;align-items:center}
+.trago .steps.cf li .ph{width:72px;height:90px}
+.trago .steps.cf li .dos{display:grid;grid-template-columns:1fr 1fr;gap:2px;width:72px;height:90px}
+.trago .steps.cf li .dos .ph{width:auto;height:90px}
 </style>
 </head>
 <body>
@@ -315,6 +338,8 @@ main{padding-block:var(--s4) var(--s6)}
   <symbol id="coupe" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 10c1 9 7 13 14 13s13-4 14-13zM20 23v11M13 35h14"/></g></symbol>
   <symbol id="alto" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 4h16l-1 32H13z"/></g></symbol>
   <symbol id="birra" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 8h16v26H10zM26 13h5v14h-5M10 13h16"/></g></symbol>
+  <symbol id="hielo" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><rect x="7" y="17" width="13" height="13" rx="2" transform="rotate(-10 13 23)"/><rect x="20" y="12" width="13" height="13" rx="2" transform="rotate(12 26 18)"/><rect x="15" y="4" width="10" height="10" rx="2" transform="rotate(4 20 9)"/></g></symbol>
+  <symbol id="cuchara" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 4l18 24"/><path d="M11 8l2-1M14 12l2-1M17 16l2-1M20 20l2-1" stroke-width="1"/><ellipse cx="29" cy="32" rx="4" ry="6" transform="rotate(-37 29 32)"/></g></symbol>
   <symbol id="vino" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 4h14c0 12-3 16-7 16s-7-4-7-16zM20 20v13M14 35h12"/></g></symbol>
   <symbol id="cafe" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 14h18v10a7 7 0 0 1-7 7h-4a7 7 0 0 1-7-7zM27 17h3a3 3 0 0 1 0 6h-3M15 6v4M20 5v5"/></g></symbol>
   <symbol id="digest" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 6h10M16 6v8l-3 4v16h14V18l-3-4V6"/></g></symbol>
@@ -379,6 +404,20 @@ const RECETAS={
    {n:'Clara de huevo',q:.5,u:'cda',sub:m=>'cuchara de té'},
    {n:'Amargo de angostura',q:2,u:'gotas',fixed:1,sub:m=>'por vaso, ya servido'}],
   steps:['En la licuadora: 3 hielos, preparado de pisco sour y ½ cuchara de clara de huevo.','Licuar 1 minuto.','Servir en el vaso.','Agregar 2 gotas de amargo de angostura.']},
+ 'Ramazzotti Tradicional':{id:'ramazzotti',sec:'aperitivi',cat:0,name:'Ramazzotti',
+  hero:'../assets/tragos/ramazzotti/copa.jpg',heroPos:'center 30%',
+  facts:[['Sabor','Frutal, burbujeante'],['Familia','Spritz'],['Estilo','Largo, en copa']],
+  serv:[['vino','Copa Ramazzotti',null,'copa'],['hielo','Hielo hasta arriba'],['cuchara','Cuchara larga',null,'cuchara']],
+  ing:[
+   {n:'Hielo',sub:m=>'hasta arriba de la copa',t:'llena'},
+   {n:'Ramazzotti Rosato',sub:m=>'un cuarto de la copa',t:'25%',f:'',fn:'Ramazzotti'},
+   {n:'Espumante brut',sub:m=>'Undurraga Brut',t:'30%',f:'brut',fn:'Brut'},
+   {n:'Mezcla de frutos rojos',q:2,u:'cdas',sub:m=>'cuchara larga',f:'frutos',fn:'Frutos rojos'},
+   {n:'Agua con gas',sub:m=>'+ jugo de frutos rojos, para el color',t:'completar',f:'agua',fn:'Agua con gas'},
+   {n:'Limón deshidratado',q:1,u:'rodaja',f:'',fn:'Limón'},
+   {n:'Bombilla negra',q:1,f:'',fn:'Bombilla'}],
+  fotoDir:'../assets/tragos/ramazzotti/',
+  steps:[['Llenar la copa con hielo hasta arriba.',['copa']],['Agregar Ramazzotti hasta un cuarto de la copa.',['']],['Agregar espumante brut (30%).',['brut']],['Agregar 2 cucharas largas de mezcla de frutos rojos.',['frutos','cuchara']],['Completar hasta arriba con agua con gas y un chorrito del jugo de frutos rojos para el color.',['agua']],['Decorar con una rodaja de limón deshidratada, poner la bombilla negra y servir.',['','']]]},
  'Limonada':{id:'limonada',sec:'jugos',cat:0,name:'Limonada',
   hero:'../assets/carta/jugos.jpg',heroPos:'center 70%',
   facts:[['Sabor','Ácida, fresca'],['Familia','Limonadas'],['Estilo','Largo, sin alcohol']],
@@ -389,7 +428,7 @@ const RECETAS={
 };
 const REC_ID=Object.fromEntries(Object.values(RECETAS).map(r=>[r.id,r]));
 /* fotos por trago (nombre exacto → archivo en assets/tragos). Las que faltan muestran la copa dibujada */
-const FOTOS={'Aperol Spritz':'aperol-spritz.jpg','Orange Spritz':'orange-spritz.jpg','Pisco Sour':'pisco-sour.jpg?v=2','Limonada':'limonada.jpg'};
+const FOTOS={'Ramazzotti Tradicional':'ramazzotti/copa.jpg','Aperol Spritz':'aperol-spritz.jpg','Orange Spritz':'orange-spritz.jpg','Pisco Sour':'pisco-sour.jpg?v=2','Limonada':'limonada.jpg'};
 const IMG_LISTA=['aperitivi','mocktails','birre','jugos','digestivi','vinos','caffe','bases'];
 const IMG_POS={mocktails:'100%',jugos:'100%',digestivi:'100%',caffe:'35%',bases:'80%'};
 
@@ -530,6 +569,9 @@ const DEDO=.75;
 /* ---------- cómo se arma: diagrama de capas ---------- */
 const BC={gin:'#e3e9ec',mara:'#e9b13c',limon:'#e6e98f',jeng:'#d8b47e',esp:'#f2e09a',ape:'#d9542b',pisco:'#efe7d2',goma:'#f1ece2',clara:'#ddd3bd',ron:'#ece6d4',mango:'#f0a43a',frut:'#e0566b'};
 const BUILD={
+ 'ramazzotti':()=>({only:1,g:'wine',gl:'LA COPA',unit:'PROPORCIÓN',ice:7,how:['Decorar','y servir'],
+  cap:6.05,glass:[['Ramazzotti',1.5,'#e7a0a6',null,'25%'],['Espumante brut',1.8,'#f2e6b8',null,'30%'],['Frutos rojos',.45,'#8e2436',.8,'2 cdas'],['Agua con gas',1.95,'#f7d9dc',null,'completar']],
+  extra:[['Rodaja de limón','1'],['Bombilla negra','1']]}),
  'pisco-sour':()=>({tool:'jug',g:'kero',gl:'EL VASO',unit:'MEDIDA',ice:0,noIce:1,vIce:3,how:['Licuar 1 minuto','y servir'],
   cap:5.2,extra:[['Clara de huevo','½ cda']],v:[['Preparado\nPisco Sour',5.5,BC.pisco,1.3,'hasta 250 ml']],
   glass:[['Pisco sour',4.55,'#efe7d2',null,'≈ 250 ml'],['Angostura',.1,'drops',.45,'2 gotas']]})
@@ -570,8 +612,8 @@ function bVessel(kind,layers,ice,cap){
  layers.forEach(([nm,oz,col,vz],i)=>{const h=(vz||oz)*BPX;y-=h;fills+=col==='blob'?`<path d="M64 ${y+h*.5-10} c-5 6 -8 10 -8 13 a8 8 0 0 0 16 0 c0 -3 -3 -7 -8 -13z" fill="#f4efe2" stroke="#c9bfa6" stroke-width="1"/>`:col==='drops'?`<rect x="0" y="${y}" width="130" height="${h}" fill="#f7f1e4"/><g fill="#9b3b2a"><ellipse cx="54" cy="${y+h*.6}" rx="4.5" ry="2"/><ellipse cx="76" cy="${y+h*.5}" rx="3.8" ry="1.7"/></g>`:`<rect x="0" y="${y}" width="130" height="${h}" fill="${col}"/>`;
   if(i<layers.length-1)lines+=`<line x1="0" x2="130" y1="${y}" y2="${y}" stroke="#1f262d" stroke-width="1" stroke-dasharray="3 2"/>`;mids.push(y+h/2)});
  const IP=[[30,26,12],[64,30,-10],[44,52,18],[74,56,0],[24,58,0],[54,80,-14],[84,84,8]];
- const capMk=cap?`<g font-family="Cinzel,serif" font-size="11" fill="#a39a8a"><line x1="30" x2="42" y1="14" y2="14" stroke="#a39a8a"/><text x="46" y="14" dominant-baseline="central">2 L</text></g>`:'';
- const iceSvg=ice&&cap?`<g fill="#fff" fill-opacity=".55" stroke="#b9c6cc" stroke-width="1">${[[34,-6],[56,8],[78,-4]].slice(0,ice).map(([x,r])=>`<rect x="${x}" y="${bot-20}" width="16" height="16" rx="2.5" transform="rotate(${r} ${x+8} ${bot-12})"/>`).join('')}</g>`:ice?`<g fill="#fff" fill-opacity=".5" stroke="#b9c6cc" stroke-width="1">${IP.slice(0,ice).map(([x,d,r])=>`<rect x="${x}" y="${bot-d-22}" width="22" height="22" rx="3" transform="rotate(${r} ${x+11} ${bot-d-11})"/>`).join('')}</g>`:'';
+ const capMk=cap&&kind==='jug'?`<g font-family="Cinzel,serif" font-size="11" fill="#a39a8a"><line x1="30" x2="42" y1="14" y2="14" stroke="#a39a8a"/><text x="46" y="14" dominant-baseline="central">2 L</text></g>`:'';
+ const iceSvg=ice&&cap&&kind==='jug'?`<g fill="#fff" fill-opacity=".55" stroke="#b9c6cc" stroke-width="1">${[[34,-6],[56,8],[78,-4]].slice(0,ice).map(([x,r])=>`<rect x="${x}" y="${bot-20}" width="16" height="16" rx="2.5" transform="rotate(${r} ${x+8} ${bot-12})"/>`).join('')}</g>`:ice?`<g fill="#fff" fill-opacity=".5" stroke="#b9c6cc" stroke-width="1">${IP.slice(0,ice).map(([x,d,r])=>{d=d*Math.max(1,(H-60)/90);return `<rect x="${x}" y="${bot-d-22}" width="22" height="22" rx="3" transform="rotate(${r} ${x+11} ${bot-d-11})"/>`}).join('')}</g>`:'';
  return {svg:`<defs><clipPath id="${id}"><path d="${shape}"/></clipPath></defs><g clip-path="url(#${id})">${fills}${lines}${iceSvg}</g><path d="${outline}" fill="none" stroke="#1f262d" stroke-width="2"/>${extra}${capMk}`,H,foot,top,mids,fillTop:bot-tot*BPX,bot,rx,rxAt};
 }
 function bBlock(kind,layers,Y,s,ice,inline,cap){
@@ -599,6 +641,18 @@ function iceRow(y,n){
 function buildSVG(id,k){
  if(!BUILD[id])return '';
  const b=BUILD[id](k),tool=b.tool==='jug'?'LICUADORA':'COCTELERA';
+ const row=(ey,nm,val)=>`<text x="${BNX}" y="${ey}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${nm}</text><text x="${BW}" y="${ey}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="12" fill="#8a6a32">${val}</text>`;
+ if(b.only){ /* se arma directo en la copa */
+  let o=`<text x="0" y="14" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">I · EN ${b.gl}</text><text x="${BW}" y="14" text-anchor="end" font-family="Cinzel,serif" font-size="10" letter-spacing="1.5" fill="#a39a8a">${b.unit}</text>`;
+  o+=row(48,'Hielo','hasta arriba');
+  const c=bBlock(b.g,b.glass,72,.75,b.ice,false,b.cap);o+=c.out;
+  let y;
+  y=c.end+22;o+=`<line x1="${BNX-80}" y1="${y}" x2="${BW}" y2="${y}" stroke="#eee9e0"/>`;y+=18;
+  o+=`<line x1="64" y1="${y+2}" x2="64" y2="${y+36}" stroke="#8a6a32" stroke-width="1.4"/><path d="M58 ${y+30} L64 ${y+38} L70 ${y+30}" fill="none" stroke="#8a6a32" stroke-width="1.4"/><text font-family="'Instrument Serif',serif" font-style="italic" font-size="16" fill="#6b737a"><tspan x="${BNX}" y="${y+9.5}" dominant-baseline="central">${b.how[0]}</tspan><tspan x="${BNX}" y="${y+28.5}" dominant-baseline="central">${b.how[1]}</tspan></text>`;
+  y+=56;o+=`<line x1="${BNX-80}" y1="${y}" x2="${BW}" y2="${y}" stroke="#eee9e0"/>`;y+=26;
+  b.extra.forEach(([nm,val])=>{o+=row(y,nm,val);y+=30});
+  return `<section class="build" aria-label="Cómo se arma"><svg viewBox="0 0 ${BW} ${y-8}" role="img" aria-label="Diagrama: capas en la copa">${o}</svg></section>`;
+ }
  let out=`<text x="0" y="14" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">I · EN LA ${tool}</text><text x="${BW}" y="14" text-anchor="end" font-family="Cinzel,serif" font-size="10" letter-spacing="1.5" fill="#a39a8a">${b.unit||'DEDOS'}</text>`;
  const a=bBlock(b.tool,b.v,30,.65,b.vIce,true,b.cap);out+=a.out;
  const clRow=(ey,nm,val)=>`<text x="${BNX}" y="${ey}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${nm}</text><text x="${BW}" y="${ey}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="12" fill="#8a6a32">${val}</text>`;
@@ -632,8 +686,11 @@ function renderTrago(r){
   hLupa('#'+r.id);
   const V=r.variants?r.variants[Math.min(varT,r.variants.length-1)]:null,rr=Object.assign({},r,V&&V.ing?{ing:V.ing,serv:V.serv||r.serv,steps:V.steps||r.steps}:{});
   r=rr;
+  const fd=r.fotoDir||'',L=+(new URLSearchParams(location.search).get('l'))||(fd?1:0);
+  const ph=(f,lab)=>f?`<span class="ph"><img src="${fd}${f}.jpg" alt="" loading="lazy"></span>`:`<span class="ph pend">foto<br>pendiente</span>`;
   const rows=r.ing.map(x=>{const q=x.fixed?x.q:x.q*multT;
-    return `<tr><td class="n">${x.n}${x.sub?`<small>${x.sub(multT)}</small>`:''}</td><td class="qty">${x.pre?`<i class="qx">${x.pre}</i>`:''}${fmtQ(q)}${x.u?' '+x.u:''}${x.post?`<i class="qx">${x.post}</i>`:''}</td></tr>`}).join('');
+    if(x.t)return `<tr>${L===1&&fd?`<td class="t">${x.f===undefined?'<span class="ph ico"><svg viewBox="0 0 40 40"><use href="#hielo"/></svg></span>':ph(x.f)}</td>`:''}<td class="n">${x.n}${x.sub?`<small>${x.sub(multT)}</small>`:''}</td><td class="qty${/\d/.test(x.t)?'':' w'}">${x.t}</td></tr>`;
+    return `<tr>${L===1&&fd?`<td class="t">${x.f===undefined?`<span class="ph pend">foto<br>pendiente</span>`:ph(x.f)}</td>`:''}<td class="n">${x.n}${x.sub?`<small>${x.sub(multT)}</small>`:''}</td><td class="qty">${x.pre?`<i class="qx">${x.pre}</i>`:''}${fmtQ(q)}${x.u?' '+x.u:''}${x.post?`<i class="qx">${x.post}</i>`:''}</td></tr>`}).join('');
   app.innerHTML=`<article class="view trago" aria-labelledby="dn">
     <div class="hero"><img src="${r.hero}" alt="${r.name}"${r.heroPos?` style="object-position:${r.heroPos}"`:''}></div>
     <div class="title"><h1 id="dn">${r.name}${r.badge?`<svg class="corona" viewBox="0 0 40 40" role="img" aria-label="Trago popular"><use href="#${r.badge[0]}"/></svg>`:''}</h1></div>
@@ -643,12 +700,13 @@ function renderTrago(r){
       ${!r.ing.length?`<div class="pendr"><span class="cap">Receta por cargar</span><p>Estamos armando esta receta con la barra.</p></div></section>`:''}
       ${r.ing.length?`<div class="recipe">
         <div class="rtop sut"><span class="cap">${multT} ${multT>1?'tragos':'trago'}</span><div class="mult" role="group" aria-label="Cantidad">${[1,2,4].map(m=>`<button data-m="${m}" aria-pressed="${m===multT}">×${m}</button>`).join('')}</div></div>
-        <div class="serv">${r.serv.map(x=>`<div><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#${x[0]}"/></svg><span>${x[1]}</span></div>`).join('')}</div>
-        <table class="ing"><colgroup><col class="c-n"><col class="c-q"></colgroup><tbody>${rows}</tbody></table>
+        ${L===2&&fd?`<div class="mise">${[['copa','Copa'],...r.ing.filter(x=>x.fn).map(x=>[x.f,x.fn]),['cuchara','Cuchara larga']].map(([f,n])=>`<figure>${ph(f)}<figcaption>${n}</figcaption></figure>`).join('')}</div>`:''}
+        <div class="serv${L===1&&fd?' cf':''}"${L===2&&fd?' hidden':''}>${r.serv.map(x=>`<div>${L===1&&fd&&x[3]?ph(x[3]):`<svg viewBox="0 0 40 40" aria-hidden="true"><use href="#${x[0]}"/></svg>`}<span>${x[1]}</span></div>`).join('')}</div>
+        <table class="ing${L===1&&fd?' cf':''}"><colgroup>${L===1&&fd?'<col class="c-t">':''}<col class="c-n"><col class="c-q"></colgroup><tbody>${rows}</tbody></table>
       </div></section>
     `:''}${r.ing.length?`    <section class="rblk" aria-labelledby="ph"><h2 class="rhead" id="ph">Pasos</h2>
       ${buildSVG(r.id)}
-      <ol class="steps">${r.steps.map(x=>`<li><span>${x}</span></li>`).join('')}</ol>
+      <ol class="steps${L===3&&fd?' cf':''}">${r.steps.map(x=>{const[t,fs]=Array.isArray(x)?x:[x,[]];return `<li><span>${t}</span>${L===3&&fd?(fs.length>1?`<span class="dos">${fs.map(f=>ph(f)).join('')}</span>`:ph(fs[0])):''}</li>`}).join('')}</ol>
     </section>`:''}
   </article>`;
   app.querySelectorAll('.vsel button').forEach(b=>b.addEventListener('click',()=>{varT=+b.dataset.v;const y=scrollY;renderTrago(R0);scrollTo(0,y)}));
