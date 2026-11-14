@@ -672,7 +672,7 @@ function bVessel(kind,layers,ice,cap,salt){
   shape=`M2 0 C4 ${H*.42} 34 ${H*.46} 42 ${H*.52} C44 ${H*.8} 56 ${bot} 64 ${bot} C72 ${bot} 84 ${H*.8} 86 ${H*.52} C94 ${H*.46} 124 ${H*.42} 126 0 Z`;
   outline=`M1 -2 C3 ${H*.44} 33 ${H*.48} 40 ${H*.53} C42 ${H*.82} 55 ${bot+3} 64 ${bot+3} C73 ${bot+3} 86 ${H*.82} 88 ${H*.53} C95 ${H*.48} 125 ${H*.44} 127 -2`;foot=46;top=6;rx=118;
   rxAt=y=>y<H*.46?124-(y/(H*.46))*30:86-((y-H*.5)/(bot-H*.5))*16;
-  extra=`<path d="M64 ${bot+3} V${bot+40} M42 ${bot+44} H86" stroke="#1f262d" stroke-width="2"/>`+(salt?`<rect x="-2" y="-6" width="132" height="7" rx="3.5" fill="#fff" stroke="#b8b2a6" stroke-width="1"/>`:'');
+  extra=`<path d="M64 ${bot+3} V${bot+40} M42 ${bot+44} H86" stroke="#1f262d" stroke-width="2"/>`
  }else if(kind==='kero'){
   shape=`M12 0 L116 0 L100 ${bot} L28 ${bot} Z`;outline=`M12 0 L28 ${bot} M116 0 L100 ${bot}`;foot=16;top=6;rx=110;rxAt=y=>116-16*(y/bot);
   extra=`<path d="M28 ${bot} L100 ${bot} L99 ${bot+14} L29 ${bot+14} Z" fill="#e8edef" stroke="#1f262d" stroke-width="2"/>`;
@@ -681,6 +681,7 @@ function bVessel(kind,layers,ice,cap,salt){
   outline=`M4 -2 C6 ${H*.85} 36 ${bot+4} 64 ${bot+4} C92 ${bot+4} 122 ${H*.85} 124 -2`;foot=46;top=6;rx=118;
   extra=`<path d="M64 ${bot+4} V${bot+40} M42 ${bot+44} H86" stroke="#1f262d" stroke-width="2"/>`;
  }
+ if(salt){const R={marg:[1,127],kero:[12,116],balloon:[17,111],coupe:[4,124],shaker:[28,100]}[kind]||[4,124];extra+=`<rect x="${R[0]-3}" y="-6" width="${R[1]-R[0]+6}" height="7" rx="3.5" fill="#fff" stroke="#b8b2a6" stroke-width="1"/>`;}
  let y=bot,fills='',lines='',mids=[];
  layers.forEach(([nm,oz,col,vz],i)=>{const h=(vz||oz)*BPX;y-=h;fills+=col==='blob'?`<path d="M64 ${y+h*.5-10} c-5 6 -8 10 -8 13 a8 8 0 0 0 16 0 c0 -3 -3 -7 -8 -13z" fill="#f4efe2" stroke="#c9bfa6" stroke-width="1"/>`:col==='drops'?`<rect x="0" y="${y}" width="130" height="${h}" fill="#f7f1e4"/><g fill="#9b3b2a"><ellipse cx="54" cy="${y+h*.6}" rx="4.5" ry="2"/><ellipse cx="76" cy="${y+h*.5}" rx="3.8" ry="1.7"/></g>`:`<rect x="0" y="${y}" width="130" height="${h}" fill="${col}"/>`;
   if(i<layers.length-1)lines+=`<line x1="0" x2="130" y1="${y}" y2="${y}" stroke="#1f262d" stroke-width="1" stroke-dasharray="3 2"/>`;mids.push(y+h/2)});
@@ -745,7 +746,7 @@ function buildSVG(id,k){
  y+=56;out+=`<line x1="${BNX-80}" y1="${y}" x2="${BW}" y2="${y}" stroke="#eee9e0"/>`;y+=28;
  out+=`<text x="0" y="${y}" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">II · EN ${b.gl||'LA COPA'}</text>`;
  const c=bBlock(b.g,b.glass,y+16,.75,b.ice,true,null,!!b.rim);out+=c.out;
- if(b.rim){const ry=c.top+15+4,rx=27+.75*128;out+=`<circle cx="${rx}" cy="${ry}" r="2" fill="#8a6a32"/><line x1="${rx}" y1="${ry}" x2="${BNX-8}" y2="${ry}" stroke="#c9b48a" stroke-width=".9"/>`+clRow(ry,b.rim[0],b.rim[1]);}
+ if(b.rim){const RR={marg:[1,127],kero:[12,116],balloon:[17,111],coupe:[4,124],shaker:[28,100]}[b.g]||[4,124],ry=c.top+15+4,rx=27+.75*RR[1];out+=`<circle cx="${rx}" cy="${ry}" r="2" fill="#8a6a32"/><line x1="${rx}" y1="${ry}" x2="${BNX-8}" y2="${ry}" stroke="#c9b48a" stroke-width=".9"/>`+clRow(ry,b.rim[0],b.rim[1]);}
  if(!b.noIce){const iy=c.maxLy+36;out+=iceRow(iy,b.ice);c.end=Math.max(c.end,iy+16);}
  return `<section class="build" aria-label="Cómo se arma"><svg viewBox="0 0 ${BW} ${c.end+6}" role="img" aria-label="Diagrama: ingredientes en la ${tool.toLowerCase()} y capas en el vaso">${out}</svg></section>`;
 }
