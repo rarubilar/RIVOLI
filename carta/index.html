@@ -307,6 +307,8 @@ main{padding-block:var(--s4) var(--s6)}
 .prep .p3{display:grid;grid-template-columns:96px 1fr;gap:var(--s3);align-items:center;margin-top:var(--s3)}
 .prep .p3 .phero{width:96px;height:120px;max-height:none;aspect-ratio:auto}
 .prep .p3 .ptitle{text-align:left;margin:0}
+.prep .psub{margin:0;font-style:italic;color:var(--muted);font-size:1.05rem;line-height:1.35}
+.prep .pbuild{margin-top:var(--s5)}
 /* fotos de ingredientes (3 formas en prueba: ?l=1|2|3) */
 .trago .ph{display:block;border-radius:6px;overflow:hidden;background:var(--tint);border:1px solid var(--line);position:relative}
 .trago .ph img{width:100%;height:100%;object-fit:cover;display:block}
@@ -734,24 +736,25 @@ const fmtQ=q=>{const w=Math.floor(q),f=q-w,fr=f>.6?'¾':f>.4?'½':f>.2?'¼':'';r
 let varT=0;
 function renderPrep(r){
   back.setAttribute('href','#'+r.sec);irCat=r.cat;hLupa('#'+r.id);
-  const P=+(new URLSearchParams(location.search).get('p'))||1;
-  const title=`<div class="ptitle"><span class="cap">Preparado · botella ${r.botella}</span><h1 id="dn">${r.name}</h1></div>`;
-  const hero=`<div class="phero"><img src="${r.foto}" alt="Botella de ${r.name}"></div>`;
-  const bar=`<div class="pbar" role="img" aria-label="Proporción">${r.ing.map(i=>`<span style="flex:${i.pct};background:${i.col}">${i.pct}%</span>`).join('')}</div>`;
-  const tabla=`<table class="ing"><colgroup><col class="c-n"><col class="c-q"></colgroup><tbody>${r.ing.map(i=>`<tr><td class="n">${i.n}<small>${i.sub}</small></td><td class="qty">${i.ml} ml${P===3?`<span class="pct">${i.pct}%</span>`:''}</td></tr>`).join('')}</tbody></table>`;
-  const pasos=`<ol class="steps">${r.steps.map(x=>`<li><span>${x}</span></li>`).join('')}</ol>`;
+  const tot=r.ing.reduce((a,x)=>a+x.ml,0),B=256,HB=190,P='M24 92q0-22 26-30V32h30v30q26 8 26 30v150q0 14-14 14H38q-14 0-14-14z';
+  let yb=B,fills='',labs='';
+  r.ing.forEach(x=>{const h=x.ml/tot*HB,y=yb-h,m=y+h/2;yb=y;
+    fills+=`<rect x="0" y="${y}" width="140" height="${h}" fill="${x.col}"/>`+(y>66?`<line x1="0" x2="140" y1="${y}" y2="${y}" stroke="#1f262d" stroke-width="1" stroke-dasharray="3 2"/>`:'');
+    labs+=`<circle cx="104" cy="${m}" r="2" fill="#8a6a32"/><line x1="104" y1="${m}" x2="128" y2="${m}" stroke="#c9b48a" stroke-width=".9"/>
+     <text x="136" y="${m-6}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${x.n}</text>
+     <text x="136" y="${m+14}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-style="italic" font-size="13" fill="#6b737a">${x.sub}</text>
+     <text x="300" y="${m+15}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="13" fill="#8a6a32">${x.ml} ml<tspan font-size="10" fill="#a39a8a" dx="5">${x.pct}%</tspan></text>`});
+  const svg=`<svg viewBox="0 -16 300 290" role="img" aria-label="Botella de ${r.botella}: ${r.ing.map(x=>x.ml+' ml de '+x.n).join(', ')}">
+    <text x="0" y="-2" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">EN LA BOTELLA</text><text x="300" y="-2" text-anchor="end" font-family="Cinzel,serif" font-size="10" letter-spacing="1.5" fill="#a39a8a">${r.botella.replace('L','LITRO')}</text>
+    <defs><clipPath id="pb"><path d="${P}"/></clipPath></defs><g clip-path="url(#pb)">${fills}</g>
+    <path d="${P}" fill="none" stroke="#1f262d" stroke-width="2"/><rect x="46" y="18" width="38" height="14" rx="3" fill="#1f262d"/>${labs}</svg>`;
   const para=`<div class="ppara"><span class="cap">Sirve para</span><div class="pl">${r.para.map(n=>{const R=RECETAS[n],f=findT(n);return `<a href="#${R?R.id:f?f.s.id:'carta'}">${n}</a>`}).join('')}</div></div>`;
-  const tot=r.ing.reduce((a,i)=>a+i.ml,0);let yb=250,lv='';
-  const bot=`<svg viewBox="0 0 200 270" role="img" aria-label="Botella por niveles"><defs><clipPath id="pb"><path d="M24 92q0-22 26-30V32h30v30q26 8 26 30v150q0 14-14 14H38q-14 0-14-14z"/></clipPath></defs>
-   <g clip-path="url(#pb)">${r.ing.map(i=>{const h=i.ml/tot*190,y=yb-h;yb=y;return `<rect x="0" y="${y}" width="140" height="${h}" fill="${i.col}"/>`}).join('')}</g>
-   <path d="M24 92q0-22 26-30V32h30v30q26 8 26 30v150q0 14-14 14H38q-14 0-14-14z" fill="none" stroke="#1f262d" stroke-width="2"/><rect x="46" y="18" width="38" height="14" rx="3" fill="#1f262d"/>
-   ${(()=>{let y=256,o='';r.ing.forEach((i,k)=>{const h=i.ml/tot*190;y-=h;const acc=r.ing.slice(0,k+1).reduce((a,j)=>a+j.ml,0);o+=`<line x1="106" x2="124" y1="${y}" y2="${y}" stroke="#8a6a32"/><text x="128" y="${y}" dominant-baseline="central" font-family="Cinzel,serif" font-size="12" fill="#8a6a32">${acc>=1000?acc/1000+' L':acc+' ml'}</text>`});return o})()}
-  </svg>`;
-  let body;
-  if(P===2)body=`${title}<div class="p2">${hero}${bot}</div><section class="pblk"><h2 class="rhead">Pasos</h2>${tabla}${pasos}</section>${para}`;
-  else if(P===3)body=`<div class="p3">${hero}${title}</div><section class="pblk">${bar}${tabla}${pasos}</section>${para}`;
-  else body=`${hero}${title}<section class="pblk">${bar}${tabla}</section><section class="pblk"><h2 class="rhead">Pasos</h2>${pasos}</section>${para}`;
-  app.innerHTML=`<article class="view trago prep" aria-labelledby="dn">${body}</article>`;
+  app.innerHTML=`<article class="view trago prep" aria-labelledby="dn">
+    <div class="hero"><img src="${r.foto}" alt="Botella de ${r.name}"></div>
+    <div class="title"><h1 id="dn">${r.name}</h1><p class="psub">Preparado en barra utilizado como insumo de varios tragos</p></div>
+    <section class="build pbuild" aria-label="Cómo se prepara">${svg}</section>
+    ${para}
+  </article>`;
 }
 function renderTrago(r){
   if(r.prep)return renderPrep(r);
