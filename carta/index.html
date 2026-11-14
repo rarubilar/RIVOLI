@@ -430,7 +430,7 @@ const RECETAS={
    {n:'Amargo de angostura',q:2,u:'gotas',fixed:1,sub:m=>'por vaso, ya servido'}],
   steps:['En la licuadora: 3 hielos, preparado de pisco sour y ½ cuchara de albúmina.','Licuar 1 minuto.','Servir en el vaso.','Agregar 2 gotas de amargo de angostura.']},
  'Ramazzotti Tradicional':{id:'ramazzotti',sec:'aperitivi',cat:0,name:'Ramazzotti',
-  hero:'../assets/tragos/ramazzotti/hero.jpg',
+  hero:'../assets/tragos/ramazzotti/hero.jpg?v=2',
   facts:[['Sabor','Frutal, burbujeante'],['Familia','Spritz'],['Estilo','Largo, en copa']],
   serv:[['vino','Copa Ramazzotti',null,'copa'],['hielo','Hielo hasta arriba'],['revolver','Revolver al final']],
   ing:[
@@ -444,7 +444,7 @@ const RECETAS={
   fotoDir:'../assets/tragos/ramazzotti/',
   steps:[['Llenar la copa con hielo hasta arriba.',['copa']],['Agregar 2 oz de Ramazzotti (2⅔ dedos).',['ramazzotti']],['Agregar 3 oz de espumante (4 dedos).',['brut']],['Agregar 2 cucharas largas de mezcla de frutos rojos.',['frutos','cuchara']],['Completar hasta arriba con agua con gas y un chorrito del jugo de frutos rojos para el color.',['agua']],['Revolver con cualquier cuchara.',[]],['Decorar con una rodaja de limón deshidratada, poner la bombilla negra y servir.',['limon','bombilla']]]},
  'Tequila Margarita':{id:'margarita',sec:'aperitivi',cat:6,name:'Tequila Margarita',
-  hero:'../assets/tragos/margarita-hero.jpg?v=2',
+  hero:'../assets/tragos/margarita-hero.jpg?v=3',
   facts:[['Sabor','Cítrico'],['Familia','Margarita'],['Estilo','Corto, en copa']],
   fotoDir:'../assets/ingredientes/',
   serv:[['coupe','Copa de abanico',null,'copa-abanico'],['coctelera','Coctelera: batir'],['hielo','Hielo en la coctelera']],
@@ -458,7 +458,7 @@ const RECETAS={
    {n:'Rodaja de limón',q:1,u:'rodaja',ico:'rodaja'}],
   steps:[['Pasar sal por el borde de la copa.',[]],['En la coctelera: hielo, 2 oz de tequila, 1 oz de jugo de limón, 1 oz de triple sec y goma por 4 segundos.',[]],['Batir.',[]],['Servir en la copa de abanico.',[]],['Decorar con una rodaja de limón.',[]]]},
  'Fresco Pasión':{id:'fresco-pasion',sec:'aperitivi',cat:3,name:'Fresco Pasión',
-  hero:'../assets/tragos/fresco-pasion-hero.jpg',
+  hero:'../assets/tragos/fresco-pasion-hero.jpg?v=2',
   facts:[['Sabor','Tropical, ácido'],['Familia','Mojitos'],['Estilo','Largo, con frappé']],
   fotoDir:'../assets/ingredientes/',
   serv:[['birra','Copa de cerveza',null,'copa-cerveza'],['coctelera','Coctelera: batir'],['hielo','Frappé arriba']],
@@ -493,7 +493,7 @@ const RECETAS={
 };
 const REC_ID=Object.fromEntries(Object.values(RECETAS).map(r=>[r.id,r]));
 /* fotos por trago (nombre exacto → archivo en assets/tragos). Las que faltan muestran la copa dibujada */
-const FOTOS={'Pisco Sour en botella':'../preparados/pisco-sour.jpg','Limonada en botella':'../preparados/limonada.jpg','Ramazzotti Tradicional':'ramazzotti/card.jpg','Tequila Margarita':'margarita.jpg?v=2','Fresco Pasión':'fresco-pasion.jpg','Aperol Spritz':'aperol-spritz.jpg','Orange Spritz':'orange-spritz.jpg','Pisco Sour':'pisco-sour.jpg?v=3','Limonada':'limonada.jpg'};
+const FOTOS={'Pisco Sour en botella':'../preparados/pisco-sour.jpg','Limonada en botella':'../preparados/limonada.jpg','Ramazzotti Tradicional':'ramazzotti/card.jpg?v=2','Tequila Margarita':'margarita.jpg?v=3','Fresco Pasión':'fresco-pasion.jpg?v=2','Aperol Spritz':'aperol-spritz.jpg','Orange Spritz':'orange-spritz.jpg','Pisco Sour':'pisco-sour.jpg?v=3','Limonada':'limonada.jpg'};
 const IMG_LISTA=['aperitivi','mocktails','birre','jugos','digestivi','vinos','caffe','bases'];
 const IMG_POS={mocktails:'100%',jugos:'100%',digestivi:'100%',caffe:'35%',bases:'80%'};
 
