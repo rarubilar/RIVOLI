@@ -696,7 +696,8 @@ function bBlock(kind,layers,Y,s,ice,inline,cap,salt){
  const ty=Y+(span-vSpan)/2+vTop,tx=(120-120*s)/2+12,cy=ty+s*(v.fillTop+v.bot)/2;
  let lt=Math.max(Y+10,cy-LH/2);if(lt+LH>Y+span-10)lt=Y+span-10-LH;
  let out=`<g transform="translate(${tx} ${ty}) scale(${s})">${v.svg}</g>`;
- let maxLy=0;const iy=[];layers.forEach((l,i)=>{let y=ty+s*v.mids[i];if(i&&y>iy[i-1]-18)y=iy[i-1]-18;iy.push(y)});
+ let maxLy=0;const iy=[],GP=inline===true?18:+inline||18;layers.forEach((l,i)=>{let y=ty+s*v.mids[i];if(i&&y>iy[i-1]-GP)y=iy[i-1]-GP;iy.push(y)});
+ if(typeof inline==='number'){const mm=layers.reduce((a,l,i)=>a+ty+s*v.mids[i],0)/n,mi=iy.reduce((a,b)=>a+b,0)/n;for(let i=0;i<n;i++)iy[i]+=mm-mi}
  layers.forEach(([nm,oz,,,lab],i)=>{
   const my=ty+s*v.mids[i],mx=tx+s*(v.rxAt?v.rxAt(v.mids[i]):v.rx),ly=inline?iy[i]:lt+(n-1-i)*BGAP;
   const lead=`<line x1="${mx}" y1="${my}" x2="${BNX-8}" y2="${ly}" stroke="#c9b48a" stroke-width=".9"/>`;
@@ -727,7 +728,7 @@ function buildSVG(id,k){
   return `<section class="build" aria-label="Cómo se arma"><svg viewBox="0 0 ${BW} ${y-8}" role="img" aria-label="Diagrama: capas en la copa">${o}</svg></section>`;
  }
  let out=`<text x="0" y="14" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">I · EN LA ${tool}</text><text x="${BW}" y="14" text-anchor="end" font-family="Cinzel,serif" font-size="10" letter-spacing="1.5" fill="#a39a8a">${b.unit||''}</text>`;
- const a=bBlock(b.tool,b.v,30,b.cap?.65:.95,b.vIce,!!b.cap,b.cap);out+=a.out;
+ const a=bBlock(b.tool,b.v,30,b.cap?.65:.95,b.vIce,b.cap?true:30,b.cap);out+=a.out;
  const clRow=(ey,nm,val)=>`<text x="${BNX}" y="${ey}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${nm}</text><text x="${BW}" y="${ey}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="12" fill="#8a6a32">${val}</text>`;
  if(b.cap){ /* licuadora: hielo y clara arriba, alineados con el borde superior; preparado abajo */
   const rows=[];if(b.vIce)rows.push(y=>iceRow(y,b.vIce));(b.extra||[]).forEach(([nm,val])=>rows.push(y=>clRow(y,nm,val)));
