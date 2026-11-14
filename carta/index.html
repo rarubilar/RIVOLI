@@ -761,7 +761,7 @@ function renderPrep(r){
   const para=`<div class="ppara"><span class="cap">Sirve para</span><div class="pl">${r.para.map(n=>{const R=RECETAS[n],f=findT(n);return `<a href="#${R?R.id:f?f.s.id:'carta'}">${n}</a>`}).join('')}</div></div>`;
   app.innerHTML=`<article class="view trago prep" aria-labelledby="dn">
     <div class="hero"><img src="${r.foto}" alt="Botella de ${r.name}"></div>
-    <div class="title"><span class="ro">PREPARADO</span><h1 id="dn">${r.name}</h1><p class="psub">Preparado en barra utilizado como insumo de varios tragos</p></div>
+    <div class="title"><span class="ro">PREPARADO</span><h1 id="dn">${r.name}</h1><p class="psub">Parte del <i lang="fr">mise en place</i>, base para otros tragos</p></div>
     <section class="build pbuild" aria-label="Cómo se prepara">${svg}${r.nota?`<p class="note">${r.nota}</p>`:''}</section>
     ${para}
   </article>`;
