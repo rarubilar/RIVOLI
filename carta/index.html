@@ -383,7 +383,7 @@ const SECCIONES=[
   intro:'Para abrir la comida: spritz burbujeantes, sours cítricos y amargos italianos, antes o con los antipasti.',
   cats:[
    ['Spritz','Burbujeantes y bajos en alcohol. Para la tarde y el aperitivo.',[['Aperol Spritz','Aperol · Cinzano To Spritz · soda'],['Limoncello Spritz','Limoncello · prosecco · soda'],['Orange Spritz','St-Germain · Aperol · maracuyá · soda'],['Lambrusco Spritz','Lambrusco · ginger ale · Aperol'],['Saint Germain Spritz','St-Germain · prosecco · soda'],['Strawberry Limoncello Spritz','Limoncello · frutilla · prosecco'],['Ramazzotti Tradicional','Ramazzotti · prosecco · soda']]],
-   ['Sour','Cítricos y sedosos. El pisco sour es el más pedido de la casa.',[['Pisco Sour','Preparado de pisco sour · clara · angostura'],['Pisco Sour Catedral','Pisco peruano · limón · goma'],['Amaretto Sour','Amaretto · limón · goma'],['Whisky Sour','Whisky · limón · goma'],['Campari Sour','Gin · Cinzano · Campari · limón · goma'],['Penicillin Rivoli','Whisky · limón · miel · jengibre']]],
+   ['Sour','Cítricos y sedosos. El pisco sour es el más pedido de la casa.',[['Pisco Sour','Preparado de pisco sour · albúmina · angostura'],['Pisco Sour Catedral','Pisco peruano · limón · goma'],['Amaretto Sour','Amaretto · limón · goma'],['Whisky Sour','Whisky · limón · goma'],['Campari Sour','Gin · Cinzano · Campari · limón · goma'],['Penicillin Rivoli','Whisky · limón · miel · jengibre']]],
    ['Negroni','Amargos italianos, para antes de comer.',[['Negroni','Gin · vermouth rosso · Campari'],['Negroni Sbagliato','Espumoso · Campari · vermouth rosso'],['Negroni Frenchie','Gin · Campari · vermouth · St-Germain'],['Negroni Rivoli','Gin · Campari · Cynar'],['Negroni Ristretto','Gin · Campari · vermouth · café'],['Campari Tónica','Campari · tónica'],['Campari Naranja','Campari · jugo de naranja']]],
    ['Mojitos','Frescos, con menta y lima. Ideales para la terraza.',[['Mojito Tradicional','Ron · limón · azúcar · menta · soda'],['Mojito Maracuyá','Ron · limón · goma · maracuyá'],['Mojito Frutilla','Ron · limón · goma · frutilla'],['Caipirinha','Cachaza · limón · goma'],['Caipiroska','Vodka · limón · goma'],['Fresco Pasión','Ron · maracuyá · limón'],['Cynar Julep','Gin · Cynar · pomelo · limón · menta']]],
    ['Tónicas','Largos y secos, con tónica o soda.',[['Gin Tonic','Gin Bombay · tónica'],['Gin Tonic Vesuvio','Gin Bombay · limoncello · tónica'],['Vodkatonic','Vodka · tónica'],['Vodka Tonic Grey Goose','Vodka Grey Goose · tónica'],['Disaronno Fizz','Disaronno · limón · tónica'],['Tom Collins','Gin · limón · azúcar · soda']]],
@@ -425,9 +425,9 @@ const RECETAS={
   ing:[
    {n:'Hielo',sub:m=>'cubos, en la licuadora',q:3},
    {n:'Preparado de pisco sour',q:250,u:'ml',pre:'hasta',post:'marca',prep:'Pisco Sour en botella'},
-   {n:'Clara de huevo',q:.5,u:'cda',sub:m=>'cuchara de té'},
+   {n:'Albúmina',q:.5,u:'cda',sub:m=>'cuchara de té'},
    {n:'Amargo de angostura',q:2,u:'gotas',fixed:1,sub:m=>'por vaso, ya servido'}],
-  steps:['En la licuadora: 3 hielos, preparado de pisco sour y ½ cuchara de clara de huevo.','Licuar 1 minuto.','Servir en el vaso.','Agregar 2 gotas de amargo de angostura.']},
+  steps:['En la licuadora: 3 hielos, preparado de pisco sour y ½ cuchara de albúmina.','Licuar 1 minuto.','Servir en el vaso.','Agregar 2 gotas de amargo de angostura.']},
  'Ramazzotti Tradicional':{id:'ramazzotti',sec:'aperitivi',cat:0,name:'Ramazzotti',
   hero:'../assets/tragos/ramazzotti/hero.jpg',
   facts:[['Sabor','Frutal, burbujeante'],['Familia','Spritz'],['Estilo','Largo, en copa']],
@@ -634,7 +634,7 @@ const BUILD={
   cap:7.5,glass:[['Ramazzotti',2,'#e7a0a6'],['Espumante',3,'#f2e6b8'],['Frutos rojos',.45,'#8e2436',.8,'2 cdas'],['Agua con gas',1.7,'#f7d9dc',null,'completar']],
   extra:[['Rodaja de limón','1'],['Bombilla negra','1']]}),
  'pisco-sour':()=>({tool:'jug',g:'kero',gl:'EL VASO',unit:'MEDIDA',ice:0,noIce:1,vIce:3,how:['Licuar 1 minuto','y servir'],
-  cap:5.2,extra:[['Clara de huevo','½ cda']],v:[['Preparado\nPisco Sour',5.5,BC.pisco,1.3,'hasta 250 ml']],
+  cap:5.2,extra:[['Albúmina','½ cda']],v:[['Preparado\nPisco Sour',5.5,BC.pisco,1.3,'hasta 250 ml']],
   glass:[['Pisco sour',4.55,'#efe7d2',null,'≈ 250 ml'],['Angostura',.1,'drops',.45,'2 gotas']]})
 };
 const BPX=20,BGAP=32,BNX=136,BW=300;
