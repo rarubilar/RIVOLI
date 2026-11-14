@@ -443,17 +443,17 @@ const RECETAS={
   fotoDir:'../assets/tragos/ramazzotti/',
   steps:[['Llenar la copa con hielo hasta arriba.',['copa']],['Agregar 2 oz de Ramazzotti (2⅔ dedos).',['ramazzotti']],['Agregar 3 oz de espumante (4 dedos).',['brut']],['Agregar 2 cucharas largas de mezcla de frutos rojos.',['frutos','cuchara']],['Completar hasta arriba con agua con gas y un chorrito del jugo de frutos rojos para el color.',['agua']],['Revolver con cualquier cuchara.',[]],['Decorar con una rodaja de limón deshidratada, poner la bombilla negra y servir.',['limon','bombilla']]]},
  'Tequila Margarita':{id:'margarita',sec:'aperitivi',cat:6,name:'Tequila Margarita',
-  hero:'../assets/tragos/margarita-hero.jpg',
+  hero:'../assets/tragos/margarita-hero.jpg?v=2',
   facts:[['Sabor','Cítrico'],['Familia','Margarita'],['Estilo','Corto, en copa']],
   fotoDir:'../assets/ingredientes/',
   serv:[['coupe','Copa de abanico',null,'copa-abanico'],['coctelera','Coctelera: batir'],['hielo','Hielo en la coctelera']],
   ing:[
    {n:'Tequila El Jimador',sub:m=>'blanco',oz:2,f:'tequila-jimador'},
    {n:'Jugo de limón',sub:m=>'exprimido · botella de tapa roja',oz:1,f:'jugo-limon'},
-   {n:'Triple sec Mitjans',oz:1,f:''},
+   {n:'Triple sec Mitjans',oz:1,f:'triple-sec'},
    {n:'Goma',sub:m=>'botella de tapa blanca',t:'4 seg',f:'goma'},
    {n:'Hielo',sub:m=>'en la coctelera',t:'?'},
-   {n:'Sal',sub:m=>'en el borde de la copa',t:'borde',f:''},
+   {n:'Sal',sub:m=>'en el borde de la copa',t:'borde',f:'sal'},
    {n:'Rodaja de limón',q:1,u:'rodaja',f:''}],
   steps:[['Pasar sal por el borde de la copa.',[]],['En la coctelera: hielo, 2 oz de tequila, 1 oz de jugo de limón, 1 oz de triple sec y goma por 4 segundos.',[]],['Batir.',[]],['Servir en la copa de abanico.',[]],['Decorar con una rodaja de limón.',[]]]},
  'Fresco Pasión':{id:'fresco-pasion',sec:'aperitivi',cat:3,name:'Fresco Pasión',
@@ -492,7 +492,7 @@ const RECETAS={
 };
 const REC_ID=Object.fromEntries(Object.values(RECETAS).map(r=>[r.id,r]));
 /* fotos por trago (nombre exacto → archivo en assets/tragos). Las que faltan muestran la copa dibujada */
-const FOTOS={'Pisco Sour en botella':'../preparados/pisco-sour.jpg','Limonada en botella':'../preparados/limonada.jpg','Ramazzotti Tradicional':'ramazzotti/card.jpg','Tequila Margarita':'margarita.jpg','Fresco Pasión':'fresco-pasion.jpg','Aperol Spritz':'aperol-spritz.jpg','Orange Spritz':'orange-spritz.jpg','Pisco Sour':'pisco-sour.jpg?v=2','Limonada':'limonada.jpg'};
+const FOTOS={'Pisco Sour en botella':'../preparados/pisco-sour.jpg','Limonada en botella':'../preparados/limonada.jpg','Ramazzotti Tradicional':'ramazzotti/card.jpg','Tequila Margarita':'margarita.jpg?v=2','Fresco Pasión':'fresco-pasion.jpg','Aperol Spritz':'aperol-spritz.jpg','Orange Spritz':'orange-spritz.jpg','Pisco Sour':'pisco-sour.jpg?v=2','Limonada':'limonada.jpg'};
 const IMG_LISTA=['aperitivi','mocktails','birre','jugos','digestivi','vinos','caffe','bases'];
 const IMG_POS={mocktails:'100%',jugos:'100%',digestivi:'100%',caffe:'35%',bases:'80%'};
 
@@ -636,7 +636,7 @@ const BUILD={
  'ramazzotti':()=>({only:1,g:'wine',gl:'LA COPA',unit:'DEDOS',ice:7,how:['Decorar','y servir'],
   cap:7.5,glass:[['Ramazzotti',2,'#e7a0a6'],['Espumante',3,'#f2e6b8'],['Frutos rojos',.45,'#8e2436',.8,'2 cdas'],['Agua con gas',1.7,'#f7d9dc',null,'completar']],
   extra:[['Rodaja de limón','1'],['Bombilla negra','1']]}),
- 'margarita':()=>({tool:'shaker',g:'marg',gl:'LA COPA',ice:0,noIce:1,how:['Batir','y servir'],
+ 'margarita':()=>({tool:'shaker',g:'marg',gl:'LA COPA',rim:['Sal','borde'],ice:0,noIce:1,how:['Batir','y servir'],
   v:[['Tequila',2,'#eef1e6'],['Limón',1,BC.limon],['Triple sec',1,'#f3e7c4'],['Goma',.3,BC.goma,.8,'4 seg']],
   glass:[['Margarita',4.3,'#eef0b6',null,'≈ 4 oz']]}),
  'pisco-sour':()=>({tool:'jug',g:'kero',gl:'EL VASO',unit:'MEDIDA',ice:0,noIce:1,vIce:3,how:['Licuar 1 minuto','y servir'],
@@ -652,7 +652,7 @@ function bFingers(oz,yc){
  return s+`<text x="${BW}" y="${yc}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="13" fill="#8a6a32">${frac(Math.round(n*3)/3)}</text>`;
 }
 let bid=0;
-function bVessel(kind,layers,ice,cap){
+function bVessel(kind,layers,ice,cap,salt){
  const id='bv'+(bid++),tot=layers.reduce((a,l)=>a+(l[3]||l[1]),0),H=cap?cap*BPX:tot*BPX+(kind==='kero'||kind==='balloon'||kind==='coupe'||kind==='marg'?0:26),bot=H;
  let shape,outline,extra='',foot,top,rx,rxAt=null;
  if(kind==='jug'){
@@ -671,7 +671,7 @@ function bVessel(kind,layers,ice,cap){
   shape=`M2 0 C4 ${H*.42} 34 ${H*.46} 42 ${H*.52} C44 ${H*.8} 56 ${bot} 64 ${bot} C72 ${bot} 84 ${H*.8} 86 ${H*.52} C94 ${H*.46} 124 ${H*.42} 126 0 Z`;
   outline=`M1 -2 C3 ${H*.44} 33 ${H*.48} 40 ${H*.53} C42 ${H*.82} 55 ${bot+3} 64 ${bot+3} C73 ${bot+3} 86 ${H*.82} 88 ${H*.53} C95 ${H*.48} 125 ${H*.44} 127 -2`;foot=46;top=6;rx=118;
   rxAt=y=>y<H*.46?124-(y/(H*.46))*30:86-((y-H*.5)/(bot-H*.5))*16;
-  extra=`<path d="M64 ${bot+3} V${bot+40} M42 ${bot+44} H86" stroke="#1f262d" stroke-width="2"/>`;
+  extra=`<path d="M64 ${bot+3} V${bot+40} M42 ${bot+44} H86" stroke="#1f262d" stroke-width="2"/>`+(salt?`<g fill="#fff" stroke="#b8b2a6" stroke-width=".8">${[[-1,-3],[2,1],[-2,4],[1,8],[3,-1],[-1,11],[129,-3],[126,1],[130,4],[127,8],[125,-1],[129,11]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="2.6"/>`).join('')}</g>`:'');
  }else if(kind==='kero'){
   shape=`M12 0 L116 0 L100 ${bot} L28 ${bot} Z`;outline=`M12 0 L28 ${bot} M116 0 L100 ${bot}`;foot=16;top=6;rx=110;rxAt=y=>116-16*(y/bot);
   extra=`<path d="M28 ${bot} L100 ${bot} L99 ${bot+14} L29 ${bot+14} Z" fill="#e8edef" stroke="#1f262d" stroke-width="2"/>`;
@@ -688,8 +688,8 @@ function bVessel(kind,layers,ice,cap){
  const iceSvg=ice&&cap&&kind==='jug'?`<g fill="#fff" fill-opacity=".55" stroke="#b9c6cc" stroke-width="1">${[[34,-6],[56,8],[78,-4]].slice(0,ice).map(([x,r])=>`<rect x="${x}" y="${bot-20}" width="16" height="16" rx="2.5" transform="rotate(${r} ${x+8} ${bot-12})"/>`).join('')}</g>`:ice?`<g fill="#fff" fill-opacity=".5" stroke="#b9c6cc" stroke-width="1">${IP.slice(0,ice).map(([x,d,r])=>{d=d*Math.max(1,(H-60)/90);return `<rect x="${x}" y="${bot-d-22}" width="22" height="22" rx="3" transform="rotate(${r} ${x+11} ${bot-d-11})"/>`}).join('')}</g>`:'';
  return {svg:`<defs><clipPath id="${id}"><path d="${shape}"/></clipPath></defs><g clip-path="url(#${id})">${fills}${lines}${iceSvg}</g><path d="${outline}" fill="none" stroke="#1f262d" stroke-width="2"/>${extra}${capMk}`,H,foot,top,mids,fillTop:bot-tot*BPX,bot,rx,rxAt};
 }
-function bBlock(kind,layers,Y,s,ice,inline,cap){
- const v=bVessel(kind,layers,ice,cap),n=layers.length,LH=(n-1)*BGAP;
+function bBlock(kind,layers,Y,s,ice,inline,cap,salt){
+ const v=bVessel(kind,layers,ice,cap,salt),n=layers.length,LH=(n-1)*BGAP;
  const vTop=s*v.top,vSpan=vTop+s*(v.H+v.foot);
  const span=inline?vSpan:Math.max(vSpan,LH+20);
  const ty=Y+(span-vSpan)/2+vTop,tx=(120-120*s)/2+12,cy=ty+s*(v.fillTop+v.bot)/2;
@@ -725,7 +725,7 @@ function buildSVG(id,k){
   b.extra.forEach(([nm,val])=>{o+=row(y,nm,val);y+=30});
   return `<section class="build" aria-label="Cómo se arma"><svg viewBox="0 0 ${BW} ${y-8}" role="img" aria-label="Diagrama: capas en la copa">${o}</svg></section>`;
  }
- let out=`<text x="0" y="14" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">I · EN LA ${tool}</text><text x="${BW}" y="14" text-anchor="end" font-family="Cinzel,serif" font-size="10" letter-spacing="1.5" fill="#a39a8a">${b.unit||'DEDOS'}</text>`;
+ let out=`<text x="0" y="14" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">I · EN LA ${tool}</text><text x="${BW}" y="14" text-anchor="end" font-family="Cinzel,serif" font-size="10" letter-spacing="1.5" fill="#a39a8a">${b.unit||''}</text>`;
  const a=bBlock(b.tool,b.v,30,.65,b.vIce,!!b.cap,b.cap);out+=a.out;
  const clRow=(ey,nm,val)=>`<text x="${BNX}" y="${ey}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${nm}</text><text x="${BW}" y="${ey}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="12" fill="#8a6a32">${val}</text>`;
  if(b.cap){ /* licuadora: hielo y clara arriba, alineados con el borde superior; preparado abajo */
@@ -742,7 +742,8 @@ function buildSVG(id,k){
   <text font-family="'Instrument Serif',serif" font-style="italic" font-size="16" fill="#6b737a">${b.how[1]?`<tspan x="${BNX}" y="${y+19-9.5}" dominant-baseline="central">${b.how[0]}</tspan><tspan x="${BNX}" y="${y+19+9.5}" dominant-baseline="central">${b.how[1]}</tspan>`:`<tspan x="${BNX}" y="${y+19}" dominant-baseline="central">${b.how[0]}</tspan>`}</text>`;
  y+=56;out+=`<line x1="${BNX-80}" y1="${y}" x2="${BW}" y2="${y}" stroke="#eee9e0"/>`;y+=28;
  out+=`<text x="0" y="${y}" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">II · EN ${b.gl||'LA COPA'}</text>`;
- const c=bBlock(b.g,b.glass,y+16,.75,b.ice,true);out+=c.out;
+ const c=bBlock(b.g,b.glass,y+16,.75,b.ice,true,null,!!b.rim);out+=c.out;
+ if(b.rim){const ry=c.top+15+4,rx=27+.75*128;out+=`<circle cx="${rx}" cy="${ry}" r="2" fill="#8a6a32"/><line x1="${rx}" y1="${ry}" x2="${BNX-8}" y2="${ry}" stroke="#c9b48a" stroke-width=".9"/>`+clRow(ry,b.rim[0],b.rim[1]);}
  if(!b.noIce){const iy=c.maxLy+36;out+=iceRow(iy,b.ice);c.end=Math.max(c.end,iy+16);}
  return `<section class="build" aria-label="Cómo se arma"><svg viewBox="0 0 ${BW} ${c.end+6}" role="img" aria-label="Diagrama: ingredientes en la ${tool.toLowerCase()} y capas en el vaso">${out}</svg></section>`;
 }
@@ -786,7 +787,7 @@ function renderTrago(r){
   const V=r.variants?r.variants[Math.min(varT,r.variants.length-1)]:null,rr=Object.assign({},r,V&&V.ing?{ing:V.ing,serv:V.serv||r.serv,steps:V.steps||r.steps}:{});
   r=rr;
   const fd=r.fotoDir||'',L=+(new URLSearchParams(location.search).get('l'))||(fd?1:0);
-  const ph=(f,lab)=>f?`<span class="ph"><img src="${fd}${f}.jpg?v=7" alt="" loading="lazy"></span>`:`<span class="ph pend">foto<br>pendiente</span>`;
+  const ph=(f,lab)=>f?`<span class="ph"><img src="${fd}${f}.jpg?v=8" alt="" loading="lazy"></span>`:`<span class="ph pend">foto<br>pendiente</span>`;
   const rows=r.ing.map(x=>{const q=x.fixed?x.q:x.q*multT;
     const tc=L===1&&fd?`<td class="t">${x.f===undefined?`<span class="ph ico"><svg viewBox="0 0 40 40"><use href="#${x.ico||'hielo'}"/></svg></span>`:ph(x.f)}</td>`:'';
     if(x.oz){const o=x.oz*multT,n=o/DEDO,fl=Math.floor(n+1e-6),pt=n-fl,cnt=Math.min(fl+(pt>.05?1:0),8);let fi='';for(let i=0;i<cnt;i++)fi+=`<i style="--f:${i<fl?100:Math.round(pt*100)}%"></i>`;
