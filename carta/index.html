@@ -656,7 +656,7 @@ const BUILD={
  'margarita':()=>({tool:'shaker',g:'marg',gl:'LA COPA',rim:['Sal','borde'],ice:0,noIce:1,how:['Batir','y servir'],
   v:[['Tequila',2,'#eef1e6'],['Limón',1,BC.limon],['Triple sec',1,'#f3e7c4'],['Goma',.3,BC.goma,.8,'4 seg']],
   glass:[['Margarita',4.3,'#eef0b6',null,'≈ 4 oz']]}),
- 'dolce-rosso':()=>({only:1,g:'high',gl:'EL VASO',unit:'',ice:7,how:['Decorar','y servir'],
+ 'dolce-rosso':()=>({only:1,big:1,iceTxt:'primero',g:'high',gl:'EL VASO',unit:'',ice:7,how:['Decorar','y servir'],
   cap:7.6,glass:[['Goma',1,BC.goma],['Limón',1,BC.limon],['Jamaica',3.8,'#7a1832',null,'hasta 75%'],['Frappé',1.8,'#f6eef0',null,'completar']],
   extra:[['Tallo de menta','1'],['Bombilla negra','1']]}),
  'pisco-sour':()=>({tool:'jug',g:'kero',gl:'EL VASO',unit:'MEDIDA',ice:0,noIce:1,vIce:3,how:['Licuar 1 minuto','y servir'],
@@ -741,8 +741,9 @@ function buildSVG(id,k){
  const row=(ey,nm,val)=>`<text x="${BNX}" y="${ey}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${nm}</text><text x="${BW}" y="${ey}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="12" fill="#8a6a32">${val}</text>`;
  if(b.only){ /* se arma directo en la copa */
   let o=`<text x="0" y="14" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">I · EN ${b.gl}</text><text x="${BW}" y="14" text-anchor="end" font-family="Cinzel,serif" font-size="10" letter-spacing="1.5" fill="#a39a8a">${b.unit}</text>`;
-  o+=row(48,'Hielo','hasta arriba');
-  const c=bBlock(b.g,b.glass,72,.75,b.ice,false,b.cap);o+=c.out;
+  let c;
+  if(b.big){c=bBlock(b.g,b.glass,34,.95,b.ice,30,b.cap);o+=c.out;const iy=c.maxLy+36;o+=row(iy,'Hielo',b.iceTxt||'lleno');c.end=Math.max(c.end,iy+16);}
+  else{o+=row(48,'Hielo','hasta arriba');c=bBlock(b.g,b.glass,72,.75,b.ice,false,b.cap);o+=c.out;}
   let y;
   y=c.end+22;o+=`<line x1="${BNX-80}" y1="${y}" x2="${BW}" y2="${y}" stroke="#eee9e0"/>`;y+=18;
   o+=`<line x1="64" y1="${y+2}" x2="64" y2="${y+36}" stroke="#8a6a32" stroke-width="1.4"/><path d="M58 ${y+30} L64 ${y+38} L70 ${y+30}" fill="none" stroke="#8a6a32" stroke-width="1.4"/><text font-family="'Instrument Serif',serif" font-style="italic" font-size="16" fill="#6b737a"><tspan x="${BNX}" y="${y+9.5}" dominant-baseline="central">${b.how[0]}</tspan><tspan x="${BNX}" y="${y+28.5}" dominant-baseline="central">${b.how[1]}</tspan></text>`;
