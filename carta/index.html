@@ -448,11 +448,14 @@ const RECETAS={
   fotoDir:'../assets/ingredientes/',
   serv:[['coupe','Copa de abanico',null,'copa-abanico'],['coctelera','Coctelera: batir'],['hielo','Hielo en la coctelera']],
   ing:[
-   {n:'Tequila El Jimador',sub:m=>'blanco',t:'?',f:'tequila-jimador'},
-   {n:'Triple sec Mitjans',t:'?',f:''},
-   {n:'Goma',sub:m=>'botella de tapa blanca',t:'?',f:'goma'},
-   {n:'Hielo',sub:m=>'en la coctelera',t:'?'}],
-  steps:[['En la coctelera: hielo, tequila El Jimador, triple sec Mitjans y goma.',[]],['Batir.',[]],['Servir en la copa de abanico.',[]]]},
+   {n:'Tequila El Jimador',sub:m=>'blanco',oz:2,f:'tequila-jimador'},
+   {n:'Jugo de limón',sub:m=>'exprimido · botella de tapa roja',oz:1,f:'jugo-limon'},
+   {n:'Triple sec Mitjans',oz:1,f:''},
+   {n:'Goma',sub:m=>'botella de tapa blanca',t:'4 seg',f:'goma'},
+   {n:'Hielo',sub:m=>'en la coctelera',t:'?'},
+   {n:'Sal',sub:m=>'en el borde de la copa',t:'borde',f:''},
+   {n:'Rodaja de limón',q:1,u:'rodaja',f:''}],
+  steps:[['Pasar sal por el borde de la copa.',[]],['En la coctelera: hielo, 2 oz de tequila, 1 oz de jugo de limón, 1 oz de triple sec y goma por 4 segundos.',[]],['Batir.',[]],['Servir en la copa de abanico.',[]],['Decorar con una rodaja de limón.',[]]]},
  'Fresco Pasión':{id:'fresco-pasion',sec:'aperitivi',cat:3,name:'Fresco Pasión',
   hero:'../assets/tragos/fresco-pasion-hero.jpg',
   facts:[['Sabor','Tropical, ácido'],['Familia','Mojitos'],['Estilo','Largo, con frappé']],
@@ -633,6 +636,9 @@ const BUILD={
  'ramazzotti':()=>({only:1,g:'wine',gl:'LA COPA',unit:'DEDOS',ice:7,how:['Decorar','y servir'],
   cap:7.5,glass:[['Ramazzotti',2,'#e7a0a6'],['Espumante',3,'#f2e6b8'],['Frutos rojos',.45,'#8e2436',.8,'2 cdas'],['Agua con gas',1.7,'#f7d9dc',null,'completar']],
   extra:[['Rodaja de limón','1'],['Bombilla negra','1']]}),
+ 'margarita':()=>({tool:'shaker',g:'marg',gl:'LA COPA',ice:0,noIce:1,how:['Batir','y servir'],
+  v:[['Tequila',2,'#eef1e6'],['Limón',1,BC.limon],['Triple sec',1,'#f3e7c4'],['Goma',.3,BC.goma,.8,'4 seg']],
+  glass:[['Margarita',4.3,'#eef0b6',null,'≈ 4 oz']]}),
  'pisco-sour':()=>({tool:'jug',g:'kero',gl:'EL VASO',unit:'MEDIDA',ice:0,noIce:1,vIce:3,how:['Licuar 1 minuto','y servir'],
   cap:5.2,extra:[['Albúmina','½ cda']],v:[['Preparado\nPisco Sour',5.5,BC.pisco,1.3,'hasta 250 ml']],
   glass:[['Pisco sour',4.55,'#efe7d2',null,'≈ 250 ml'],['Angostura',.1,'drops',.45,'2 gotas']]})
@@ -647,7 +653,7 @@ function bFingers(oz,yc){
 }
 let bid=0;
 function bVessel(kind,layers,ice,cap){
- const id='bv'+(bid++),tot=layers.reduce((a,l)=>a+(l[3]||l[1]),0),H=cap?cap*BPX:tot*BPX+(kind==='kero'||kind==='balloon'||kind==='coupe'?0:26),bot=H;
+ const id='bv'+(bid++),tot=layers.reduce((a,l)=>a+(l[3]||l[1]),0),H=cap?cap*BPX:tot*BPX+(kind==='kero'||kind==='balloon'||kind==='coupe'||kind==='marg'?0:26),bot=H;
  let shape,outline,extra='',foot,top,rx,rxAt=null;
  if(kind==='jug'){
   shape=`M22 0 L106 0 L98 ${bot} L30 ${bot} Z`;outline=shape;foot=34;top=20;rx=102;
@@ -661,6 +667,11 @@ function bVessel(kind,layers,ice,cap){
   shape=`M17 0 C10 ${H*.75} 40 ${bot} 64 ${bot+2} C88 ${bot} 118 ${H*.75} 111 0 Z`;
   outline=`M17 -2 C8 ${H*.8} 38 ${bot+4} 64 ${bot+5} C90 ${bot+4} 120 ${H*.8} 111 -2`;foot=46;top=8;rx=116;
   extra=`<path d="M64 ${bot+5} V${bot+40} M42 ${bot+44} H86" stroke="#1f262d" stroke-width="2"/>`;
+ }else if(kind==='marg'){
+  shape=`M2 0 C4 ${H*.42} 34 ${H*.46} 42 ${H*.52} C44 ${H*.8} 56 ${bot} 64 ${bot} C72 ${bot} 84 ${H*.8} 86 ${H*.52} C94 ${H*.46} 124 ${H*.42} 126 0 Z`;
+  outline=`M1 -2 C3 ${H*.44} 33 ${H*.48} 40 ${H*.53} C42 ${H*.82} 55 ${bot+3} 64 ${bot+3} C73 ${bot+3} 86 ${H*.82} 88 ${H*.53} C95 ${H*.48} 125 ${H*.44} 127 -2`;foot=46;top=6;rx=118;
+  rxAt=y=>y<H*.46?124-(y/(H*.46))*30:86-((y-H*.5)/(bot-H*.5))*16;
+  extra=`<path d="M64 ${bot+3} V${bot+40} M42 ${bot+44} H86" stroke="#1f262d" stroke-width="2"/>`;
  }else if(kind==='kero'){
   shape=`M12 0 L116 0 L100 ${bot} L28 ${bot} Z`;outline=`M12 0 L28 ${bot} M116 0 L100 ${bot}`;foot=16;top=6;rx=110;rxAt=y=>116-16*(y/bot);
   extra=`<path d="M28 ${bot} L100 ${bot} L99 ${bot+14} L29 ${bot+14} Z" fill="#e8edef" stroke="#1f262d" stroke-width="2"/>`;
@@ -715,7 +726,7 @@ function buildSVG(id,k){
   return `<section class="build" aria-label="Cómo se arma"><svg viewBox="0 0 ${BW} ${y-8}" role="img" aria-label="Diagrama: capas en la copa">${o}</svg></section>`;
  }
  let out=`<text x="0" y="14" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">I · EN LA ${tool}</text><text x="${BW}" y="14" text-anchor="end" font-family="Cinzel,serif" font-size="10" letter-spacing="1.5" fill="#a39a8a">${b.unit||'DEDOS'}</text>`;
- const a=bBlock(b.tool,b.v,30,.65,b.vIce,true,b.cap);out+=a.out;
+ const a=bBlock(b.tool,b.v,30,.65,b.vIce,!!b.cap,b.cap);out+=a.out;
  const clRow=(ey,nm,val)=>`<text x="${BNX}" y="${ey}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${nm}</text><text x="${BW}" y="${ey}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="12" fill="#8a6a32">${val}</text>`;
  if(b.cap){ /* licuadora: hielo y clara arriba, alineados con el borde superior; preparado abajo */
   const rows=[];if(b.vIce)rows.push(y=>iceRow(y,b.vIce));(b.extra||[]).forEach(([nm,val])=>rows.push(y=>clRow(y,nm,val)));
