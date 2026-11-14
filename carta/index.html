@@ -362,6 +362,7 @@ main{padding-block:var(--s4) var(--s6)}
   <symbol id="birra" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M10 8h16v26H10zM26 13h5v14h-5M10 13h16"/></g></symbol>
   <symbol id="coctelera" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 15h16l-2 21H14z"/><path d="M13 15l2-5h10l2 5"/><rect x="17" y="4" width="6" height="6" rx="2"/></g></symbol>
   <symbol id="revolver" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M27 2L19 27"/><path d="M33 26.5C35.5 29 34 33 27 34.5 19 36.2 8 34.5 6 30.5 4.5 27.5 9 25 15 24.2"/><path d="M12.6 21.6l3.2 2.7-3.3 2.4"/></g></symbol>
+  <symbol id="rodaja" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="20" cy="20" r="17"/><circle cx="20" cy="20" r="14" stroke-width="1"/><path d="M20 20V6M20 20l12.1 7M20 20l-12.1 7M20 20l12.1-7M20 20l-12.1-7M20 20v14" stroke-width="1.1"/></g></symbol>
   <symbol id="hielo" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><rect x="7" y="17" width="13" height="13" rx="2" transform="rotate(-10 13 23)"/><rect x="20" y="12" width="13" height="13" rx="2" transform="rotate(12 26 18)"/><rect x="15" y="4" width="10" height="10" rx="2" transform="rotate(4 20 9)"/></g></symbol>
   <symbol id="cuchara" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 4l18 24"/><path d="M11 8l2-1M14 12l2-1M17 16l2-1M20 20l2-1" stroke-width="1"/><ellipse cx="29" cy="32" rx="4" ry="6" transform="rotate(-37 29 32)"/></g></symbol>
   <symbol id="vino" viewBox="0 0 40 40"><g fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 4h14c0 12-3 16-7 16s-7-4-7-16zM20 20v13M14 35h12"/></g></symbol>
@@ -454,7 +455,7 @@ const RECETAS={
    {n:'Goma',sub:m=>'botella de tapa blanca',t:'4 seg',f:'goma'},
    {n:'Hielo',sub:m=>'en la coctelera',t:'?'},
    {n:'Sal',sub:m=>'en el borde de la copa',t:'borde',f:'sal'},
-   {n:'Rodaja de limón',q:1,u:'rodaja',f:''}],
+   {n:'Rodaja de limón',q:1,u:'rodaja',ico:'rodaja'}],
   steps:[['Pasar sal por el borde de la copa.',[]],['En la coctelera: hielo, 2 oz de tequila, 1 oz de jugo de limón, 1 oz de triple sec y goma por 4 segundos.',[]],['Batir.',[]],['Servir en la copa de abanico.',[]],['Decorar con una rodaja de limón.',[]]]},
  'Fresco Pasión':{id:'fresco-pasion',sec:'aperitivi',cat:3,name:'Fresco Pasión',
   hero:'../assets/tragos/fresco-pasion-hero.jpg',
@@ -643,7 +644,7 @@ const BUILD={
   cap:5.2,extra:[['Albúmina','½ cda']],v:[['Preparado\nPisco Sour',5.5,BC.pisco,1.3,'hasta 250 ml']],
   glass:[['Pisco sour',4.55,'#efe7d2',null,'≈ 250 ml'],['Angostura',.1,'drops',.45,'2 gotas']]})
 };
-const BPX=20,BGAP=32,BNX=136,BW=300;
+const BPX=20,BGAP=40,BNX=136,BW=300;
 function bFingers(oz,yc){
  const n=oz/DEDO,full=Math.floor(n+1e-6),part=n-full,cnt=Math.min(full+(part>.05?1:0),8);
  let s='',x=BW-38-cnt*9;
@@ -726,7 +727,7 @@ function buildSVG(id,k){
   return `<section class="build" aria-label="Cómo se arma"><svg viewBox="0 0 ${BW} ${y-8}" role="img" aria-label="Diagrama: capas en la copa">${o}</svg></section>`;
  }
  let out=`<text x="0" y="14" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">I · EN LA ${tool}</text><text x="${BW}" y="14" text-anchor="end" font-family="Cinzel,serif" font-size="10" letter-spacing="1.5" fill="#a39a8a">${b.unit||''}</text>`;
- const a=bBlock(b.tool,b.v,30,.65,b.vIce,!!b.cap,b.cap);out+=a.out;
+ const a=bBlock(b.tool,b.v,30,b.cap?.65:.95,b.vIce,!!b.cap,b.cap);out+=a.out;
  const clRow=(ey,nm,val)=>`<text x="${BNX}" y="${ey}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${nm}</text><text x="${BW}" y="${ey}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="12" fill="#8a6a32">${val}</text>`;
  if(b.cap){ /* licuadora: hielo y clara arriba, alineados con el borde superior; preparado abajo */
   const rows=[];if(b.vIce)rows.push(y=>iceRow(y,b.vIce));(b.extra||[]).forEach(([nm,val])=>rows.push(y=>clRow(y,nm,val)));
@@ -795,7 +796,7 @@ function renderTrago(r){
     if(x.t==='?')return `<tr>${tc}<td class="n">${x.n}${x.sub?`<small>${x.sub(multT)}</small>`:''}</td><td class="qty pd">medida<br>pendiente</td></tr>`;
     if(x.t)return `<tr>${tc}<td class="n">${x.n}${x.sub?`<small>${x.sub(multT)}</small>`:''}</td><td class="qty${/\d/.test(x.t)?'':' w'}">${x.t}</td></tr>`;
     const nm=x.prep&&RECETAS[x.prep]?`<a class="aprep" href="#${RECETAS[x.prep].id}">${x.n}<small>Ver preparado ›</small></a>`:x.n;
-    return `<tr>${L===1&&fd?`<td class="t">${x.f===undefined?`<span class="ph pend">foto<br>pendiente</span>`:ph(x.f)}</td>`:''}<td class="n">${nm}${x.sub?`<small>${x.sub(multT)}</small>`:''}</td><td class="qty">${x.pre?`<i class="qx">${x.pre}</i>`:''}${fmtQ(q)}${x.u?' '+x.u:''}${x.post?`<i class="qx">${x.post}</i>`:''}</td></tr>`}).join('');
+    return `<tr>${tc}<td class="n">${nm}${x.sub?`<small>${x.sub(multT)}</small>`:''}</td><td class="qty">${x.pre?`<i class="qx">${x.pre}</i>`:''}${fmtQ(q)}${x.u?' '+x.u:''}${x.post?`<i class="qx">${x.post}</i>`:''}</td></tr>`}).join('');
   app.innerHTML=`<article class="view trago" aria-labelledby="dn">
     <div class="hero"><img src="${r.hero}" alt="${r.name}"${r.heroPos?` style="object-position:${r.heroPos}"`:''}></div>
     <div class="title"><h1 id="dn">${r.name}${r.badge?`<svg class="corona" viewBox="0 0 40 40" role="img" aria-label="Trago popular"><use href="#${r.badge[0]}"/></svg>`:''}</h1></div>
