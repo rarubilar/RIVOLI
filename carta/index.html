@@ -406,7 +406,7 @@ const SECCIONES=[
  {id:'digestivi',n:'Digestivi',i:'digest',d:'Licores y amari para cerrar.',intro:'Licores y amari italianos para cerrar la comida.',cats:[]},
  {id:'vinos',n:'Vinos',i:'vino',d:'Tintos, blancos y espumantes.',intro:'Tintos, blancos y espumantes chilenos e italianos para maridar.',cats:[]},
  {id:'caffe',n:'Caffè',i:'cafe',d:'Espresso y cafés para el final.',intro:'Espresso y cafés a la italiana, para el final.',cats:[],cls:'solo'},
- {id:'bases',n:'Preparaciones de barra',i:'alto',d:'Las bases que preparamos para armar los tragos: limonada, jamaicano, jengibre, maracuyá y más.',intro:'Recetas de las preparaciones que se hacen en la barra y se usan como base de otros tragos.',cats:[['En botella','Preparados de 1 litro que se dejan listos para el servicio.',[['Limonada en botella','Jugo de limón dulce · agua helada']]]],cls:'grande'}
+ {id:'bases',n:'Preparaciones de barra',i:'alto',d:'Las bases que preparamos para armar los tragos: limonada, jamaicano, jengibre, maracuyá y más.',intro:'Recetas de las preparaciones que se hacen en la barra y se usan como base de otros tragos.',cats:[['En botella','Preparados de 1 litro que se dejan listos para el servicio.',[['Limonada en botella','Jugo de limón dulce · agua helada'],['Pisco Sour en botella','Pisco · limón exprimido · azúcar']]]],cls:'grande'}
 ];
 const count=s=>s.cats.reduce((a,c)=>a+c[2].length,0);
 
@@ -472,6 +472,12 @@ const RECETAS={
   ing:[{n:'Jugo de limón dulce',sub:'otro preparado',ml:200,pct:20,col:'#e6cf6a'},{n:'Agua helada',sub:'de la llave',ml:800,pct:80,col:'#dbe9ee'}],
   steps:['Echar 200 ml de jugo de limón dulce en la botella.','Completar hasta 1 litro con agua helada de la llave.'],
   para:['Limonada']},
+ 'Pisco Sour en botella':{prep:1,id:'prep-pisco-sour',sec:'bases',cat:0,name:'Pisco Sour',
+  foto:'../assets/preparados/pisco-sour.jpg',botella:'1 L',
+  ing:[{n:'Pisco',sub:'',ml:700,pct:70,col:'#f4efdf'},{n:'Jugo de limón',sub:'exprimido',ml:280,pct:28,col:'#e3dc86'}],
+  extra:[{n:'Azúcar',sub:'cucharadas',v:'4 cdas'}],
+  nota:'Receta base: por cada 1 L de pisco, 400 ml de jugo de limón y 6 cucharadas de azúcar.',
+  para:['Pisco Sour']},
  'Limonada':{id:'limonada',sec:'jugos',cat:0,name:'Limonada',
   hero:'../assets/carta/jugos.jpg',heroPos:'center 70%',
   facts:[['Sabor','Ácida, fresca'],['Familia','Limonadas'],['Estilo','Largo, sin alcohol']],
@@ -482,7 +488,7 @@ const RECETAS={
 };
 const REC_ID=Object.fromEntries(Object.values(RECETAS).map(r=>[r.id,r]));
 /* fotos por trago (nombre exacto → archivo en assets/tragos). Las que faltan muestran la copa dibujada */
-const FOTOS={'Limonada en botella':'../preparados/limonada.jpg','Ramazzotti Tradicional':'ramazzotti/card.jpg','Tequila Margarita':'margarita.jpg','Fresco Pasión':'fresco-pasion.jpg','Aperol Spritz':'aperol-spritz.jpg','Orange Spritz':'orange-spritz.jpg','Pisco Sour':'pisco-sour.jpg?v=2','Limonada':'limonada.jpg'};
+const FOTOS={'Pisco Sour en botella':'../preparados/pisco-sour.jpg','Limonada en botella':'../preparados/limonada.jpg','Ramazzotti Tradicional':'ramazzotti/card.jpg','Tequila Margarita':'margarita.jpg','Fresco Pasión':'fresco-pasion.jpg','Aperol Spritz':'aperol-spritz.jpg','Orange Spritz':'orange-spritz.jpg','Pisco Sour':'pisco-sour.jpg?v=2','Limonada':'limonada.jpg'};
 const IMG_LISTA=['aperitivi','mocktails','birre','jugos','digestivi','vinos','caffe','bases'];
 const IMG_POS={mocktails:'100%',jugos:'100%',digestivi:'100%',caffe:'35%',bases:'80%'};
 
@@ -744,6 +750,10 @@ function renderPrep(r){
      <text x="136" y="${m-6}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${x.n}</text>
      <text x="136" y="${m+14}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-style="italic" font-size="13" fill="#6b737a">${x.sub}</text>
      <text x="300" y="${m+15}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="13" fill="#8a6a32">${x.ml} ml<tspan font-size="10" fill="#a39a8a" dx="5">${x.pct}%</tspan></text>`});
+  (r.extra||[]).forEach((x,k)=>{const m=40+k*44;
+    labs+=`<circle cx="82" cy="${m}" r="2" fill="#8a6a32"/><line x1="82" y1="${m}" x2="128" y2="${m}" stroke="#c9b48a" stroke-width=".9"/>
+     <text x="136" y="${m-6}" dominant-baseline="central" font-family="'Instrument Serif',serif" font-size="19" fill="#1f262d">${x.n}</text>
+     <text x="300" y="${m+15}" dominant-baseline="central" text-anchor="end" font-family="Cinzel,serif" font-size="13" fill="#8a6a32">${x.v}</text>`});
   const svg=`<svg viewBox="0 -16 300 290" role="img" aria-label="Botella de ${r.botella}: ${r.ing.map(x=>x.ml+' ml de '+x.n).join(', ')}">
     <text x="0" y="-2" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">EN LA BOTELLA</text><text x="300" y="-2" text-anchor="end" font-family="Cinzel,serif" font-size="10" letter-spacing="1.5" fill="#a39a8a">${r.botella.replace('L','LITRO')}</text>
     <defs><clipPath id="pb"><path d="${P}"/></clipPath></defs><g clip-path="url(#pb)">${fills}</g>
@@ -751,8 +761,8 @@ function renderPrep(r){
   const para=`<div class="ppara"><span class="cap">Sirve para</span><div class="pl">${r.para.map(n=>{const R=RECETAS[n],f=findT(n);return `<a href="#${R?R.id:f?f.s.id:'carta'}">${n}</a>`}).join('')}</div></div>`;
   app.innerHTML=`<article class="view trago prep" aria-labelledby="dn">
     <div class="hero"><img src="${r.foto}" alt="Botella de ${r.name}"></div>
-    <div class="title"><h1 id="dn">${r.name}</h1><p class="psub">Preparado en barra utilizado como insumo de varios tragos</p></div>
-    <section class="build pbuild" aria-label="Cómo se prepara">${svg}</section>
+    <div class="title"><span class="ro">PREPARADO</span><h1 id="dn">${r.name}</h1><p class="psub">Preparado en barra utilizado como insumo de varios tragos</p></div>
+    <section class="build pbuild" aria-label="Cómo se prepara">${svg}${r.nota?`<p class="note">${r.nota}</p>`:''}</section>
     ${para}
   </article>`;
 }
