@@ -851,7 +851,7 @@ function renderPrep(r){
     <defs><clipPath id="pb"><path d="${P}"/></clipPath></defs><g clip-path="url(#pb)">${fills}</g>
     <path d="${P}" fill="none" stroke="#1f262d" stroke-width="2"/><rect x="46" y="18" width="38" height="14" rx="3" fill="#1f262d"/>${G?'<path d="M80 40q16 0 16 12t-14 12" fill="none" stroke="#1f262d" stroke-width="2"/>':''}${labs}</svg>`;
   const tanda=r.tanda?`<div class="ptanda"><span class="cap">${r.tanda.t}</span><table class="ing"><colgroup><col class="c-n"><col class="c-q"></colgroup><tbody>${r.tanda.f.map(([n,sb,v])=>`<tr><td class="n">${n}${sb?`<small>${sb}</small>`:''}</td><td class="qty">${v}</td></tr>`).join('')}</tbody></table></div>`:'';
-  const DG=r.id==='prep-jamaica'?(+(new URLSearchParams(location.search).get('d'))||0):0;
+  const DG=r.id==='prep-jamaica'?(+(new URLSearchParams(location.search).get('d'))||1):0;
   const pasos=DG?`<div class="pdiag">${jamDiag(DG)}</div>`:r.steps?`<ol class="steps">${r.steps.map(x=>`<li><span>${x}</span></li>`).join('')}</ol>`:'';
   const para=!r.para.length?'':`<div class="ppara"><span class="cap">Sirve para</span><div class="pl">${r.para.map(n=>{const R=RECETAS[n],f=findT(n);return `<a href="#${R?R.id:f?f.s.id:'carta'}">${n}</a>`}).join('')}</div></div>`;
   app.innerHTML=`<article class="view trago prep" aria-labelledby="dn">
