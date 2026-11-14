@@ -411,7 +411,7 @@ const SECCIONES=[
  {id:'digestivi',n:'Digestivi',i:'digest',d:'Licores y amari para cerrar.',intro:'Licores y amari italianos para cerrar la comida.',cats:[]},
  {id:'vinos',n:'Vinos',i:'vino',d:'Tintos, blancos y espumantes.',intro:'Tintos, blancos y espumantes chilenos e italianos para maridar.',cats:[]},
  {id:'caffe',n:'Caffè',i:'cafe',d:'Espresso y cafés para el final.',intro:'Espresso y cafés a la italiana, para el final.',cats:[],cls:'solo'},
- {id:'bases',n:'Preparaciones de barra',i:'alto',d:'Las bases que preparamos para armar los tragos: limonada, jamaicano, jengibre, maracuyá y más.',intro:'Recetas de las preparaciones que se hacen en la barra y se usan como base de otros tragos.',cats:[['En botella','Preparados de 1 litro que se dejan listos para el servicio.',[['Limonada en botella','Jugo de limón dulce · agua helada'],['Pisco Sour en botella','Pisco · limón exprimido · azúcar'],['Jamaica en botella','Infusión de flor de hibiscus'],['Jugo de mango','Pulpa de mango · azúcar · agua']]]],cls:'grande'}
+ {id:'bases',n:'Preparaciones de barra',i:'alto',d:'Las bases que preparamos para armar los tragos: limonada, jamaicano, jengibre, maracuyá y más.',intro:'Recetas de las preparaciones que se hacen en la barra y se usan como base de otros tragos.',cats:[['En botella','Preparados de 1 litro que se dejan listos para el servicio.',[['Limonada en botella','Jugo de limón dulce · agua helada'],['Pisco Sour en botella','Pisco · limón exprimido · azúcar'],['Jamaica en botella','Infusión de flor de hibiscus · azúcar'],['Jugo de mango','Pulpa de mango · azúcar · agua']]]],cls:'grande'}
 ];
 const count=s=>s.cats.reduce((a,c)=>a+c[2].length,0);
 
@@ -503,8 +503,8 @@ const RECETAS={
  'Jamaica en botella':{prep:1,id:'prep-jamaica',sec:'bases',cat:0,name:'Jamaica',
   foto:'../assets/preparados/jamaica.jpg',botella:'1 L',
   ing:[{n:'Infusión de Jamaica',sub:'de la garrafa',ml:1000,pct:100,col:'#4a1022'}],
-  tanda:{t:'La infusión · rinde 4 L',f:[['Flor de hibiscus','deshidratada','120 g'],['Agua hirviendo','','4 L']]},
-  steps:['Hervir 4 L de agua.','Verter el agua hirviendo en un bowl con 120 g de flor de hibiscus deshidratada.','Dejar reposar 24 horas.','Traspasar a la garrafa de 4 L.','Llenar la botella de 1 L para la barra.'],
+  tanda:{t:'La infusión · rinde 4 L',f:[['Flor de hibiscus','deshidratada','120 g'],['Agua hirviendo','','4 L'],['Azúcar','después de colar','500 g']]},
+  steps:['Hervir 4 L de agua.','Verter el agua hirviendo en un bowl con 120 g de flor de hibiscus deshidratada.','Dejar reposar entre 12 y 24 horas.','Colar y agregar 500 g de azúcar.','Traspasar a la garrafa de 4 L.','Llenar la botella de 1 L para la barra.'],
   para:['Dolce Rosso']},
  'Jugo de mango':{prep:1,id:'prep-mango',sec:'bases',cat:0,name:'Jugo de Mango',
   foto:'../assets/preparados/jugo-mango.jpg',botella:'4 L',forma:'garrafa',
