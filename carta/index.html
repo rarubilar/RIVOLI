@@ -508,13 +508,13 @@ const RECETAS={
   steps:['Hervir 4 L de agua.','Verter el agua hirviendo en un bowl con 120 g de flor de hibiscus deshidratada.','Dejar reposar entre 12 y 24 horas.','Colar y agregar 500 g de azúcar.','Traspasar a la garrafa de 4 L.','Llenar la botella de 1 L para la barra.'],
   para:['Dolce Rosso']},
  'Jugo de mango':{prep:1,id:'prep-mango',sec:'bases',cat:0,name:'Jugo de Mango',
-  foto:'../assets/preparados/jugo-mango.jpg?v=3',botella:'4 L',forma:'garrafa',
+  foto:'../assets/preparados/jugo-mango.jpg?v=3',botella:'4 L',forma:'garrafa',nosub:1,
   ing:[{n:'1ª juguerada',sub:'colada',ml:2000,pct:50,col:'#f2b632'},{n:'2ª juguerada',sub:'colada',ml:2000,pct:50,col:'#f7c955'}],
   tanda:{t:'Por juguerada · se hace 2 veces',f:[['Pulpa de mango','','1 kg'],['Agua','','hasta 2000 ml']]},
   flow:[['juguera','En la juguera','1 kg pulpa + agua','2000 ml'],['colar','Licuar y colar','',''],['garrafa','A la garrafa','1ª juguerada','2 L'],['repetir','Repetir una vez','2ª juguerada','4 L']],
   para:[]},
  'Jugo de frutilla':{prep:1,id:'prep-frutilla',sec:'bases',cat:0,name:'Jugo de Frutilla',
-  foto:'../assets/preparados/jugo-frutilla.jpg?v=2',botella:'4 L',forma:'garrafa',
+  foto:'../assets/preparados/jugo-frutilla.jpg?v=2',botella:'4 L',forma:'garrafa',nosub:1,
   ing:[{n:'1ª juguerada',sub:'colada',ml:2000,pct:50,col:'#c8463e'},{n:'2ª juguerada',sub:'colada',ml:2000,pct:50,col:'#d65b52'}],
   tanda:{t:'Por juguerada · se hace 2 veces',f:[['Pulpa de frutilla','','1 kg'],['Azúcar','','6 tazas'],['Agua','','hasta 2000 ml']]},
   flow:[['juguera','En la juguera','1 kg pulpa + agua','2000 ml'],['azucar','Echar el azúcar','en la juguera','6 tazas'],['colar','Licuar y colar','',''],['garrafa','A la garrafa','1ª juguerada','2 L'],['repetir','Repetir una vez','2ª juguerada','4 L']],
@@ -870,7 +870,7 @@ function renderPrep(r){
   const para=!r.para.length?'':`<div class="ppara"><span class="cap">Sirve para</span><div class="pl">${r.para.map(n=>{const R=RECETAS[n],f=findT(n);return `<a href="#${R?R.id:f?f.s.id:'carta'}">${n}</a>`}).join('')}</div></div>`;
   app.innerHTML=`<article class="view trago prep" aria-labelledby="dn">
     <div class="hero"><img src="${r.foto}" alt="Botella de ${r.name}"></div>
-    <div class="title"><span class="ro">PREPARADO</span><h1 id="dn">${r.name}</h1><p class="psub">Parte del <i lang="fr">mise en place</i>, base para otros tragos</p></div>
+    <div class="title"><span class="ro">PREPARADO</span><h1 id="dn">${r.name}</h1>${r.nosub?'':'<p class="psub">Parte del <i lang="fr">mise en place</i>, base para otros tragos</p>'}</div>
     <section class="build pbuild" aria-label="Cómo se prepara">${svg}${r.nota?`<p class="note">${r.nota}</p>`:''}${tanda}${pasos}</section>
     ${para}
   </article>`;
