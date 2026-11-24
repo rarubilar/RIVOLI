@@ -312,6 +312,7 @@ main{padding-block:var(--s4) var(--s6)}
 .trago .aprep{display:block;color:inherit;text-decoration:none}.trago .ing td.n .aprep small{display:block;font-family:var(--f-cap);font-style:normal;font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-top:var(--s1);min-height:24px;line-height:24px}
 .prep .ptanda{display:grid;gap:var(--s2);margin-top:var(--s3)}.prep .ptanda .ing td{padding:var(--s2) 0}.prep .ptanda .ing td.n{font-size:1.35rem}.prep .ptanda .qty{font-size:1.3rem}.prep .pbuild>.steps{margin-top:var(--s3);padding-top:var(--s3);border-top:1px solid var(--line)}
 .prep .pdiag{margin-top:var(--s3);padding-top:var(--s4);border-top:1px solid var(--line)}.prep .pdiag svg{width:100%;height:auto;display:block}
+.trago .hero .hpend{height:100%;display:grid;place-content:center;justify-items:center;gap:var(--s2);color:var(--gold)}.trago .hero .hpend svg{width:72px;height:72px}
 /* fotos de ingredientes (3 formas en prueba: ?l=1|2|3) */
 .trago .ph{display:block;border-radius:6px;overflow:hidden;background:var(--tint);border:1px solid var(--line);position:relative}
 .trago .ph img{width:100%;height:100%;object-fit:cover;display:block}
@@ -392,7 +393,7 @@ const SECCIONES=[
    ['Negroni','Amargos italianos, para antes de comer.',[['Negroni','Gin · vermouth rosso · Campari'],['Negroni Sbagliato','Espumoso · Campari · vermouth rosso'],['Negroni Frenchie','Gin · Campari · vermouth · St-Germain'],['Negroni Rivoli','Gin · Campari · Cynar'],['Negroni Ristretto','Gin · Campari · vermouth · café'],['Campari Tónica','Campari · tónica'],['Campari Naranja','Campari · jugo de naranja']]],
    ['Mojitos','Frescos, con menta y lima. Ideales para la terraza.',[['Mojito Tradicional','Ron · limón · azúcar · menta · soda'],['Mojito Maracuyá','Ron · limón · goma · maracuyá'],['Mojito Frutilla','Ron · limón · goma · frutilla'],['Caipirinha','Cachaza · limón · goma'],['Caipiroska','Vodka · limón · goma'],['Fresco Pasión','Ron · maracuyá · limón'],['Cynar Julep','Gin · Cynar · pomelo · limón · menta']]],
    ['Tónicas','Largos y secos, con tónica o soda.',[['Gin Tonic','Gin Bombay · tónica'],['Gin Tonic Vesuvio','Gin Bombay · limoncello · tónica'],['Vodkatonic','Vodka · tónica'],['Vodka Tonic Grey Goose','Vodka Grey Goose · tónica'],['Disaronno Fizz','Disaronno · limón · tónica'],['Tom Collins','Gin · limón · azúcar · soda']]],
-   ['Clásicos','Cócteles de siempre, cortos y potentes.',[['Martini Dry','Gin · vermouth dry'],['Manhattan','Bourbon · vermouth rosso'],['Clavo Oxidado','Whisky · Drambuie'],['French 75','Gin · limón · prosecco'],['Espresso Martini Rivoli','Vodka · espresso · licor de naranja'],['Bloody Mary','Vodka · tomate · limón · especias'],['Bellini','Conserva de durazno · prosecco'],['Venni Julet Rivoli','Vino tinto · St-Germain · vodka · ginger beer'],['Vaina','Oporto · cognac · yema · cacao · canela'],['Carajillo','Café · Licor 43']]],
+   ['Clásicos','Cócteles de siempre, cortos y potentes.',[['Kir Royal','Marrasquino · Mitjans Cassis · espumante brut'],['Martini Dry','Gin · vermouth dry'],['Manhattan','Bourbon · vermouth rosso'],['Clavo Oxidado','Whisky · Drambuie'],['French 75','Gin · limón · prosecco'],['Espresso Martini Rivoli','Vodka · espresso · licor de naranja'],['Bloody Mary','Vodka · tomate · limón · especias'],['Bellini','Conserva de durazno · prosecco'],['Venni Julet Rivoli','Vino tinto · St-Germain · vodka · ginger beer'],['Vaina','Oporto · cognac · yema · cacao · canela'],['Carajillo','Café · Licor 43']]],
    ['Margaritas','Tequila con cítricos.',[['Tequila Margarita','Tequila · limón · licor de naranja'],['Saint Germain Margarita','St-Germain · tequila · limón'],['Aperol Coconut Margarita','Tequila · Aperol · limón · coco']]],
    ['Sangrías','Para compartir, en copa o jarra.',[['Copa Sangría Vino Tinto','Vino tinto · frutas · azúcar · pisco'],['Copa Sangría Vino Blanco','Vino blanco · frutas · goma · maracuyá · pisco'],['Jarra Sangría Vino Tinto','Para la mesa'],['Jarra Sangría Vino Blanco','Para la mesa']]],
    ['Piscos','Solos o con bebida.',[['Alto del Carmen','Solo o con bebida'],['Pisco Republicano 40','Solo o con bebida']]]
@@ -519,6 +520,26 @@ const RECETAS={
   tanda:{t:'Por juguerada · se hace 2 veces',f:[['Pulpa de frutilla','','1 kg'],['Azúcar','','6 tazas'],['Agua','','hasta 2000 ml']]},
   flow:[['juguera','En la juguera','1 kg pulpa + agua','2000 ml'],['azucar','Echar el azúcar','en la juguera','6 tazas'],['colar','Licuar y colar','',''],['garrafa','A la garrafa','1ª juguerada','2 L'],['repetir','Repetir una vez','2ª juguerada','4 L']],
   para:[]},
+ 'Lambrusco Spritz':{id:'lambrusco-spritz',sec:'aperitivi',cat:0,name:'Lambrusco Spritz',
+  facts:[['Sabor','Frutal, burbujeante'],['Familia','Spritz'],['Estilo','Largo, en copa']],
+  fotoDir:'../assets/ingredientes/',
+  serv:[['vino','Copa Disaronno',null,'copa-disaronno'],['hielo','Hielo hasta arriba'],['frappe','Frappé al final']],
+  ing:[
+   {n:'Hielo',sub:m=>'hasta arriba de la copa',t:'llena'},
+   {n:'Ginger ale',t:'35%',f:''},
+   {n:'Lambrusco',t:'35%',f:''},
+   {n:'Aperol',t:'15%',f:''},
+   {n:'Hielo frappé',sub:m=>'al final · un dedo',t:'15%',ico:'frappe'}],
+  steps:[['Llenar la copa con hielo hasta arriba.',[]],['Agregar ginger ale hasta el 35% de la copa.',[]],['Agregar Lambrusco hasta el 70%.',[]],['Agregar Aperol (15%).',[]],['Completar con un dedo de hielo frappé.',[]]]},
+ 'Kir Royal':{id:'kir-royal',sec:'aperitivi',cat:5,name:'Kir Royal',
+  facts:[['Sabor','Frutal, seco'],['Familia','Clásicos'],['Estilo','Corto, en flauta']],
+  fotoDir:'../assets/ingredientes/',
+  serv:[['copa','Flauta de espumante'],['noice','Sin hielo']],
+  ing:[
+   {n:'Marrasquino',sub:m=>'cereza + un poco de su jugo',t:'base',f:''},
+   {n:'Mitjans Cassis',sub:m=>'hasta un dedo menos de la mitad',t:'mitad',f:''},
+   {n:'Espumante brut',sub:m=>'hasta un dedo del borde',t:'completar',f:'brut'}],
+  steps:[['En la flauta: un marrasquino y un poco de su jugo.',[]],['Agregar Mitjans Cassis hasta un dedo menos de la mitad.',[]],['Completar con espumante brut hasta un dedo del borde.',[]],['Servir.',[]]]},
  'Limonada':{id:'limonada',sec:'jugos',cat:0,name:'Limonada',
   hero:'../assets/carta/jugos.jpg',heroPos:'center 70%',
   facts:[['Sabor','Ácida, fresca'],['Familia','Limonadas'],['Estilo','Largo, sin alcohol']],
@@ -679,6 +700,10 @@ const BUILD={
  'dolce-rosso':()=>({only:1,big:1,iceTxt:'primero',g:'high',gl:'EL VASO',unit:'',ice:7,how:['Decorar','y servir'],
   cap:7.6,glass:[['Goma',1,BC.goma],['Limón',1,BC.limon],['Jamaica',3.8,'#7a1832',null,'hasta 75%'],['Frappé',1.8,'#f6eef0',null,'completar']],
   extra:[['Tallo de menta','1'],['Bombilla negra','1']]}),
+ 'lambrusco-spritz':()=>({only:1,big:1,iceTxt:'hasta arriba',g:'wine',gl:'LA COPA',unit:'',ice:7,how:['Servir',''],
+  cap:6.4,glass:[['Ginger ale',2.2,'#e9d79a',null,'35%'],['Lambrusco',2.2,'#7a1f3d',null,'35%'],['Aperol',1,BC.ape,null,'15%'],['Frappé',1,'#f6eef0',null,'15% · 1 dedo']],extra:[]}),
+ 'kir-royal':()=>({only:1,big:1,noIce:1,g:'flute',gl:'LA FLAUTA',unit:'',ice:0,how:['Servir',''],
+  cap:8,glass:[['Marrasquino',.8,'blob',.9,'base'],['Cassis',3.1,'#5a1030',null,'mitad − 1 dedo'],['Espumante',3.3,'#f2e6b8',null,'hasta 1 dedo']],extra:[]}),
  'pisco-sour':()=>({tool:'jug',g:'kero',gl:'EL VASO',unit:'MEDIDA',ice:0,noIce:1,vIce:3,how:['Licuar 1 minuto','y servir'],
   cap:5.2,extra:[['Albúmina','½ cda']],v:[['Preparado\nPisco Sour',5.5,BC.pisco,1.3,'hasta 250 ml']],
   glass:[['Pisco sour',4.55,'#efe7d2',null,'≈ 250 ml'],['Angostura',.1,'drops',.45,'2 gotas']]})
@@ -693,7 +718,7 @@ function bFingers(oz,yc){
 }
 let bid=0;
 function bVessel(kind,layers,ice,cap,salt){
- const id='bv'+(bid++),tot=layers.reduce((a,l)=>a+(l[3]||l[1]),0),H=cap?cap*BPX:tot*BPX+(kind==='kero'||kind==='balloon'||kind==='coupe'||kind==='marg'||kind==='high'?0:26),bot=H;
+ const id='bv'+(bid++),tot=layers.reduce((a,l)=>a+(l[3]||l[1]),0),H=cap?cap*BPX:tot*BPX+(kind==='kero'||kind==='balloon'||kind==='coupe'||kind==='marg'||kind==='high'||kind==='flute'?0:26),bot=H;
  let shape,outline,extra='',foot,top,rx,rxAt=null;
  if(kind==='jug'){
   shape=`M22 0 L106 0 L98 ${bot} L30 ${bot} Z`;outline=shape;foot=34;top=20;rx=102;
@@ -712,6 +737,9 @@ function bVessel(kind,layers,ice,cap,salt){
   outline=`M1 -2 C3 ${H*.44} 33 ${H*.48} 40 ${H*.53} C42 ${H*.82} 55 ${bot+3} 64 ${bot+3} C73 ${bot+3} 86 ${H*.82} 88 ${H*.53} C95 ${H*.48} 125 ${H*.44} 127 -2`;foot=46;top=6;rx=118;
   rxAt=y=>y<H*.46?124-(y/(H*.46))*30:86-((y-H*.5)/(bot-H*.5))*16;
   extra=`<path d="M64 ${bot+3} V${bot+40} M42 ${bot+44} H86" stroke="#1f262d" stroke-width="2"/>`
+ }else if(kind==='flute'){
+  shape=`M42 0 L86 0 C88 ${H*.72} 76 ${bot} 64 ${bot} C52 ${bot} 40 ${H*.72} 42 0 Z`;outline=`M42 -2 C40 ${H*.72} 52 ${bot+2} 64 ${bot+2} C76 ${bot+2} 88 ${H*.72} 86 -2`;foot=46;top=6;rx=86;rxAt=y=>86-Math.max(0,(y-H*.55))/(bot-H*.55)*20;
+  extra=`<path d="M64 ${bot+2} V${bot+40} M46 ${bot+44} H82" stroke="#1f262d" stroke-width="2"/>`;
  }else if(kind==='high'){
   shape=`M18 0 L110 0 L110 ${bot} L18 ${bot} Z`;outline=`M18 -2 L18 ${bot} M110 -2 L110 ${bot}`;foot=16;top=6;rx=110;
   extra=`<path d="M18 ${bot} L110 ${bot} L110 ${bot+14} L18 ${bot+14} Z" fill="#eef1f2" stroke="#1f262d" stroke-width="2"/><path d="M22 ${bot+11} l6-8 6 8 6-8 6 8 6-8 6 8 6-8 6 8 6-8 6 8 6-8 6 8 6-8 6 8" fill="none" stroke="#9aa6ab" stroke-width="1"/>`;
@@ -766,7 +794,7 @@ function buildSVG(id,k){
  if(b.only){ /* se arma directo en la copa */
   let o=`<text x="0" y="14" font-family="Cinzel,serif" font-size="11" letter-spacing="2.5" fill="#8a6a32">I · EN ${b.gl}</text><text x="${BW}" y="14" text-anchor="end" font-family="Cinzel,serif" font-size="10" letter-spacing="1.5" fill="#a39a8a">${b.unit}</text>`;
   let c;
-  if(b.big){c=bBlock(b.g,b.glass,34,.95,b.ice,25,b.cap);o+=c.out;const iy=c.maxLy+36;o+=row(iy,'Hielo',b.iceTxt||'lleno');c.end=Math.max(c.end,iy+16);}
+  if(b.big){c=bBlock(b.g,b.glass,34,.95,b.ice,25,b.cap);o+=c.out;if(!b.noIce){const iy=c.maxLy+36;o+=row(iy,'Hielo',b.iceTxt||'lleno');c.end=Math.max(c.end,iy+16);}}
   else{o+=row(48,'Hielo','hasta arriba');c=bBlock(b.g,b.glass,72,.75,b.ice,false,b.cap);o+=c.out;}
   let y;
   y=c.end+22;o+=`<line x1="${BNX-80}" y1="${y}" x2="${BW}" y2="${y}" stroke="#eee9e0"/>`;y+=18;
@@ -894,7 +922,7 @@ function renderTrago(r){
     const nm=x.prep&&RECETAS[x.prep]?`<a class="aprep" href="#${RECETAS[x.prep].id}">${x.n}<small>Ver preparado ›</small></a>`:x.n;
     return `<tr>${tc}<td class="n">${nm}${x.sub?`<small>${x.sub(multT)}</small>`:''}</td><td class="qty">${x.pre?`<i class="qx">${x.pre}</i>`:''}${fmtQ(q)}${x.u?' '+x.u:''}${x.post?`<i class="qx">${x.post}</i>`:''}</td></tr>`}).join('');
   app.innerHTML=`<article class="view trago" aria-labelledby="dn">
-    <div class="hero"><img src="${r.hero}" alt="${r.name}"${r.heroPos?` style="object-position:${r.heroPos}"`:''}></div>
+    <div class="hero">${r.hero?`<img src="${r.hero}" alt="${r.name}"${r.heroPos?` style="object-position:${r.heroPos}"`:''}>`:`<div class="hpend"><svg viewBox="0 0 40 40" aria-hidden="true"><use href="#copa"/></svg><span class="cap">Foto pendiente</span></div>`}</div>
     <div class="title"><h1 id="dn">${r.name}${r.badge?`<svg class="corona" viewBox="0 0 40 40" role="img" aria-label="Trago popular"><use href="#${r.badge[0]}"/></svg>`:''}</h1></div>
     <div class="facts">${r.facts.map(f=>`<div><span class="cap">${f[0]}</span><b>${f[1]}</b></div>`).join('')}</div>
     ${r.variants?`<div class="vsel" role="group" aria-label="Versión">${r.variants.map((x,k)=>`<button data-v="${k}" aria-pressed="${k===varT}">${x.k}</button>`).join('')}</div>`:''}
